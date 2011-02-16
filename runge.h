@@ -1,10 +1,9 @@
-#ifndef _RUNGE1ORDRE_H_INCLUDED
-#define _RUNGE1ORDRE_H_INCLUDED
+#ifndef _RUNGE_H_INCLUDED
+#include "toto.h"
+#define _RUNGE_H_INCLUDED
 
 
-int algorunge(double * x, double *y, int nbpts, double deltaT);
-
-double runge4(double x, double y, double step);	/* Runge-Kutta function */
+double runge4(double x, double *y, double step, KuramotoStruct* kuramoto);	/* Runge-Kutta function */
 
 double f(double x, double y);		/* function for derivative */
 

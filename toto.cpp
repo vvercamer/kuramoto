@@ -11,8 +11,7 @@ typedef std::complex<double> complex_d;
 #include "runge.h"
 #include "gnuplot.h"
 
-int meanField(double *theta, double *rayon, double *psi, int nboscs);
-
+	
 int main(int argc, char *argv[])
 {
 	/*définition des conditions expérimentales*/
@@ -21,51 +20,67 @@ int main(int argc, char *argv[])
 	int nbpts;
 	nbpts=(int)floor(tMax/deltaT);	
 	double *t = (double *) malloc (nbpts*sizeof(double));
-	double *y = (double *) malloc (nbpts*sizeof(double));		
 	srand ( time(NULL) );	
 
 	/*définition des oscillatteurs*/
-struct Kuramoto{
-
-};
+	
+	
 	int idx1=0,idx2=0;
 	int nboscs=4;
 	complex_d rComplex(0,0);
-	double rayon=0, psi=0;
+	double rayontemp=0, psitemp=0;
+	
+	struct KuramotoStruct *kuramoto=NULL;
+	kuramoto->omega = (double *) malloc (nboscs*sizeof(double));
+	kuramoto->K=fmod( rand(), 1);
+	kuramoto->rayon = (double *) malloc (nbpts*sizeof(double));
+	kuramoto->psi = (double *) malloc (nbpts*sizeof(double));
+	
 	double *theta = (double *) malloc (nboscs*sizeof(double));
+	
 
-	for(idx1=0 ; idx1<nboscs ; idx1++)
+	for(idx1 = 0 ; idx1 < nboscs ; idx1++)
 	{
-		theta[idx1] = fmod( rand() , 2*M_PI);
+		theta[idx1] = fmod( rand(), 2*M_PI);
+		kuramoto->omega[idx1] = fmod( rand(), 10000);
+	}
+
+	for(idx2 = 0 ; idx2 < nbpts ; idx2++)
+	{
+		kuramoto->rayon[idx2]=0;
+		kuramoto->psi[idx2]=0;
 	}
 		
-	meanField(theta , &rayon, &psi, nboscs);	
+	meanField(theta , &rayontemp, &psitemp, nboscs);	
+	kuramoto->rayon[0]=rayontemp;
+	kuramoto->psi[0]=psitemp;	
 	
-	printf("r=%f\npsi=%f\n",rayon,psi);
+	printf("r=%f\npsi=%f\n",rayontemp,psitemp);
 
 	/*autres définitions*/
 	GNUplot gp;
 
 	/*corps du programme*/
 
-	for(idx1=0 ; idx1<nboscs ; idx1++)
-	{
-		y[0] = theta[idx1];
-		printf("theta i initial = %f\n",y[0]);
-		//algorunge(t,y,nbpts, deltaT);
-		for (idx2=1; idx2<nbpts; idx2++)         /* the time loop */
-                {
-                        t[idx2]=idx2*deltaT;
-                        y[idx2]=runge4(t[idx2], y[idx2-1], deltaT);
+	for (idx2=1; idx2<nbpts; idx2++)         /* the time loop */
+        {
+         	t[idx2]=idx2*deltaT;
+		for(idx1=0 ; idx1<nboscs ; idx1++)
+		{       
+                	theta[idx1] = runge4(t[idx2], &theta[idx1], deltaT, &kuramoto);
                 }
-
+		meanField(theta , &rayontemp, &psitemp, nboscs);
+        	kuramoto->rayon[idx2]=rayontemp;
+        	kuramoto->psi[idx2]=psitemp;
 	}
 	/*plot*/
-//	gp.draw(t,y,nbpts);
+	gp.draw(t,kuramoto->rayon,nbpts);
 
 	/*libération de la mémoire*/
 	free(t);
-	free(y);	
+	free(kuramoto->omega);
+	free(kuramoto->rayon);
+	free(kuramoto->psi);
 	free(theta);
 	return 0;
 

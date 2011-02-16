@@ -12,7 +12,7 @@ toto: $(OBJ)
 toto.o: toto.cpp toto.h runge.h gnuplot.h
 	$(CC) -c toto.cpp $(CFLAGS)
 
-runge.o: runge.c
+runge.o: runge.c runge.h toto.h
 	$(CC) -c runge.c $(CFLAGS)
 	
 gnuplot.o: gnuplot.cpp gnuplot.h
