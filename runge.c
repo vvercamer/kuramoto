@@ -3,36 +3,37 @@
 /* Runge Kutta algorithm for first-order differential equations*/
 
 #include <stdio.h>
+#include <math.h>
 #include "runge.h"
 
 
 
-int algorunge(double * x, double * y, int nbp, double dist)
+int algorunge(double * x, double * y, int nbpts, double deltaT)
 {
-FILE *output = NULL;				/* internal filename */
+//FILE *output = NULL;				/* internal filename */
 int j;
  
-output=fopen ("runge.dat", "w");	/* external filename */
-	if (output != NULL)
-	{
-		fprintf(output, "0\t%f\n", y[0]);
+//output=fopen ("runge.dat", "w");	/* external filename */
+//	if (output != NULL)
+//	{
+//		fprintf(output, "0\t%f\n", y[0]);
 	
-		for (j=1; j<nbp; j++)		/* the time loop */
+		for (j=1; j<nbpts; j++)		/* the time loop */
 		{
-			x[j]=j*dist;
-			y[j]=runge4(x[j], y[j-1], dist);
+			x[j]=j*deltaT;
+			y[j]=runge4(x[j], y[j-1], deltaT);
 	
-			fprintf(output, "%f\t%f\n", x[j], y[j]);
+//			fprintf(output, "%f\t%f\n", x[j], y[j]);
 		}
 	
-		fclose(output);
+//		fclose(output);
 	
 		return 0;
-	}
-else 
-{
-return 1;
-}
+//	}
+//else 
+//{
+//return 1;
+//}
 }
 
 double runge4(double x, double y, double step)
@@ -49,5 +50,7 @@ return(y+(k1+2*k2+2*k3+k4)/6.0);
 
 double  f(double x, double y)
 {
-return(-y);
+return(sin(y));
 }
+
+
