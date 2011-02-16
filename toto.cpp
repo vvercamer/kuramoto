@@ -8,15 +8,15 @@
 typedef std::complex<double> complex_d;
 
 #include "toto.h"
-#include "runge.h"
+// #include "runge.h"
 #include "gnuplot.h"
 
 	
 int main(int argc, char *argv[])
 {
 	/*définition des conditions expérimentales*/
-	double tMax = 5;
-	double deltaT = 0.01;
+	double tMax = 10000;
+	double deltaT = 0.1;
 	int nbpts;
 	nbpts=(int)floor(tMax/deltaT);	
 	double *t = (double *) malloc (nbpts*sizeof(double));
@@ -25,79 +25,123 @@ int main(int argc, char *argv[])
 	/*définition des oscillatteurs*/
 	
 	
-	int idx1=0,idx2=0;
-	int nboscs=4;
+	int idxOsc=0,idxTime=0;
+	int nbosc=15;
 	complex_d rComplex(0,0);
 	double rayontemp=0, psitemp=0;
 	
-	struct KuramotoStruct *kuramoto=NULL;
-	kuramoto->omega = (double *) malloc (nboscs*sizeof(double));
-	kuramoto->K=fmod( rand(), 1);
-	kuramoto->rayon = (double *) malloc (nbpts*sizeof(double));
-	kuramoto->psi = (double *) malloc (nbpts*sizeof(double));
-	
-	double *theta = (double *) malloc (nboscs*sizeof(double));
-	
 
-	for(idx1 = 0 ; idx1 < nboscs ; idx1++)
+	double *omega = (double *) malloc (nbosc*sizeof(double));
+	double K;
+	double OMEGA = 700;
+	double sigma = 1;
+	K = fmod( rand(), 10000)/10000;
+	double *rayon = (double *) malloc (nbpts*sizeof(double));
+	double *psi = (double *) malloc (nbpts*sizeof(double));
+	
+	double *theta = (double *) malloc (nbosc*sizeof(double));
+	double k1, k2, k3, k4;
+
+	for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 	{
-		theta[idx1] = fmod( rand(), 2*M_PI);
-		kuramoto->omega[idx1] = fmod( rand(), 10000);
+		theta[idxOsc] = fmod( rand(), 2*M_PI);
+		omega[idxOsc] = OMEGA+sigma*gaussianRand();
 	}
 
-	for(idx2 = 0 ; idx2 < nbpts ; idx2++)
+	for(idxTime = 0 ; idxTime < nbpts ; idxTime++)
 	{
-		kuramoto->rayon[idx2]=0;
-		kuramoto->psi[idx2]=0;
+		rayon[idxTime]=0;
+		psi[idxTime]=0;
 	}
 		
-	meanField(theta , &rayontemp, &psitemp, nboscs);	
-	kuramoto->rayon[0]=rayontemp;
-	kuramoto->psi[0]=psitemp;	
+	meanField(theta , &rayontemp, &psitemp, nbosc);	
+	rayon[0]=rayontemp;
+	psi[0]=psitemp;	
 	
 	printf("r=%f\npsi=%f\n",rayontemp,psitemp);
+	printf("K = %f\n",K);
+	for(idxOsc=0;idxOsc<nbosc;idxOsc++)
+	{
+		printf("omega_%d = %f\n",idxOsc+1,omega[idxOsc]);
+	}
 
+	/*
+	for(idxOsc=0;idxOsc<nbosc;idxOsc++)
+	{
+		printf("theta_%di = %f\n",idxOsc+1,theta[idxOsc]);
+	}
+	*/
+	
 	/*autres définitions*/
 	GNUplot gp;
 
 	/*corps du programme*/
 
-	for (idx2=1; idx2<nbpts; idx2++)         /* the time loop */
+	for (idxTime=1; idxTime<nbpts; idxTime++)         /* the time loop */
         {
-         	t[idx2]=idx2*deltaT;
-		for(idx1=0 ; idx1<nboscs ; idx1++)
-		{       
-                	theta[idx1] = runge4(t[idx2], &theta[idx1], deltaT, &kuramoto);
-                }
-		meanField(theta , &rayontemp, &psitemp, nboscs);
-        	kuramoto->rayon[idx2]=rayontemp;
-        	kuramoto->psi[idx2]=psitemp;
+         	t[idxTime]=idxTime*deltaT;
+
+		for(idxOsc=0 ; idxOsc<nbosc ; idxOsc++)
+		{      
+			k1=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]);
+			k2=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k1/2.0);
+			k3=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k2/2.0);
+			k4=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k3);
+			theta[idxOsc] = theta[idxOsc] + (k1 + 2 * k2 + 2 * k3 + k4)*deltaT/6.0; 
+		}
+
+		meanField(theta , &rayontemp, &psitemp, nbosc);
+        	rayon[idxTime]=rayontemp;
+        	psi[idxTime]=psitemp;
 	}
 	/*plot*/
-	gp.draw(t,kuramoto->rayon,nbpts);
+	gp.draw(t,rayon,nbpts);
 
+	for(idxOsc=0;idxOsc<nbosc;idxOsc++)
+	{
+		printf("theta_%df = %f\n",idxOsc+1,theta[idxOsc]);
+	}
+	
+	printf("r=%f\npsi=%f\n",rayontemp,psitemp);
+	printf("K = %f\n",K);
 	/*libération de la mémoire*/
 	free(t);
-	free(kuramoto->omega);
-	free(kuramoto->rayon);
-	free(kuramoto->psi);
+	free(omega);
+	free(rayon);
+	free(psi);
 	free(theta);
 	return 0;
 
 }
 
-int meanField(double *theta, double *rayon, double *psi, int nboscs)
+int meanField(double *theta, double *rayon, double *psi, int nbosc)
 {
-	int idx1;
+	int idxOsc;
 	complex_d rComplex(0,0);
-	for(idx1 = 0 ; idx1 < nboscs ; idx1++)
+	for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 	{
-		rComplex += exp(complex_d(0,theta[idx1]));
+		rComplex += exp(complex_d(0,theta[idxOsc]));
 	}
-	rComplex /= nboscs;
+	rComplex /= nbosc;
+	
+	//printf("%f %f\n",real(rComplex),imag(rComplex));
 	*rayon = abs(rComplex);
 	*psi = arg(rComplex);
 	
 	return 0;
 }
+
+double kuramoto(double omega, double K, double psi, double rayon, double theta)
+{
+	return(omega+K*rayon*sin(psi-theta));
+}
+
+double gaussianRand(void)
+{
+	double randNum1, randNum2;
+	randNum1=fmod(rand(), 100000)/100000;
+	randNum2=fmod(rand(), 100000)/100000;
+	return sqrt(-2.0*log(randNum1))*cos(2*M_PI);
+}
+
 

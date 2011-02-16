@@ -2,7 +2,7 @@ CC = g++
 CFLAGS=-pedantic -Wall -Werror -O
 LDFLAGS=
 
-OBJ = toto.o runge.o gnuplot.o 
+OBJ = toto.o gnuplot.o 
  
 all:: toto clean
 
@@ -12,9 +12,6 @@ toto: $(OBJ)
 toto.o: toto.cpp toto.h runge.h gnuplot.h
 	$(CC) -c toto.cpp $(CFLAGS)
 
-runge.o: runge.c runge.h toto.h
-	$(CC) -c runge.c $(CFLAGS)
-	
 gnuplot.o: gnuplot.cpp gnuplot.h
 	$(CC) -c gnuplot.cpp $(CFLAGS)
 

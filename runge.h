@@ -3,7 +3,7 @@
 #define _RUNGE_H_INCLUDED
 
 
-double runge4(double x, double *y, double step, KuramotoStruct* kuramoto);	/* Runge-Kutta function */
+double runge4(double x, double *y, double step);	/* Runge-Kutta function */
 
 double f(double x, double y);		/* function for derivative */
 

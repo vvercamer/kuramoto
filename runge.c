@@ -7,7 +7,7 @@
 #include "runge.h"
 #include "toto.h"
 
-double runge4(double x, double *y, double step, KuramotoStruct* kuramoto)
+double runge4(double x, double *y, double step)
 {
 double h=step/2.0, k1, k2, k3, k4;
 
@@ -19,9 +19,5 @@ k4=step*f(x+step, *y+k3);
 return(*y+(k1+2*k2+2*k3+k4)/6.0);
 }
 
-double  f(double x, double y)
-{
-return(sin(y));
-}
 
 
