@@ -9,7 +9,7 @@ all:: toto clean
 toto: $(OBJ)
 	$(CC) -o toto $(OBJ) $(LDGLAGS)
 
-toto.o: toto.cpp toto.h runge.h gnuplot.h
+toto.o: toto.cpp toto.h gnuplot.h
 	$(CC) -c toto.cpp $(CFLAGS)
 
 gnuplot.o: gnuplot.cpp gnuplot.h
