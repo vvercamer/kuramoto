@@ -8,7 +8,6 @@
 typedef std::complex<double> complex_d;
 
 #include "toto.h"
-// #include "runge.h"
 #include "gnuplot.h"
 
 	
@@ -60,7 +59,7 @@ int main(int argc, char *argv[])
 	
 	/*autres définitions*/
 	GNUplot gp;
-	gp("set terminal wxt");
+	//gp("set terminal wxt");
 	gp("set title \"evolution de r(t)\"");
 	gp("set xlabel \"t\"");
 	gp("set ylabel \"r\"");
