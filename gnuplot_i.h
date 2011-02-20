@@ -164,7 +164,7 @@ void gnuplot_close(gnuplot_ctrl * handle);
   back from gnuplot.
  */
 /*--------------------------------------------------------------------------*/
-void gnuplot_cmd(gnuplot_ctrl *  handle, char *  cmd, ...);
+void gnuplot_cmd(gnuplot_ctrl *  handle, char const*  cmd, ...);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -187,7 +187,7 @@ void gnuplot_cmd(gnuplot_ctrl *  handle, char *  cmd, ...);
   - boxeserrorbars
  */
 /*--------------------------------------------------------------------------*/
-void gnuplot_setstyle(gnuplot_ctrl * h, char * plot_style);
+void gnuplot_setstyle(gnuplot_ctrl * h, char const * plot_style);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -199,7 +199,7 @@ void gnuplot_setstyle(gnuplot_ctrl * h, char * plot_style);
   Sets the x label for a gnuplot session.
  */
 /*--------------------------------------------------------------------------*/
-void gnuplot_set_xlabel(gnuplot_ctrl * h, char * label);
+void gnuplot_set_xlabel(gnuplot_ctrl * h, char const * label);
 
 
 /*-------------------------------------------------------------------------*/
@@ -212,7 +212,7 @@ void gnuplot_set_xlabel(gnuplot_ctrl * h, char * label);
   Sets the y label for a gnuplot session.
  */
 /*--------------------------------------------------------------------------*/
-void gnuplot_set_ylabel(gnuplot_ctrl * h, char * label);
+void gnuplot_set_ylabel(gnuplot_ctrl * h, char const * label);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -257,7 +257,7 @@ void gnuplot_resetplot(gnuplot_ctrl * h);
   @endcode
  */
 /*--------------------------------------------------------------------------*/
-void gnuplot_plot_x(gnuplot_ctrl * handle, double * d, int n, char * title);
+void gnuplot_plot_x(gnuplot_ctrl * handle, double * d, int n, char const * title);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -295,7 +295,7 @@ void gnuplot_plot_xy(
     double          *   x,
     double          *   y,
     int                 n,
-    char            *   title
+    char const      *   title
 ) ;
 
 
@@ -320,10 +320,10 @@ void gnuplot_plot_xy(
  */
 /*--------------------------------------------------------------------------*/
 void gnuplot_plot_once(
-    char    *   title,
-    char    *   style,
-    char    *   label_x,
-    char    *   label_y,
+    char const  *   title,
+    char const  *   style,
+    char const  *   label_x,
+    char const  *   label_y,
     double  *   x,
     double  *   y,
     int         n
@@ -358,7 +358,7 @@ void gnuplot_plot_slope(
     gnuplot_ctrl    *   handle,
     double              a,
     double              b,
-    char            *   title
+    char const      *   title
 ) ;
 
 /*-------------------------------------------------------------------------*/
@@ -385,6 +385,6 @@ void gnuplot_plot_slope(
   @endcode
  */
 /*--------------------------------------------------------------------------*/
-void gnuplot_plot_equation(gnuplot_ctrl * h, char * equation, char * title) ;
+void gnuplot_plot_equation(gnuplot_ctrl * h, char const * equation, char const * title) ;
 
 #endif

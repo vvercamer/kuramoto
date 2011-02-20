@@ -9,7 +9,7 @@ typedef struct KuramotoStruct
 	double *psi;
 } KuramotoS;
 */
-int meanField(double *theta, double *rayon, double *psi, int nboscs);
+int meanField(double *theta, double *rayon, double *psi, int nbsample);
 
 double kuramoto(double omega, double K, double psi, double rayon, double theta);
 
