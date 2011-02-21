@@ -13,60 +13,133 @@ typedef std::complex<double> complex_d;
 	
 int main(int argc, char *argv[])
 {
-	/*définition des conditions expérimentales*/
 	double deltaT = 0.1;
-	int nbpts=20000;
-	double *t = (double *) malloc (nbpts*sizeof(double));
+	int nbsamples=10000;
+	int nbosc = 100;
+	int nbK=10;	
+	
+	if (argc == 5)
+	{
+		deltaT = strtod(argv[1],NULL);
+		nbsamples = (int)strtol(argv[2], NULL, 10);
+		nbosc = (int)strtol(argv[3], NULL, 10);
+		nbK = (int)strtol(argv[4], NULL, 10);
+	}
+	else if (argc == 1)
+	{
+	}
+	else 
+	{
+		printf("problème sur les paramètres d'entrée\n");
+		return 1;
+	}
+	/*lecture des paramètres */
+/*	if (argc>1)
+	{
+		int idx;
+		for(idx = 1 ; idx<argc ; idx++)
+		{
+			 *argv[idx];
+			switch(s)
+			{
+			case "deltaT":
+			  deltaT = strtod(agrv[idx+1],NULL);
+			  break;
+			case "nbsamples":
+			  nbsamples = (int)strtol(argv[idx+1], NULL, 10);
+			  break;
+			case "nbosc":
+			  nbosc = (int)strtol(argv[idx+1], NULL, 10);
+			  break;
+			case "nbK":
+			  nbK = (int)strtol(argv[idx+1], NULL, 10);
+			  break;
+			default:
+			  break;
+			}
+		}
+	}
+*/
+	/*définition des conditions expérimentales*/
+	double *t = (double *) malloc (nbsamples*sizeof(double));
 	srand ( time(NULL) );	
 
 	/*définition des oscillatteurs*/
 	
 	int idxOsc,idxTime,idxK;
-	int nbsample = 300;
-	int nbK=100;
+	
 	double rayontemp=0, psitemp=0;
 	
-	double *omega = (double *) malloc (nbsample*sizeof(double));
+	double *omega = (double *) malloc (nbosc*sizeof(double));
+	double *theta = (double *) malloc (nbosc*sizeof(double));
 	double K = 0;
 	double OMEGA = 0;
 	double sigma = 0.3;
-	double *rayon = (double *) malloc (nbpts*sizeof(double));
-	double *psi = (double *) malloc (nbpts*sizeof(double));
+	double *rayon = (double *) malloc (nbsamples*sizeof(double));
+	double *psi = (double *) malloc (nbsamples*sizeof(double));
+
+	double *rayoninf  = (double *) malloc (nbK*sizeof(double));
+	double *Kvect = (double *) malloc (nbK*sizeof(double));
 	
-	double *theta = (double *) malloc (nbsample*sizeof(double));
 	double k1, k2, k3, k4;
 	
 	
-	for(idxOsc = 0 ; idxOsc < nbsample ; idxOsc++)
+	for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 	{
 		omega[idxOsc] = OMEGA+sigma*gaussianRand();
 	}
 
+
 	for(idxK = 0 ; idxK < nbK ; idxK++)
 	{
 		K = (double)idxK/nbK;
-	}
-
-	printf("entrer la valeur de K\n");
-	scanf("%lf",&K);
 	
-	for(idxOsc = 0 ; idxOsc < nbsample ; idxOsc++)
-	{
-		theta[idxOsc] = fmod( rand(), 2*M_PI)-M_PI;
-	}
-
-	for(idxTime = 0 ; idxTime < nbpts ; idxTime++)
-	{
-		rayon[idxTime]=0;
-		psi[idxTime]=0;
-	}
+	//printf("entrer la valeur de K\n");
+	//scanf("%lf",&K);
+	
+		for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
+		{
+			theta[idxOsc] = fmod( rand(), 2*M_PI)-M_PI;
+		}
+	
+		for(idxTime = 0 ; idxTime < nbsamples ; idxTime++)
+		{
+			rayon[idxTime]=0;
+			psi[idxTime]=0;
+		}
+			
+		meanField(theta , &rayontemp, &psitemp, nbosc);	
+		rayon[0]=rayontemp;
+		psi[0]=psitemp;	
 		
-	meanField(theta , &rayontemp, &psitemp, nbsample);	
-	rayon[0]=rayontemp;
-	psi[0]=psitemp;	
+		printf("K = %f\n",K);
+		
+		
+		/*corps du programme*/
 	
-	printf("K = %f\n",K);
+		for (idxTime=1; idxTime<nbsamples; idxTime++)         /* the time loop */
+	        {
+	         	t[idxTime]=idxTime*deltaT;
 	
+			for(idxOsc=0 ; idxOsc<nbosc ; idxOsc++)
+			{      
+				/*méthode de runge-kutta d'ordre 4*/
+				k1=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]);
+				k2=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k1/2.0);
+				k3=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k2/2.0);
+				k4=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k3);
+				theta[idxOsc] = theta[idxOsc] + (k1 + 2 * k2 + 2 * k3 + k4)*deltaT/6.0; 
+			}
+			
+			meanField(theta , &rayontemp, &psitemp, nbosc);
+	        	rayon[idxTime]=rayontemp;
+	        	psi[idxTime]=psitemp;
+		}
+		
+		rayoninf[idxK]=rayontemp;
+		Kvect[idxK]=K;	
+	}	
+
 	/*définitions pour le graphique*/
 	gnuplot_ctrl * gp;
 	gp = gnuplot_init() ;
@@ -76,32 +149,9 @@ int main(int argc, char *argv[])
 	gnuplot_set_ylabel(gp, "r");
 	gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
 
+//	gnuplot_plot_xy(gp, t, rayon, nbsamples, "evolution de r(t)") ;
 	
-	/*corps du programme*/
-
-	for (idxTime=1; idxTime<nbpts; idxTime++)         /* the time loop */
-        {
-         	t[idxTime]=idxTime*deltaT;
-
-		for(idxOsc=0 ; idxOsc<nbsample ; idxOsc++)
-		{      
-			/*méthode de runge-kutta d'ordre 4*/
-			k1=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]);
-			k2=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k1/2.0);
-			k3=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k2/2.0);
-			k4=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k3);
-			theta[idxOsc] = theta[idxOsc] + (k1 + 2 * k2 + 2 * k3 + k4)*deltaT/6.0; 
-		}
-		
-		meanField(theta , &rayontemp, &psitemp, nbsample);
-        	rayon[idxTime]=rayontemp;
-        	psi[idxTime]=psitemp;
-	}
-
-
-	/*plot*/
-	gnuplot_plot_xy(gp, t, rayon, nbpts, "evolution de r(t)") ;
-	
+	gnuplot_plot_xy(gp, Kvect, rayoninf, nbK, "evolution de r(t)") ;
 	printf("r=%f\npsi=%f\n",rayontemp,psitemp);
 	
 	/*libération de la mémoire*/
@@ -115,15 +165,15 @@ int main(int argc, char *argv[])
 
 }
 
-int meanField(double *theta, double *rayon, double *psi, int nbsample)
+int meanField(double *theta, double *rayon, double *psi, int nbosc)
 {
 	int idxOsc;
 	complex_d rComplex(0,0);
-	for(idxOsc = 0 ; idxOsc < nbsample ; idxOsc++)
+	for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 	{
 		rComplex += exp(complex_d(0,theta[idxOsc]));
 	}
-	rComplex /= nbsample;
+	rComplex /= nbosc;
 	
 	*rayon = abs(rComplex);
 	*psi = arg(rComplex);
