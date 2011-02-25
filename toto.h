@@ -14,4 +14,8 @@ int meanField(double *theta, double *rayon, double *psi, int nbsamples);
 double kuramoto(double omega, double K, double psi, double rayon, double theta);
 
 double gaussianRand(void);
+
+double mean(double * Array, double N);
+
+double std_dev(double * Array, double N);
 #endif

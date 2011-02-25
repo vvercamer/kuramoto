@@ -28,6 +28,14 @@ int main(int argc, char *argv[])
 	else if (argc == 1)
 	{
 	}
+	else if (argc == 2)
+	{
+		if (strcmp(argv[1],"-h\n"))
+		{
+			printf("utilisation :\n ./toto deltaT nbsamples nbosc nbK\n");
+		}
+		return 0;
+	}
 	else 
 	{
 		printf("problème sur les paramètres d'entrée\n");
@@ -66,7 +74,7 @@ int main(int argc, char *argv[])
 
 	/*définition des oscillatteurs*/
 	
-	int idxOsc,idxTime,idxK;
+	int idxOsc, idxTime, idxK;
 	
 	double rayontemp=0, psitemp=0;
 	
@@ -92,10 +100,15 @@ int main(int argc, char *argv[])
 
 	for(idxK = 0 ; idxK < nbK ; idxK++)
 	{
-		K = (double)idxK/nbK;
-	
-	//printf("entrer la valeur de K\n");
-	//scanf("%lf",&K);
+		if (nbK == 1)
+		{
+			printf("entrer la valeur de K\n");
+			scanf("%lf",&K);
+		}
+		else
+		{
+			K = (double)idxK/(nbK-1);
+		}
 	
 		for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 		{
@@ -144,14 +157,20 @@ int main(int argc, char *argv[])
 	gnuplot_ctrl * gp;
 	gp = gnuplot_init() ;
 //	gnuplot_cmd(gp, "set terminal x11");
-	gnuplot_setstyle(gp, "lines");
-	gnuplot_set_xlabel(gp, "t");
+	gnuplot_setstyle(gp, "lines");	
 	gnuplot_set_ylabel(gp, "r");
-	gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
 
-//	gnuplot_plot_xy(gp, t, rayon, nbsamples, "evolution de r(t)") ;
-	
-	gnuplot_plot_xy(gp, Kvect, rayoninf, nbK, "evolution de r(t)") ;
+	if(nbK==1)
+	{
+		gnuplot_set_xlabel(gp, "t");
+		gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
+		gnuplot_plot_xy(gp, t, rayon, nbsamples, "evolution de r(t)") ;
+	}
+	else
+	{
+		gnuplot_plot_xy(gp, Kvect, rayoninf, nbK, "evolution de r(K)") ;
+	}
+
 	printf("r=%f\npsi=%f\n",rayontemp,psitemp);
 	
 	/*libération de la mémoire*/
@@ -194,4 +213,26 @@ double gaussianRand(void)
 	return sqrt(-2.0*log(randNum1))*cos(2*M_PI*randNum2);
 }
 
+double mean (double * array, double N)
+{
+	double sum = 0 ;
 
+	for (int i = 0; i < N; i++)
+		sum = sum + array [i];
+
+	return sum/N;
+} // function calculating mean
+
+
+double std_dev (double * array, double N)
+{
+	double sum = 0;
+	double STD_DEV = 0; // returning zero's
+
+	for (int i = 0; i < N; i++)
+	{
+		sum = sum + array [i];
+		STD_DEV = STD_DEV + pow(array [i], 2);
+	}
+	return sqrt ((STD_DEV/N) - (pow(sum/N,2)));
+} // function calculating standard deviation
