@@ -5,6 +5,9 @@
 #include <errno.h> 
 #include <time.h>
 #include <complex>
+#include <gsl/gsl_statistics_double.h>
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
 typedef std::complex<double> complex_d;
 
 #include "toto.h"
@@ -87,14 +90,21 @@ int main(int argc, char *argv[])
 	double *psi = (double *) malloc (nbsamples*sizeof(double));
 
 	double *rayoninf  = (double *) malloc (nbK*sizeof(double));
+	double *rayonmoyen  = (double *) malloc (nbK*sizeof(double));
 	double *Kvect = (double *) malloc (nbK*sizeof(double));
 	
 	double k1, k2, k3, k4;
 	
+	const gsl_rng_type * randType;
+		gsl_rng * randVar;
+		gsl_rng_env_setup();
+		randType = gsl_rng_default;
+		randVar = gsl_rng_alloc (randType);
 	
 	for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 	{
-		omega[idxOsc] = OMEGA+sigma*gaussianRand();
+		/* omega[idxOsc] = OMEGA+sigma*gaussianRand(); */
+		omega[idxOsc] = OMEGA+gsl_ran_gaussian(randVar,sigma);
 	}
 
 
@@ -150,6 +160,8 @@ int main(int argc, char *argv[])
 		}
 		
 		rayoninf[idxK]=rayontemp;
+		rayonmoyen[idxK]=gsl_stats_mean(rayon, 1, nbsamples);
+/* ATTENTION rayonmayon est la moyenne total, il est a redéfinir*/
 		Kvect[idxK]=K;	
 	}	
 
@@ -168,7 +180,8 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		gnuplot_plot_xy(gp, Kvect, rayoninf, nbK, "evolution de r(K)") ;
+		gnuplot_plot_xy(gp, Kvect, rayoninf, nbK, "evolution de rinf(K)") ;
+		gnuplot_plot_xy(gp, Kvect, rayonmoyen, nbK, "evolution de rmoyen(K)") ;
 	}
 
 	printf("r=%f\npsi=%f\n",rayontemp,psitemp);
@@ -205,34 +218,4 @@ double kuramoto(double omega, double K, double psi, double rayon, double theta)
 	return(omega+K*rayon*sin(psi-theta));
 }
 
-double gaussianRand(void)
-{
-	double randNum1, randNum2;
-	randNum1=fmod(rand(), 100000)/100000;
-	randNum2=fmod(rand(), 100000)/100000;
-	return sqrt(-2.0*log(randNum1))*cos(2*M_PI*randNum2);
-}
 
-double mean (double * array, double N)
-{
-	double sum = 0 ;
-
-	for (int i = 0; i < N; i++)
-		sum = sum + array [i];
-
-	return sum/N;
-} // function calculating mean
-
-
-double std_dev (double * array, double N)
-{
-	double sum = 0;
-	double STD_DEV = 0; // returning zero's
-
-	for (int i = 0; i < N; i++)
-	{
-		sum = sum + array [i];
-		STD_DEV = STD_DEV + pow(array [i], 2);
-	}
-	return sqrt ((STD_DEV/N) - (pow(sum/N,2)));
-} // function calculating standard deviation

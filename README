@@ -1,0 +1,5 @@
+Pour utiliser le programme :
+./toto deltaT nbsamples nbosc nbK
+
+Par exemple :
+./toto 0.1 10000 300 10
