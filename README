@@ -3,3 +3,7 @@ Pour utiliser le programme :
 
 Par exemple :
 ./toto 0.1 10000 300 10
+
+ou 
+
+./toto
