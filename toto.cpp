@@ -168,7 +168,7 @@ int main(int argc, char *argv[])
 	/*définitions pour le graphique*/
 	gnuplot_ctrl * gp;
 	gp = gnuplot_init() ;
-//	gnuplot_cmd(gp, "set terminal x11");
+	gnuplot_cmd(gp, "set terminal wxt persist");
 	gnuplot_setstyle(gp, "lines");	
 	gnuplot_set_ylabel(gp, "r");
 
@@ -183,6 +183,7 @@ int main(int argc, char *argv[])
 		gnuplot_plot_xy(gp, Kvect, rayoninf, nbK, "evolution de rinf(K)") ;
 		gnuplot_plot_xy(gp, Kvect, rayonmoyen, nbK, "evolution de rmoyen(K)") ;
 	}
+	//gnuplot_cmd(gp, "pause -1");
 
 	printf("r=%f\npsi=%f\n",rayontemp,psitemp);
 	
@@ -192,7 +193,7 @@ int main(int argc, char *argv[])
 	free(rayon);
 	free(psi);
 	free(theta);
-	gnuplot_close(gp) ;
+	//gnuplot_close(gp) ;
 	return 0;
 
 }
