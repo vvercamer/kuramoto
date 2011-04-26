@@ -72,11 +72,11 @@ int main(int argc, char *argv[])
 	}
 */
 	/*définition des conditions expérimentales*/
-	double *t = (double *) malloc (nbsamples*sizeof(double));
+	double *temps = (double *) malloc (nbsamples*sizeof(double));
 	srand ( time(NULL) );	
 
-
-	/*définition des oscillatteurs*/	
+	/*définition des oscillatteurs*/
+	
 	int idxOsc, idxTime, idxK;
 	
 	double rayontemp=0, psitemp=0;
@@ -85,46 +85,36 @@ int main(int argc, char *argv[])
 	double *theta = (double *) malloc (nbosc*sizeof(double));
 	double K = 0;
 	double OMEGA = 0;
-	double sigma = 0.1;
+	//double sigma = 0.3;
 	double *rayon = (double *) malloc (nbsamples*sizeof(double));
 	double *psi = (double *) malloc (nbsamples*sizeof(double));
+	double *rayonmoyen = (double *) malloc (nbsamples*sizeof(double));
 
-	double *rayoninf  = (double *) malloc (nbK*sizeof(double));
-	double *rayonmoyen  = (double *) malloc (nbK*sizeof(double));
+	double *rayonstable = (double *) malloc (nbK*sizeof(double));
+	double *invrayonstable = (double *) malloc (nbK*sizeof(double));
 	double *Kvect = (double *) malloc (nbK*sizeof(double));
-
-
-	/*déclaration des variables nécessaires à la détermination du rayon asymptotique rayonInfini*/
-	int IdxC;
-	double rMax=0;
-	double *Tc = (double *) malloc (nbK*sizeof(double));
-	double *rayoncut = (double *) malloc (nbsamples*sizeof(double));
-	double *rayonInfini = (double *) malloc (nbK*sizeof(double));
-
-
-	/*déclaration des variables nécessaires pour Runge-Kutta 4*/
-	double k1, k2, k3, k4;
-
 	
-	/*détermination des oscillations propres des oscillateurs*/
+	double k1, k2, k3, k4;
+	
 	const gsl_rng_type * randType;
-		gsl_rng * randVar;
+		gsl_rng * r;
 		gsl_rng_env_setup();
 		randType = gsl_rng_default;
-		randVar = gsl_rng_alloc (randType);
+		r = gsl_rng_alloc (randType);
 	
 	for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 	{
-		/* omega[idxOsc] = OMEGA+sigma*gaussianRand(); */
-		omega[idxOsc] = OMEGA+gsl_ran_cauchy(randVar,sigma);
+		//omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma);
+		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,0.25);
 	}
-
-
 	
 
-	/*Boucle sur les valeurs de K*/
 	for(idxK = 0 ; idxK < nbK ; idxK++)
 	{
+		rayonstable[idxK]=0;
+        int idxTimeStart;
+        idxTimeStart=(int)floor(3*nbsamples/4.);
+
 		if (nbK == 1)
 		{
 			printf("entrer la valeur de K\n");
@@ -132,7 +122,7 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			K = (double)idxK/(nbK-1);
+			K = (double)idxK*2/(nbK-1);
 		}
 	
 		for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
@@ -155,11 +145,11 @@ int main(int argc, char *argv[])
 		
 		/*corps du programme*/
 	
-		for (idxTime=1; idxTime<nbsamples; idxTime++)         /* the time loop */
+		for (idxTime = 1 ; idxTime < nbsamples ; idxTime++)         /* the time loop */
 	    {
-	      	t[idxTime]=idxTime*deltaT;
+	      	temps[idxTime]=idxTime*deltaT;
 	
-			for(idxOsc=0 ; idxOsc<nbosc ; idxOsc++)
+			for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 			{      
 				/*méthode de runge-kutta d'ordre 4*/
 				k1=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]);
@@ -171,106 +161,83 @@ int main(int argc, char *argv[])
 			
 			meanField(theta , &rayontemp, &psitemp, nbosc);
         	rayon[idxTime]=rayontemp;
-        	psi[idxTime]=fmod(psitemp, 2*M_PI);
-
-			if (rayontemp>rMax)
+        	psi[idxTime]=psitemp;
+			if (idxTime > idxTimeStart)
 			{
-				rMax=rayontemp;
-			}
+				rayonstable[idxK]+=rayontemp;
+			}		
+
 		}
 		
-		rayoninf[idxK]=rayontemp;
-		rayonmoyen[idxK]=gsl_stats_mean(rayon, 1, nbsamples);
-/* ATTENTION rayonmayon est la moyenne total, il est a redéfinir*/
-		Kvect[idxK]=K;
-	
+		rayonstable[idxK]/=nbsamples-idxTimeStart+1;
+		invrayonstable[idxK]= 1/(1 - rayonstable[idxK]*rayonstable[idxK]);//pour formule 4.7 
+		Kvect[idxK]=K;	
+	}	
 
-	
-		/*définition du temps critique comme étant le temps pour lequel on atteint 90% de la valeur maximale*/
-		idxOsc=0;
-		while (rayon[idxOsc]<0.9*rMax)
-		{
-			idxOsc++ ;
-		}
-		IdxC = idxOsc;
-		Tc[idxK] = IdxC*deltaT;
 
-	
-		/*Détermination du rayonInfini*/
-		if (IdxC<nbsamples)
+	if (nbK == 1)
+	{
+		rayonmoyen[0]=rayon[0];
+		for (idxTime = 1 ; idxTime < nbsamples ; idxTime++)
 		{
-			for (idxTime=IdxC; idxTime<nbsamples; idxTime++)
-			{
-				rayoncut[idxTime-IdxC]=rayon[idxTime];
-			}
-			rayonInfini[idxK]=gsl_stats_mean(rayoncut, 1, nbsamples-IdxC+1);
-//			printf("%g pour K = %d \n",rayonInfini[idxK], idxK);
+			rayonmoyen[idxTime] = rayonmoyen[idxTime-1] + rayon[idxTime];
 		}
-		else
-		{
-//			printf("%g pour K= %d \n", rayonInfini[idxK], idxK);
-			rayonInfini[idxK] = gsl_stats_mean(rayon, 1, nbsamples);
-/*car sinon on obtient des valeurs nulles du rayonInfini pour certaines valeurs de K<Kc*/
-		}
+		for (idxTime = 0 ; idxTime < nbsamples ; idxTime++)
+        {
+            rayonmoyen[idxTime]/=idxTime+1;
+        }
 	}
-
 
 
 	/*définitions pour le graphique*/
-	gnuplot_ctrl * gp;
-	gp = gnuplot_init() ;
-	gnuplot_cmd(gp, "set terminal wxt 0 persist");
-	gnuplot_setstyle(gp, "lines");	
-	gnuplot_set_ylabel(gp, "r");
+	gnuplot_ctrl * gp1;
+	gnuplot_ctrl * gp2;
+	gp1 = gnuplot_init();
+	gp2 = gnuplot_init();
 
-	if(nbK==1)
+	char titre[256];
+#if defined ( __APPLE__ )
+    gnuplot_cmd(gp1, "set terminal x11 persist");
+	gnuplot_cmd(gp2, "set terminal x11 persist");
+#else
+	gnuplot_cmd(gp1, "set terminal wxt persist");
+	gnuplot_cmd(gp2, "set terminal wxt persist");
+#endif
+	gnuplot_setstyle(gp1, "lines");	
+	gnuplot_set_ylabel(gp1, "r");
+	gnuplot_setstyle(gp2, "lines");
+    gnuplot_set_ylabel(gp2, "r");
+
+	if (nbK == 1)
 	{
-		gnuplot_set_xlabel(gp, "t");
-		gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
-		gnuplot_plot_xy(gp, t, rayon, nbsamples, "evolution de r(t)") ;
-
-		/*Tracé de l'évolution de psi en fonction du temps*/
-		gp = gnuplot_init();
-		gnuplot_cmd(gp, "set terminal wxt 1 persist");
-		gnuplot_set_ylabel(gp, "psi");
-		gnuplot_set_xlabel(gp, "t");
-		gnuplot_plot_xy(gp, t, psi, nbsamples, "evolution de psi(t)") ;	
+		gnuplot_set_xlabel(gp1, "t");
+		gnuplot_cmd(gp1, "set yrange [-0.05:1.05]");
+		sprintf(titre,"evolution de r(t) pour K = %f", K);
+		gnuplot_plot_xy(gp1, temps, rayon, nbsamples, titre) ;
+		sprintf(titre,"evolution de rmoyen(t) pour K = %f", K);
+		gnuplot_plot_xy(gp1, temps, rayonmoyen, nbsamples, titre) ;
 	}
 	else
 	{
-		gnuplot_set_xlabel(gp, "K");
-		gnuplot_cmd(gp, "set yrange [-0.1:1]");
-		gnuplot_plot_xy(gp, Kvect, rayoninf, nbK, "evolution de rinf(K)");
-		gnuplot_plot_xy(gp, Kvect, rayonmoyen, nbK, "evolution de rmoyen(K)");
-		gnuplot_plot_xy(gp, Kvect, rayonInfini, nbK, "evolution de rinfini(K)") ;
-
-
-		/*Tracé de l'évolution du temps caractéractique en fonction de K*/
-		gp = gnuplot_init();
-		gnuplot_set_ylabel(gp, "temps caractéristique");
-		gnuplot_set_xlabel(gp, "K");
-		gnuplot_cmd(gp, "set terminal wxt 1 persist");
-		gnuplot_plot_xy(gp, Kvect, Tc, nbK, "evolution du temps caracteristique");
-/*il y a un souci au niveau de l'avant dernier point pour nbK=20*/
+		gnuplot_set_xlabel(gp1, "K");
+        gnuplot_cmd(gp1, "set yrange [-0.05:1.05]");
+		gnuplot_plot_xy(gp1, Kvect, rayonstable, nbK, "evolution de rstable(K)") ;
+	
+		gnuplot_set_xlabel(gp2, "K");
+        gnuplot_cmd(gp2, "set yrange [-0.05:10.05]");
+        gnuplot_plot_xy(gp2, Kvect, invrayonstable, nbK, "evolution de 1/(1-stable(K)^2)") ;
 	}
-
-
-
-	//gnuplot_cmd(gp, "pause -1");
 
 	printf("r=%f\npsi=%f\n",rayontemp,psitemp);
 	
 	/*libération de la mémoire*/
-	free(t);
+	free(temps);
 	free(omega);
 	free(rayon);
 	free(psi);
 	free(theta);
-	free(rayonmoyen);
-	free(rayonInfini);
-	free(rayoncut);
-	free(Tc);
-	gnuplot_close(gp) ;
+	gnuplot_close(gp1);
+	gnuplot_close(gp2);
 	return 0;
 
 }
