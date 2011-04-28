@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <errno.h> 
+#include <errno.h>
 #include <time.h>
 #include <complex>
 #include <gsl/gsl_statistics_double.h>
@@ -17,42 +17,34 @@ typedef std::complex<double> complex_d;
 int main(int argc, char *argv[])
 {
 	double deltaT = 0.1;
-	int nbsamples=10000;
+	int nbsamples = 10000;
 	int nbosc = 100;
-	int nbK=10;	
+	int nbK = 10;	
 	
-	if (argc == 5)
-	{
+	if (argc == 5) {
 		deltaT = strtod(argv[1],NULL);
 		nbsamples = (int)strtol(argv[2], NULL, 10);
 		nbosc = (int)strtol(argv[3], NULL, 10);
 		nbK = (int)strtol(argv[4], NULL, 10);
 	}
-	else if (argc == 1)
-	{
+	else if (argc == 1)	{
 	}
-	else if (argc == 2)
-	{
+	else if (argc == 2)	{
 		if (strcmp(argv[1],"-h\n"))
-		{
 			printf("utilisation :\n ./toto deltaT nbsamples nbosc nbK\n");
-		}
+
 		return 0;
 	}
-	else 
-	{
+	else {
 		printf("problème sur les paramètres d'entrée\n");
 		return 1;
 	}
 	/*lecture des paramètres */
-/*	if (argc>1)
-	{
+/*	if (argc>1) {
 		int idx;
-		for(idx = 1 ; idx<argc ; idx++)
-		{
+		for(idx = 1 ; idx<argc ; idx++) {
 			 *argv[idx];
-			switch(s)
-			{
+			switch(s){
 			case "deltaT":
 			  deltaT = strtod(agrv[idx+1],NULL);
 			  break;
@@ -72,35 +64,35 @@ int main(int argc, char *argv[])
 	}
 */
 	/*définition des conditions expérimentales*/
-	double *temps = (double *) malloc (nbsamples*sizeof(double));
-	srand ( time(NULL) );	
+	double *temps = (double *) malloc (nbsamples * sizeof(double));
+	srand (time(NULL));	
 
 	/*définition des oscillatteurs*/
 
 
 	int idxOsc, idxTime, idxK;
 	
-	double rayontemp=0, psitemp=0;
+	double rayontemp = 0, psitemp = 0;
 	
-	double *omega = (double *) malloc (nbosc*sizeof(double));
-	double *theta = (double *) malloc (nbosc*sizeof(double));
+	double *omega = (double *) malloc (nbosc * sizeof(double));
+	double *theta = (double *) malloc (nbosc * sizeof(double));
 	double K = 0;
 	double OMEGA = 0;
 	double sigma = 0.1;
-	double *rayon = (double *) malloc (nbsamples*sizeof(double));
-	double *psi = (double *) malloc (nbsamples*sizeof(double));
-	double *rayonmoyen = (double *) malloc (nbsamples*sizeof(double));
+	double *rayon = (double *) malloc (nbsamples * sizeof(double));
+	double *psi = (double *) malloc (nbsamples * sizeof(double));
+	double *rayonmoyen = (double *) malloc (nbsamples * sizeof(double));
 
-	double *rayonstable = (double *) malloc (nbK*sizeof(double));
-	double *invrayonstable = (double *) malloc (nbK*sizeof(double));
-	double *Kvect = (double *) malloc (nbK*sizeof(double));
+	double *rayonstable = (double *) malloc (nbK * sizeof(double));
+	double *invrayonstable = (double *) malloc (nbK * sizeof(double));
+	double *Kvect = (double *) malloc (nbK * sizeof(double));
 
 	/*déclaration des variables nécessaires à la détermination du rayon asymptotique rayonInfini*/
 	int IdxC;
-	double rMax=0;
-	double *Tc = (double *) malloc (nbK*sizeof(double));
-	double *rayonCut = (double *) malloc (nbsamples*sizeof(double));
-	double *rayonInfini = (double *) malloc (nbK*sizeof(double));
+	double rMax = 0;
+	double *Tc = (double *) malloc (nbK * sizeof(double));
+	double *rayonCut = (double *) malloc (nbsamples * sizeof(double));
+	double *rayonInfini = (double *) malloc (nbK * sizeof(double));
 
 
 	/*déclaration des variables nécessaires pour Runge-Kutta 4*/
@@ -115,124 +107,99 @@ int main(int argc, char *argv[])
 		randType = gsl_rng_default;
 		r = gsl_rng_alloc (randType);
 	
-	for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
-	{
+	for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
 		/* omega[idxOsc] = OMEGA+gls_ran_gaussian(r,sigma); */
-		omega[idxOsc] = OMEGA+gsl_ran_cauchy(r,sigma);
+		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma);
 	}
 
 
 	
 
 	/*Boucle sur les valeurs de K*/
-	for(idxK = 0 ; idxK < nbK ; idxK++)
-	{
-		rayonstable[idxK]=0;
+	for(idxK = 0 ; idxK < nbK ; idxK++) {
+		rayonstable[idxK] = 0;
         int idxTimeStart;
-        idxTimeStart=(int)floor(3*nbsamples/4.);
+        idxTimeStart = (int)floor(3 * nbsamples / 4.);
 
-		if (nbK == 1)
-		{
+		if (nbK == 1) {
 			printf("entrer la valeur de K\n");
 			scanf("%lf",&K);
 		}
-		else
-		{
-			K = (double)idxK*2/(nbK-1);
+		else {
+			K = (double)idxK * 2 / (nbK - 1);
 		}
 	
-		for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
-		{
-			theta[idxOsc] = fmod( rand(), 2*M_PI)-M_PI;
+		for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
+			theta[idxOsc] = fmod(rand(), 2 * M_PI) - M_PI;
 		}
 	
-		for(idxTime = 0 ; idxTime < nbsamples ; idxTime++)
-		{
-			rayon[idxTime]=0;
-			psi[idxTime]=0;
+		for(idxTime = 0 ; idxTime < nbsamples ; idxTime++) {
+			rayon[idxTime] = 0;
+			psi[idxTime] = 0;
 		}
 			
 		meanField(theta , &rayontemp, &psitemp, nbosc);	
-		rayon[0]=rayontemp;
-		psi[0]=psitemp;	
+		rayon[0] = rayontemp;
+		psi[0] = psitemp;	
 		
 		printf("K = %f\n",K);
 		
 		
 		/*corps du programme*/
 	
-		for (idxTime = 1 ; idxTime < nbsamples ; idxTime++)         /* the time loop */
-	    {
-	      	temps[idxTime]=idxTime*deltaT;
+		for (idxTime = 1 ; idxTime < nbsamples ; idxTime++) {
+	      	temps[idxTime] = idxTime * deltaT;
 	
-			for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
-			{      
+			for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
 				/*méthode de runge-kutta d'ordre 4*/
-				k1=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]);
-				k2=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k1/2.0);
-				k3=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k2/2.0);
-				k4=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k3);
-				theta[idxOsc] = theta[idxOsc] + (k1 + 2 * k2 + 2 * k3 + k4)*deltaT/6.0; 
+				k1 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime - 1], rayon[idxTime - 1],theta[idxOsc]);
+				k2 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime - 1], rayon[idxTime - 1],theta[idxOsc] + deltaT * k1 / 2.0);
+				k3 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime - 1], rayon[idxTime - 1],theta[idxOsc] + deltaT * k2 / 2.0);
+				k4 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime - 1], rayon[idxTime - 1],theta[idxOsc] + deltaT * k3);
+				theta[idxOsc] = theta[idxOsc] + (k1 + 2 * k2 + 2 * k3 + k4) * deltaT / 6.0;
 			}
 			
 			meanField(theta , &rayontemp, &psitemp, nbosc);
-        	rayon[idxTime]=rayontemp;
-        	psi[idxTime]=fmod(psitemp, 2*M_PI);
+        	rayon[idxTime] = rayontemp;
+        	psi[idxTime] = fmod(psitemp, 2 * M_PI);
 			if (idxTime > idxTimeStart)
-			{
-				rayonstable[idxK]+=rayontemp;
-			}
+				rayonstable[idxK] += rayontemp;	
 			
-			if (rayontemp>rMax)
-			{
-				rMax=rayontemp;
-			}
-
+			if (rayontemp > rMax) 
+				rMax = rayontemp;
 		}
 		
-		rayonstable[idxK]/=nbsamples-idxTimeStart+1;
-		invrayonstable[idxK]= 1/(1 - rayonstable[idxK]*rayonstable[idxK]);//pour formule 4.7 
-		Kvect[idxK]=K;
+		rayonstable[idxK] /= nbsamples - idxTimeStart + 1;
+		invrayonstable[idxK] = 1 / (1 - rayonstable[idxK] * rayonstable[idxK]);//pour formule 4.7
+		Kvect[idxK] = K;
 	
 
-	
 		/*définition du temps critique comme étant le temps pour lequel on atteint 90% de la valeur maximale*/
-		idxOsc=0;
-		while (rayon[idxOsc]<0.9*rMax)
-		{
+		idxOsc = 0;
+		while (rayon[idxOsc] < 0.9 * rMax) {
 			idxOsc++ ;
 		}
 		IdxC = idxOsc;
-		Tc[idxK] = IdxC*deltaT;
+		Tc[idxK] = IdxC * deltaT;
 		
 		/*Détermination du rayonInfini*/
-		if (IdxC<nbsamples)
-		{
-			for (idxTime=IdxC; idxTime<nbsamples; idxTime++)
-			{
-				rayonCut[idxTime-IdxC]=rayon[idxTime];
+		if (IdxC < nbsamples) {
+			for (idxTime = IdxC; idxTime < nbsamples; idxTime++) {
+				rayonCut[idxTime - IdxC] = rayon[idxTime];
 			}
-			rayonInfini[idxK]=gsl_stats_mean(rayonCut, 1, nbsamples-IdxC+1);
-//			printf("%g pour K = %d \n",rayonInfini[idxK], idxK);
+			rayonInfini[idxK] = gsl_stats_mean(rayonCut, 1, nbsamples - IdxC + 1);
 		}
 		else
-		{
-//			printf("%g pour K= %d \n", rayonInfini[idxK], idxK);
-			rayonInfini[idxK] = gsl_stats_mean(rayon, 1, nbsamples);
-/*car sinon on obtient des valeurs nulles du rayonInfini pour certaines valeurs de K<Kc*/
-		}
-
+			rayonInfini[idxK] = gsl_stats_mean(rayon, 1, nbsamples);	
+			/*car sinon on obtient des valeurs nulles du rayonInfini pour certaines valeurs de K<Kc*/
 		
-		if (nbK == 1)
-		{
-			rayonmoyen[0]=rayon[0];
-			for (idxTime = 1 ; idxTime < nbsamples ; idxTime++)
-			{
-				rayonmoyen[idxTime] = rayonmoyen[idxTime-1] + rayon[idxTime];
+		if (nbK == 1) {
+			rayonmoyen[0] = rayon[0];
+			for (idxTime = 1 ; idxTime < nbsamples ; idxTime++) {
+				rayonmoyen[idxTime] = rayonmoyen[idxTime - 1] + rayon[idxTime];
 			}
-			for (idxTime = 0 ; idxTime < nbsamples ; idxTime++)
-			{
-				rayonmoyen[idxTime]/=idxTime+1;
+			for (idxTime = 0 ; idxTime < nbsamples ; idxTime++) {
+				rayonmoyen[idxTime] /= idxTime + 1;
 			}
 		}
 	}
@@ -242,7 +209,7 @@ int main(int argc, char *argv[])
 	gp = gnuplot_init();
 	
 	char titre[256];
-#if defined ( __APPLE__ )
+#if defined (__APPLE__)
     gnuplot_cmd(gp, "set terminal x11 0 persist");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 0 persist");
@@ -250,8 +217,7 @@ int main(int argc, char *argv[])
 	gnuplot_setstyle(gp, "linespoints");	
 	gnuplot_set_ylabel(gp, "r");
 
-	if (nbK == 1)
-	{
+	if (nbK == 1) {
 		gnuplot_set_xlabel(gp, "t");
 		gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
 		sprintf(titre,"evolution de r(t) pour K = %f", K);
@@ -259,15 +225,14 @@ int main(int argc, char *argv[])
 		sprintf(titre,"evolution de rmoyen(t) pour K = %f", K);
 		gnuplot_plot_xy(gp, temps, rayonmoyen, nbsamples, titre) ;
 	}
-	else
-	{
+	else {
 		gnuplot_set_xlabel(gp, "K");
         gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
 		gnuplot_plot_xy(gp, Kvect, rayonstable, nbK, "evolution de rstable(K)");
 		gnuplot_plot_xy(gp, Kvect, rayonInfini, nbK, "evolution de rinfini(K)");
 	
 		gp = gnuplot_init();
-#if defined ( __APPLE__ )
+#if defined (__APPLE__)
 	    gnuplot_cmd(gp, "set terminal x11 1 persist");
 #else
 		gnuplot_cmd(gp, "set terminal wxt 1 persist");
@@ -282,17 +247,17 @@ int main(int argc, char *argv[])
 		gnuplot_set_ylabel(gp, "temps caractéristique");
 		gnuplot_set_xlabel(gp, "K");
 		
-#if defined ( __APPLE__ )
+#if defined (__APPLE__)
     	gnuplot_cmd(gp, "set terminal x11 2 persist");
 #else
 		gnuplot_cmd(gp, "set terminal wxt 2 persist");
 #endif
 		gnuplot_setstyle(gp, "linespoints");	
 		gnuplot_plot_xy(gp, Kvect, Tc, nbK, "evolution du temps caracteristique");
-	/*il y a un souci au niveau de l'avant dernier point pour nbK=20*/
+	/*il y a un souci au niveau de l'avant dernier point pour nbK = 20*/
 	}
 
-	printf("r=%f\npsi=%f\n",rayontemp,psitemp);
+	printf("r = %f\npsi = %f\n",rayontemp,psitemp);
 	
 	/*libération de la mémoire*/
 	free(temps);
@@ -309,8 +274,7 @@ int meanField(double *theta, double *rayon, double *psi, int nbosc)
 {
 	int idxOsc;
 	complex_d rComplex(0,0);
-	for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
-	{
+	for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
 		rComplex += exp(complex_d(0,theta[idxOsc]));
 	}
 	rComplex /= nbosc;
@@ -323,7 +287,7 @@ int meanField(double *theta, double *rayon, double *psi, int nbosc)
 
 double kuramoto(double omega, double K, double psi, double rayon, double theta)
 {
-	return(omega+K*rayon*sin(psi-theta));
+	return(omega + K * rayon * sin(psi - theta));
 }
 
 
