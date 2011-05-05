@@ -298,7 +298,7 @@ int main(int argc, char *argv[])
 		sprintf(titre,"evolution de rmoyen(t) pour K = %f", K);
 		gnuplot_plot_xy(gp, temps, rayonmoyen, nbsamples, titre) ;
 		sprintf(titre,"evolution de rmoy(t) pour K = %f", K);
-		gnuplot_plot_xy(gp, temps, rmoy, nbsamples, titre) ;
+		gnuplot_plot_xy(gp, temps, rmoy, nbsamples, titre);
 	}
 	else
 	{
