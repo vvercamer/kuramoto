@@ -99,8 +99,12 @@ int main(int argc, char *argv[])
 	double *invrayonstable = (double *) malloc (nbK*sizeof(double));
 	double *Kvect = (double *) malloc (nbK*sizeof(double));
 
+	/*Détermination de Kc*/
+	double Kc;
+	Kc=2/(M_PI*gsl_ran_cauchy_pdf(0, sigma));
+	printf("Kc= %f\n",Kc);
 
-	/*déclaration des variables nécessaires à la détermination du rayon asymptotique rayonInfini*/
+	/*Déclaration des variables nécessaires à la détermination du rayon asymptotique rayonInfini*/
 	int IdxC;
 	double rMax=0;
 	double *Tc = (double *) malloc (nbK*sizeof(double));
@@ -108,7 +112,7 @@ int main(int argc, char *argv[])
 	double *rayonInfini = (double *) malloc (nbK*sizeof(double));
 
 
-	/*déclaration des variables nécessaires pour Runge-Kutta 4*/
+	/*Déclaration des variables nécessaires pour Runge-Kutta 4*/
 
 	double k1, k2, k3, k4;
 
@@ -127,7 +131,6 @@ int main(int argc, char *argv[])
 		}
 
 
-
 		rayonstable[idxK]=0;
 	       	int idxTimeStart;
 	        idxTimeStart=(int)floor(3*nbsamples/4.);
@@ -143,7 +146,7 @@ int main(int argc, char *argv[])
 		/*Boucle sur les réalisations*/
 		for (idxRand=0 ; idxRand < nbrand ; idxRand++)
 		{
-			/*détermination des oscillations propres des oscillateurs*/
+			/*Détermination des oscillations propres des oscillateurs*/
 			const gsl_rng_type * randType;
 				gsl_rng * r;
 				gsl_rng_env_setup();
@@ -152,12 +155,12 @@ int main(int argc, char *argv[])
 	
 			for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 			{
-				/* omega[idxOsc] = OMEGA+gls_ran_gaussian(r,sigma); */
+//				omega[idxOsc] = OMEGA+gsl_ran_gaussian(r,sigma); 
 				omega[idxOsc] = OMEGA+gsl_ran_cauchy(r,sigma);
 			}
 
 
-			/*initialisation de theta, de rayon et de psi*/
+			/*Initialisation de theta, de rayon et de psi*/
 			for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 			{
 				theta[idxOsc] = fmod( rand(), 2*M_PI)-M_PI;
@@ -174,7 +177,7 @@ int main(int argc, char *argv[])
 			psi[0]=psitemp;	
 
 
-			/*corps du programme*/
+			/*Corps du programme*/
 	
 			for (idxTime = 1 ; idxTime < nbsamples ; idxTime++)         /* the time loop */
 			    {
@@ -182,7 +185,7 @@ int main(int argc, char *argv[])
 	
 				for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 				{      
-					/*méthode de runge-kutta d'ordre 4*/
+					/*Méthode de runge-kutta d'ordre 4*/
 					k1=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]);
 					k2=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k1/2.0);
 					k3=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k2/2.0);
@@ -217,8 +220,10 @@ int main(int argc, char *argv[])
 		/*Détermination de rayonstable et de son inverse*/
 		rayonstable[idxK]/=(nbsamples-idxTimeStart+1)*nbrand;
 		invrayonstable[idxK]= 1/(1 - rayonstable[idxK]*rayonstable[idxK]);//pour formule 4.7 
+
+		/*Détermination du vecteur Kvect*/
 		Kvect[idxK]=K;
-	
+
 
 		/*Définition de rMax*/
 		for (idxTime = 1 ; idxTime < nbsamples ; idxTime++)
@@ -274,16 +279,62 @@ int main(int argc, char *argv[])
 
 	}
 
+	/*Détermination des logarithmes*/
+	int idxKc=0;
+	int idxprim=0;	
+	while (Kvect[idxKc] <= Kc)
+	{
+		idxKc+=1;
+	}	
+	idxKc+=4;
+	double *logk = (double *) malloc ((nbK-idxKc)*sizeof(double));
+	double *logr = (double *) malloc ((nbK-idxKc)*sizeof(double));
+	double *KvectCut = (double *) malloc ((nbK-idxKc)*sizeof(double));
+	double *TcCut = (double *) malloc ((nbK-idxKc)*sizeof(double));	
+	for (idxK=idxKc ; idxK < nbK ; idxK++)
+	{
+		idxprim=idxK-idxKc;
+		logk[idxprim]=log(1-Kc/Kvect[idxK]);
+		logr[idxprim]=log(rayonstable[idxK]);
+		KvectCut[idxprim]=Kvect[idxK];
+		TcCut[idxprim]=Tc[idxK];
+	}
 
-	/*définitions pour le graphique*/
+
+	/*Détermination de la distribution des pulsations propres*/
+	int nbw=1001;
+	int idxw;
+	double *w = (double *) malloc (nbw*sizeof(double));
+	double *N = (double *) malloc (nbw*sizeof(double));
+	for (idxw=0 ; idxw < nbw ; idxw++)
+	{
+		w[idxw]=(-(nbw-1)/2+idxw)*0.8*2/nbw;
+		N[idxw]=gsl_ran_cauchy_pdf(w[idxw], sigma);
+	}	
+
+
+
+	/*Définitions pour le graphique*/
 	gnuplot_ctrl * gp;
 	gp = gnuplot_init();
 	
 	char titre[256];
 #if defined ( __APPLE__ )
-    gnuplot_cmd(gp, "set terminal x11 0 persist");
+	gnuplot_cmd(gp, "set terminal x11 0 persist");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 0 persist");
+#endif
+	gnuplot_setstyle(gp, "lines");
+	gnuplot_set_ylabel(gp, "distribution g(w)");
+	gnuplot_set_xlabel(gp, "pulsation w");
+	gnuplot_plot_xy(gp, w, N, nbw,"distribution des pulsations propres des oscillateurs");
+
+
+	gp = gnuplot_init();
+#if defined ( __APPLE__ )
+	gnuplot_cmd(gp, "set terminal x11 1 persist");
+#else
+	gnuplot_cmd(gp, "set terminal wxt 1 persist");
 #endif
 	gnuplot_setstyle(gp, "linespoints");	
 	gnuplot_set_ylabel(gp, "r");
@@ -299,6 +350,8 @@ int main(int argc, char *argv[])
 		gnuplot_plot_xy(gp, temps, rayonmoyen, nbsamples, titre) ;
 		sprintf(titre,"evolution de rmoy(t) pour K = %f", K);
 		gnuplot_plot_xy(gp, temps, rmoy, nbsamples, titre);
+
+		
 	}
 	else
 	{
@@ -309,15 +362,16 @@ int main(int argc, char *argv[])
 	
 		gp = gnuplot_init();
 #if defined ( __APPLE__ )
-		gnuplot_cmd(gp, "set terminal x11 1 persist");
+		gnuplot_cmd(gp, "set terminal x11 2 persist");
 #else
-		gnuplot_cmd(gp, "set terminal wxt 1 persist");
+		gnuplot_cmd(gp, "set terminal wxt 2 persist");
 #endif
-		gnuplot_setstyle(gp, "linespoints");	
-		gnuplot_set_xlabel(gp, "K");
-//		gnuplot_set_logscale_xy(gp, true);
-		gnuplot_cmd(gp, "set yrange [-0.05:10.05]");
-		gnuplot_plot_xy(gp, Kvect, invrayonstable, nbK, "evolution de rstable en fonction de K");
+		gnuplot_setstyle(gp, "linespoints");
+		gnuplot_set_ylabel(gp, "log rstable");	
+		gnuplot_set_xlabel(gp, "log (K-Kc)/K");
+//		gnuplot_cmd(gp, "set yrange [-0.05:10.05]");
+//		gnuplot_plot_xy(gp, Kvect, invrayonstable, nbK, "evolution de rstable en fonction de K");
+		gnuplot_plot_xy(gp, logk, logr, (nbK-idxKc), "evolution de rstable en fonction de (K-Kc)/K en log-log");
 	
 	/*Tracé de l'évolution du temps caractéractique en fonction de K*/
 		gp = gnuplot_init();
@@ -325,20 +379,20 @@ int main(int argc, char *argv[])
 		gnuplot_set_xlabel(gp, "K");
 		
 #if defined ( __APPLE__ )
-    		gnuplot_cmd(gp, "set terminal x11 2 persist");
+    		gnuplot_cmd(gp, "set terminal x11 3 persist");
 #else
-		gnuplot_cmd(gp, "set terminal wxt 2 persist");
+		gnuplot_cmd(gp, "set terminal wxt 3 persist");
 #endif
 		gnuplot_setstyle(gp, "linespoints");	
-		gnuplot_plot_xy(gp, Kvect, Tc, nbK, "evolution du temps caracteristique");
+		gnuplot_plot_xy(gp, KvectCut, TcCut, (nbK-idxKc), "evolution du temps caracteristique");
 	/*il y a un souci au niveau de l'avant dernier point pour nbK=20*/
+	
 	}
-
 
 	printf("r=%f\npsi=%f\n",rayontemp,psitemp);
 
 	
-	/*libération de la mémoire*/
+	/*Libération de la mémoire*/
 	free(temps);
 	free(omega);
 	free(rayon);
