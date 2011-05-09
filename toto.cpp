@@ -22,7 +22,6 @@ int main(int argc, char *argv[])
 	int nbrand = 5;
 	int nbK = 10;
 
-
 	if (argc == 6) {
 		deltaT = strtod(argv[1],NULL);
 		nbsamples = (int)strtol(argv[2], NULL, 10);
