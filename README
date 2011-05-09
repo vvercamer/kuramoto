@@ -2,7 +2,7 @@ Pour utiliser le programme :
 ./toto deltaT nbsamples nbosc nbrand  nbK
 
 Par exemple :
-./toto 0.1 10000 300 5 10
+./toto 0.1 10000 100 5 11
 
 ou 
 
