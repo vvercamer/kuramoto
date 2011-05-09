@@ -17,10 +17,10 @@ typedef std::complex<double> complex_d;
 int main(int argc, char *argv[])
 {
 	double deltaT = 0.1;
-	int nbsamples=10000;
+	int nbsamples = 10000;
 	int nbosc = 100;
-	int nbrand=5;
-	int nbK=10;
+	int nbrand = 5;
+	int nbK = 10;
 
 
 	if (argc == 6) {
@@ -43,44 +43,16 @@ int main(int argc, char *argv[])
 		printf("problème sur les paramètres d'entrée\n");
 		return 1;
 	}
-	/*lecture des paramètres */
-/*	if (argc>1)
-	{
-		int idx;
-		for(idx = 1 ; idx<argc ; idx++)
-		{
-			 *argv[idx];
-			switch(s)
-			{
-			case "deltaT":
-			  deltaT = strtod(agrv[idx+1],NULL);
-			  break;
-			case "nbsamples":
-			  nbsamples = (int)strtol(argv[idx+1], NULL, 10);
-			  break;
-			case "nbosc":
-			  nbosc = (int)strtol(argv[idx+1], NULL, 10);
-			  break;
-			case "nbK":
-			  nbK = (int)strtol(argv[idx+1], NULL, 10);
-			  break;
-			default:
-			  break;
-			}
-		}
-	}
-*/
+
 	/*définition des conditions expérimentales*/
 	double *temps = (double *) malloc (nbsamples*sizeof(double));
 	srand(time(NULL));
 
 	/*définition des oscillatteurs*/
-
-
 	int idxOsc, idxTime, idxK, idxRand;
-
+	
 	double rayontemp = 0, psitemp = 0;
-
+	
 	double *omega = (double *) malloc (nbosc*sizeof(double));
 	double *theta = (double *) malloc (nbosc*sizeof(double));
 	double K = 0;
@@ -120,29 +92,29 @@ int main(int argc, char *argv[])
 			scanf("%lf",&K);
 		}
 		else {
-			K = (double)idxK/(nbK-1);
+			K = (double)idxK / (nbK - 1);
 		}
 
 
-		rayonstable[idxK]=0;
+		rayonstable[idxK] = 0;
 	       	int idxTimeStart;
-	        idxTimeStart=(int)floor(3*nbsamples/4.);
+	        idxTimeStart = (int)floor(3 * nbsamples / 4.);
 
 		printf("K= %f\n",K);
 
 		for (idxTime=1 ; idxTime < nbsamples ; idxTime++) {
-			rmoy[idxTime]=0;
+			rmoy[idxTime] = 0;
 		}
 
 
 		/*Boucle sur les réalisations*/
-		for (idxRand=0 ; idxRand < nbrand ; idxRand++) {
+		for (idxRand = 0 ; idxRand < nbrand ; idxRand++) {
 			/*Détermination des oscillations propres des oscillateurs*/
 			const gsl_rng_type * randType;
-				gsl_rng * r;
-				gsl_rng_env_setup();
-				randType = gsl_rng_default;
-				r = gsl_rng_alloc (randType);
+			gsl_rng * r;
+			gsl_rng_env_setup();
+			randType = gsl_rng_default;
+			r = gsl_rng_alloc (randType);
 
 			for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
 //				omega[idxOsc] = OMEGA+gsl_ran_gaussian(r,sigma);
@@ -161,31 +133,30 @@ int main(int argc, char *argv[])
 			}
 
 			meanField(theta , &rayontemp, &psitemp, nbosc);
-			rayon[0]=rayontemp;
-			psi[0]=psitemp;
+			rayon[0] = rayontemp;
+			psi[0] = psitemp;
 
 
 			/*Corps du programme*/
 
 			for (idxTime = 1 ; idxTime < nbsamples ; idxTime++) {
-		      	temps[idxTime]=idxTime*deltaT;
+		      	temps[idxTime] = idxTime*deltaT;
 
 				for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
 					/*Méthode de runge-kutta d'ordre 4*/
-					k1=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]);
-					k2=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k1/2.0);
-					k3=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k2/2.0);
-					k4=deltaT*kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1],theta[idxOsc]+deltaT*k3);
-					theta[idxOsc] = theta[idxOsc] + (k1 + 2 * k2 + 2 * k3 + k4)*deltaT/6.0;
+					k1 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1], theta[idxOsc]);
+					k2 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1], theta[idxOsc] + deltaT * k1 / 2.0);
+					k3 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1], theta[idxOsc] + deltaT * k2 / 2.0);
+					k4 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime-1], rayon[idxTime-1], theta[idxOsc] + deltaT * k3);
+					theta[idxOsc] = theta[idxOsc] + (k1 + 2 * k2 + 2 * k3 + k4) * deltaT / 6.0;
 				}
 
 				meanField(theta , &rayontemp, &psitemp, nbosc);
    			   	rayon[idxTime]=rayontemp;
-       			psi[idxTime]=fmod(psitemp, 2*M_PI);
+       			psi[idxTime]=fmod(psitemp, 2 * M_PI);
 
-				if (idxTime > idxTimeStart) {
-					rayonstable[idxK]+=rayontemp;
-				}
+				if (idxTime > idxTimeStart)
+					rayonstable[idxK] += rayontemp;
 
 				rmoy[idxTime]+=rayontemp;
 			}
@@ -196,39 +167,39 @@ int main(int argc, char *argv[])
 		/*Fin de la boucle sur les réalisations*/
 
 		/*Détermination de rmoy, moyenne de r sur plusieurs réalisations*/
-		for (idxTime = 1 ; idxTime < nbsamples ; idxTime++){
+		for (idxTime = 1 ; idxTime < nbsamples ; idxTime++) {
 			rmoy[idxTime]/=nbrand;
 		}
 
 		/*Détermination de rayonstable et de son inverse*/
-		rayonstable[idxK]/=(nbsamples-idxTimeStart+1)*nbrand;
-		invrayonstable[idxK]= 1/(1 - rayonstable[idxK]*rayonstable[idxK]);//pour formule 4.7
+		rayonstable[idxK] /= (nbsamples - idxTimeStart + 1) * nbrand;
+		invrayonstable[idxK] = 1 / (1 - rayonstable[idxK] * rayonstable[idxK]);//pour formule 4.7
 
 		/*Détermination du vecteur Kvect*/
-		Kvect[idxK]=K;
+		Kvect[idxK] = K;
 
 
 		/*Définition de rMax*/
 		for (idxTime = 1 ; idxTime < nbsamples ; idxTime++) {
 			if (rmoy[idxTime] > rMax)
-				rMax=rmoy[idxTime];
+				rMax = rmoy[idxTime];
 		}
 
 
 		/*Définition du temps critique comme étant le temps pour lequel on atteint 90% de la valeur maximale*/
-		idxTime=0;
-		while (rmoy[idxTime]<0.9*rMax) {
+		idxTime = 0;
+		while (rmoy[idxTime] < 0.9 * rMax) {
 			idxTime++;
 		}
 		IdxC = idxTime;
 		Tc[idxK] = IdxC*deltaT;
 
 		/*Détermination de rayonInfini*/
-		if (IdxC<nbsamples) {
-			for (idxTime=IdxC; idxTime<nbsamples; idxTime++) {
-				rayonCut[idxTime-IdxC]=rmoy[idxTime];
+		if (IdxC < nbsamples) {
+			for (idxTime = IdxC; idxTime<nbsamples; idxTime++) {
+				rayonCut[idxTime-IdxC] = rmoy[idxTime];
 			}
-			rayonInfini[idxK]=gsl_stats_mean(rayonCut, 1, nbsamples-IdxC+1);
+			rayonInfini[idxK] = gsl_stats_mean(rayonCut, 1, nbsamples-IdxC+1);
 //			printf("%g pour K = %d \n",rayonInfini[idxK], idxK);
 		}
 		else {
@@ -239,12 +210,12 @@ int main(int argc, char *argv[])
 
 
 		if (nbK == 1) {
-			rayonmoyen[0]=rayon[0];
+			rayonmoyen[0] = rayon[0];
 			for (idxTime = 1 ; idxTime < nbsamples ; idxTime++) {
 				rayonmoyen[idxTime] = rayonmoyen[idxTime-1] + rayon[idxTime];
 			}
 			for (idxTime = 0 ; idxTime < nbsamples ; idxTime++) {
-				rayonmoyen[idxTime]/=idxTime+1;
+				rayonmoyen[idxTime] /= idxTime+1;
 			}
 		}
 
@@ -263,7 +234,7 @@ int main(int argc, char *argv[])
 	double *logr = (double *) malloc ((nbK-idxKc)*sizeof(double));
 	double *KvectCut = (double *) malloc ((nbK-idxKc)*sizeof(double));
 	double *TcCut = (double *) malloc ((nbK-idxKc)*sizeof(double));
-	for (idxK=idxKc ; idxK < nbK ; idxK++) {
+	for (idxK = idxKc ; idxK < nbK ; idxK++) {
 		idxprim = idxK - idxKc;
 		logk[idxprim] = log(1 - Kc / Kvect[idxK]);
 		logr[idxprim] = log(rayonstable[idxK]);
@@ -278,7 +249,7 @@ int main(int argc, char *argv[])
 	double *w = (double *) malloc (nbw*sizeof(double));
 	double *N = (double *) malloc (nbw*sizeof(double));
 	for (idxw=0 ; idxw < nbw ; idxw++) {
-		w[idxw] = ( -(nbw - 1) / 2 + idxw) * 0.8 * 2 / nbw;
+		w[idxw] = (-(nbw - 1) / 2 + idxw) * 0.8 * 2 / nbw;
 		N[idxw] = gsl_ran_cauchy_pdf(w[idxw], sigma);
 	}
 
