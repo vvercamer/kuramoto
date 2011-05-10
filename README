@@ -1,8 +1,8 @@
 Pour utiliser le programme :
-./toto deltaT nbsamples nbosc nbrand  nbK
+./toto deltaT nbsamples nbosc nbrand nbK
 
 Par exemple :
-./toto 0.1 10000 100 5 11
+./toto 0.1 10000 100 5 10
 
 ou 
 
