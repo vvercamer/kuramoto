@@ -8,6 +8,7 @@
 #include <gsl/gsl_statistics_double.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
+#include <gsl/gsl_fit.h>
 typedef std::complex<double> complex_d;
 
 #include "toto.h"
@@ -68,6 +69,7 @@ int main(int argc, char *argv[])
 	double *Kvect = (double *) malloc (nbK*sizeof(double));
 
 //	double *ecartMax = (double *) malloc (nbosc*sizeof(double));
+	double ecartMax = 0;
 
 	/*Définition pour les logarithmes*/
 	int idxKc = 0;
@@ -113,6 +115,8 @@ int main(int argc, char *argv[])
 			K = (double)idxK * 2 / (nbK - 1);
 		}
 
+		printf("K = %f\n",K);
+
 		rayonstable[idxK] = 0;
        		int idxTimeStart;
 		idxTimeStart = (int)floor(3 * nbsamples / 4.);
@@ -131,6 +135,7 @@ int main(int argc, char *argv[])
 			gsl_rng_env_setup();
 			randType = gsl_rng_default;
 			r = gsl_rng_alloc (randType);
+//			*r = (*r) + (gsl_rng)(1);
 
 
 			for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
@@ -236,9 +241,6 @@ int main(int argc, char *argv[])
 				rayonmoyen[idxTime] /= idxTime+1;
 			}
 		}
-
-
-
 	}
 
 
@@ -252,11 +254,24 @@ int main(int argc, char *argv[])
 		idxprim = idxK - idxKc;
 		logk[idxprim] = log(1 - Kc / Kvect[idxK]);
 		logr[idxprim] = log(rayonstable[idxK]);
-		deltarstable[idxK] = sqrt(1 - Kc / Kvect[idxK]) - rayonstable[idxK];
-//		if (deltarstable[idxK] > ecartMax[idxN])
-//			ecartMax[idxN] = deltarstable[idxK];
+		deltarstable[idxprim] = sqrt(1 - Kc / Kvect[idxK]) - rayonstable[idxK];
+		if (deltarstable[idxK] > ecartMax)
+			ecartMax = deltarstable[idxK];
 		KvectCut[idxprim] = Kvect[idxK];
 		TcCut[idxprim] = Tc[idxK];
+	}
+
+
+
+	/*Régression linéaire*/
+	double c0, c1, cov00, cov01, cov11, sumsq;  
+        size_t xstride = 1;
+	size_t ystride = 1;
+	size_t n = nbK - idxKc;
+	double *fit = (double *) malloc (n*sizeof(double));
+	gsl_fit_linear(logk, xstride, logr, ystride, n, &c0, &c1, &cov00, &cov01, &cov11, &sumsq);
+	for (idxK=0 ; idxK < nbK-idxKc ; idxK++) {
+		fit[idxK] = c0 + c1 * logk[idxK];
 	}
 
 
@@ -344,7 +359,10 @@ int main(int argc, char *argv[])
 		gnuplot_set_xlabel(gp, "log (K-Kc)/K");
 //		gnuplot_cmd(gp, "set yrange [-0.05:10.05]");
 //		gnuplot_plot_xy(gp, Kvect, invrayonstable, nbK, "evolution de rstable en fonction de K");
-		gnuplot_plot_xy(gp, logk, logr, (nbK-idxKc), "evolution de rstable en fonction de (K-Kc)/K en log-log");
+		sprintf(titre,"evolution de rstable en fonction de (K-Kc)/K en log-log");
+		gnuplot_plot_xy(gp, logk, logr, (nbK-idxKc), titre);
+		sprintf(titre,"régression linéaire");
+		gnuplot_plot_xy(gp, logk, fit, (nbK-idxKc), titre);
 
 	/*Tracé de l'évolution du temps caractéractique en fonction de K*/
 		gp = gnuplot_init();
@@ -388,7 +406,8 @@ int main(int argc, char *argv[])
 	}
 
 	printf("r = %f\npsi = %f\n",rayontemp,psitemp);
-
+	printf("écart entre simulation et théorie = %f\n",ecartMax);
+	printf("pente du fit = %f\n",c1);
 
 
 	/*Libération de la mémoire*/
