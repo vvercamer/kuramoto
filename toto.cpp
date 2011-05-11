@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 	double *Kvect = (double *) malloc (nbK*sizeof(double));
 
 //	double *ecartMax = (double *) malloc (nbosc*sizeof(double));
-	double ecartMax = 0;
+	double ecartMax;
 
 	/*Définition pour les logarithmes*/
 	int idxKc = 0;
@@ -242,25 +242,27 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
-
+	
 
 	/*Détermination des logarithmes*/
 	while (Kvect[idxKc] <= Kc) {
 		idxKc += 1;
 	}
-	idxKc += 4;
+	if (nbK > 4)
+		idxKc += 4;
+
+	ecartMax = 0;
 
 	for (idxK = idxKc ; idxK < nbK ; idxK++) {
 		idxprim = idxK - idxKc;
 		logk[idxprim] = log(1 - Kc / Kvect[idxK]);
 		logr[idxprim] = log(rayonstable[idxK]);
 		deltarstable[idxprim] = sqrt(1 - Kc / Kvect[idxK]) - rayonstable[idxK];
-		if (deltarstable[idxK] > ecartMax)
-			ecartMax = deltarstable[idxK];
+		if (deltarstable[idxprim] > ecartMax)
+			ecartMax = deltarstable[idxprim];
 		KvectCut[idxprim] = Kvect[idxK];
 		TcCut[idxprim] = Tc[idxK];
 	}
-
 
 
 	/*Régression linéaire*/
@@ -275,14 +277,12 @@ int main(int argc, char *argv[])
 	}
 
 
-
 	/*Détermination de la distribution des pulsations propres*/
 	for (idxw=0 ; idxw < nbw ; idxw++) {
 		w[idxw] = (-(nbw - 1) / 2 + idxw) * 0.8 * 2 / nbw;
 //		N[idxw] = gsl_ran_cauchy_pdf(w[idxw], sigma)-1;
 		N[idxw] = gsl_ran_cauchy_pdf(w[idxw] - 0.2, sigma) / 2 + gsl_ran_cauchy_pdf(w[idxw] + 0.2, sigma) / 2;
 	}
-	
 	
 
 	/*Détermination du vecteur "numéro de l'oscillateur"*/
@@ -291,7 +291,6 @@ int main(int argc, char *argv[])
 	for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
 		Nosc[idxOsc]=idxOsc;
 	}
-
 
 
 	/*Définitions pour le graphique*/
@@ -304,11 +303,13 @@ int main(int argc, char *argv[])
 #else
 	gnuplot_cmd(gp, "set terminal wxt 0 persist");
 #endif
+//	gnuplot_cmd(gp, "set terminal jpeg enhanced color");
+//	gnuplot_cmd(gp, "set output 'distribution.jpeg'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_ylabel(gp, "distribution g(w)");
-	gnuplot_set_xlabel(gp, "pulsation w");
+	gnuplot_set_xlabel(gp, "pulsation w");	
 	gnuplot_plot_xy(gp, w, N, nbw,"distribution des pulsations propres des oscillateurs");
-
+		
 
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
@@ -321,6 +322,8 @@ int main(int argc, char *argv[])
 
 	if (nbK == 1) {
 		gnuplot_setstyle(gp, "dots");
+//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
+//		gnuplot_cmd(gp, "set output 'rayon1.jpeg'");
 		gnuplot_set_xlabel(gp, "t");
 		gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
 		sprintf(titre,"evolution de r(t) pour K = %f", K);
@@ -336,6 +339,8 @@ int main(int argc, char *argv[])
 #else
 		gnuplot_cmd(gp, "set terminal wxt 2 persist");
 #endif
+//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
+//		gnuplot_cmd(gp, "set output 'angle.jpeg'");
 		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_ylabel(gp, "theta");
 		gnuplot_set_xlabel(gp, "numéro de l'oscillateur");
@@ -343,10 +348,13 @@ int main(int argc, char *argv[])
 	}
 
 	else {
+//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
+//		gnuplot_cmd(gp, "set output 'rayon.jpeg'");
 		gnuplot_set_xlabel(gp, "K");
    		gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
 		gnuplot_plot_xy(gp, Kvect, rayonstable, nbK, "evolution de rstable(K)");
 		gnuplot_plot_xy(gp, Kvect, rayonInfini, nbK, "evolution de rinfini(K)");
+		
 
 		gp = gnuplot_init();
 #if defined ( __APPLE__ )
@@ -355,6 +363,8 @@ int main(int argc, char *argv[])
 		gnuplot_cmd(gp, "set terminal wxt 2 persist");
 #endif
 		gnuplot_setstyle(gp, "linespoints");
+//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
+//		gnuplot_cmd(gp, "set output 'loglog.jpeg'");
 		gnuplot_set_ylabel(gp, "log rstable");
 		gnuplot_set_xlabel(gp, "log (K-Kc)/K");
 //		gnuplot_cmd(gp, "set yrange [-0.05:10.05]");
@@ -363,6 +373,7 @@ int main(int argc, char *argv[])
 		gnuplot_plot_xy(gp, logk, logr, (nbK-idxKc), titre);
 		sprintf(titre,"régression linéaire");
 		gnuplot_plot_xy(gp, logk, fit, (nbK-idxKc), titre);
+		
 
 	/*Tracé de l'évolution du temps caractéractique en fonction de K*/
 		gp = gnuplot_init();
@@ -374,9 +385,12 @@ int main(int argc, char *argv[])
 #else
 		gnuplot_cmd(gp, "set terminal wxt 3 persist");
 #endif
+//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
+//		gnuplot_cmd(gp, "set output 'Tc.jpeg'");
 		gnuplot_setstyle(gp, "linespoints");
 		gnuplot_plot_xy(gp, KvectCut, TcCut, (nbK-idxKc), "evolution du temps caracteristique");
 	/*il y a un souci au niveau de l'avant dernier point pour nbK=20*/
+		
 
 	/*Tracé de l'évolution de l'écart des r simulés et théoriques*/
 		gp = gnuplot_init();
@@ -388,9 +402,11 @@ int main(int argc, char *argv[])
 #else
 		gnuplot_cmd(gp, "set terminal wxt 4 persist");
 #endif
+//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
+//		gnuplot_cmd(gp, "set output 'ecart.jpeg'");
 		gnuplot_setstyle(gp, "linespoints");
 		gnuplot_plot_xy(gp, KvectCut, deltarstable, (nbK-idxKc), "écart entre simulation et théorie");
-
+		
 
 /*		gp = gnuplot_init();
 #if defined ( __APPLE__ )
