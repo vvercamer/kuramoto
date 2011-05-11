@@ -245,12 +245,13 @@ int main(int argc, char *argv[])
 	
 
 	/*Détermination des logarithmes*/
-	while (Kvect[idxKc] <= Kc) {
-		idxKc += 1;
+	if (nbK > 1) {	
+		while (Kvect[idxKc] <= Kc) {
+			idxKc += 1;
+		}
+		if (nbK > 4)
+			idxKc += 4;
 	}
-	if (nbK > 4)
-		idxKc += 4;
-
 	ecartMax = 0;
 
 	for (idxK = idxKc ; idxK < nbK ; idxK++) {
