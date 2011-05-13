@@ -49,9 +49,9 @@ int main(int argc, char *argv[])
 
 	/*définition des oscillatteurs*/
 	int idxOsc, idxTime, idxK, idxRand;
-	
+
 	double rayontemp = 0, psitemp = 0;
-	
+
 	double *omega = (double *) malloc (nbosc*sizeof(double));
 	double *theta = (double *) malloc (nbosc*sizeof(double));
 	double K = 0;
@@ -62,12 +62,12 @@ int main(int argc, char *argv[])
 	double *rayon = (double *) malloc (nbsamples*sizeof(double));
 	double *psi = (double *) malloc (nbsamples*sizeof(double));
 	double *rayonmoyen = (double *) malloc (nbsamples*sizeof(double));
-	double *rmoy = (double *) malloc (nbsamples*sizeof(double));		/*moyenne sur es réalisations*/
+	double *rmoy = (double *) malloc (nbsamples*sizeof(double));		/*moyenne sur les réalisations*/
 
 	double *rayonstable = (double *) malloc (nbK*sizeof(double));
 	double *invrayonstable = (double *) malloc (nbK*sizeof(double));
 	double *Kvect = (double *) malloc (nbK*sizeof(double));
-	
+
 	/*Détermination de la distribution des pulsations propres*/
 	int nbw = 1001;
 	int idxw;
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 	printf("Kc = %f\n",Kc);
 
 	/*Déclaration des variables nécessaires à la détermination du rayon asymptotique rayonInfini*/
-	int IdxC;
+	int idxC;
 	double rMax = 0;
 	double *Tc = (double *) malloc (nbK*sizeof(double));
 	double *rayonCut = (double *) malloc (nbsamples*sizeof(double));
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
 			gsl_rng_env_setup();
 			gsl_rng_default_seed=rand();
 			T = gsl_rng_default;
-			r = gsl_rng_alloc (T);			
+			r = gsl_rng_alloc (T);
 			//printf ("seed = %lu\n", gsl_rng_default_seed);
 
 			for(idxOsc = 0 ; idxOsc < (nbosc / 2) ; idxOsc++) {
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
 //				omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma);
 				omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) - subcrit;
 			}
-		
+
 			/*Initialisation de theta, de rayon et de psi*/
 			for(idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
 				theta[idxOsc] = fmod( rand(), 2*M_PI)-M_PI;
@@ -204,15 +204,15 @@ int main(int argc, char *argv[])
 		while (rmoy[idxTime] < 0.9 * rMax) {
 			idxTime++;
 		}
-		IdxC = idxTime;
-		Tc[idxK] = IdxC*deltaT;
+		idxC = idxTime;
+		Tc[idxK] = idxC*deltaT;
 
 		/*Détermination de rayonInfini*/
-		if (IdxC < nbsamples) {
-			for (idxTime = IdxC; idxTime<nbsamples; idxTime++) {
-				rayonCut[idxTime-IdxC] = rmoy[idxTime];
+		if (idxC < nbsamples) {
+			for (idxTime = idxC; idxTime<nbsamples; idxTime++) {
+				rayonCut[idxTime-idxC] = rmoy[idxTime];
 			}
-			rayonInfini[idxK] = gsl_stats_mean(rayonCut, 1, nbsamples-IdxC+1);
+			rayonInfini[idxK] = gsl_stats_mean(rayonCut, 1, nbsamples-idxC+1);
 //			printf("%g pour K = %d \n",rayonInfini[idxK], idxK);
 		}
 		else {
@@ -234,98 +234,10 @@ int main(int argc, char *argv[])
 	}
 	
 
-	double ecartMax = 0;
 	/*Définition pour les logarithmes*/
-	int idxKc = 0;
-	int idxprim = 0;
-	
-	if (nbK > 4) {	
-		idxKc = (int)ceil(Kc * (nbK - 1) / Kmax) + 4; // le +4 est pour éviter d'être trop proche du seuil
-		double *logk = (double *) malloc ((nbK-idxKc)*sizeof(double));
-		double *logr = (double *) malloc ((nbK-idxKc)*sizeof(double));
-		double *deltarstable = (double *) malloc ((nbK-idxKc)*sizeof(double));
-		double *KvectCut = (double *) malloc ((nbK-idxKc)*sizeof(double));
-		double *TcCut = (double *) malloc ((nbK-idxKc)*sizeof(double));
-		
-		for (idxK = idxKc ; idxK < nbK ; idxK++) {
-			idxprim = idxK - idxKc;
-			logk[idxprim] = log(1 - Kc / Kvect[idxK]);
-			logr[idxprim] = log(rayonstable[idxK]);
-			deltarstable[idxprim] = (sqrt(1 - Kc / Kvect[idxK]) - rayonstable[idxK]) / sqrt(1 - Kc / Kvect[idxK]);
-			if (deltarstable[idxprim] > ecartMax)
-				ecartMax = deltarstable[idxprim];
-			KvectCut[idxprim] = Kvect[idxK];
-			TcCut[idxprim] = Tc[idxK];
+		if (nbK > 4) {
+			logarithme(Kc, Tc, nbK, Kmax, Kvect, rayonstable);
 		}
-
-		/*Régression linéaire*/
-		double c0, c1, cov00, cov01, cov11, sumsq; 
-		size_t xstride = 1;
-		size_t ystride = 1;
-		size_t n = nbK - idxKc;
-		double *fit = (double *) malloc (n*sizeof(double));
-		gsl_fit_linear(logk, xstride, logr, ystride, n, &c0, &c1, &cov00, &cov01, &cov11, &sumsq);
-		for (idxK=0 ; idxK < nbK-idxKc ; idxK++) {
-			fit[idxK] = c0 + c1 * logk[idxK];
-		}
-		
-
-		char titre[256];
-		gnuplot_ctrl * gp;
-		gp = gnuplot_init();
-#if defined ( __APPLE__ )
-		gnuplot_cmd(gp, "set terminal x11 2 persist");
-#else
-		gnuplot_cmd(gp, "set terminal wxt 2 persist");
-#endif
-		gnuplot_setstyle(gp, "linespoints");
-//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
-//		gnuplot_cmd(gp, "set output 'loglog.jpeg'");
-		gnuplot_set_ylabel(gp, "log rstable");
-		gnuplot_set_xlabel(gp, "log (K-Kc)/K");
-//		gnuplot_cmd(gp, "set yrange [-0.05:10.05]");
-//		gnuplot_plot_xy(gp, Kvect, invrayonstable, nbK, "evolution de rstable en fonction de K");
-		sprintf(titre,"evolution de rstable en fonction de (K-Kc)/K en log-log");
-		gnuplot_plot_xy(gp, logk, logr, (nbK-idxKc), titre);
-		sprintf(titre,"régression linéaire");
-		gnuplot_plot_xy(gp, logk, fit, (nbK-idxKc), titre);
-
-		printf("écart entre simulation et théorie = %f\n",ecartMax);
-		printf("pente du fit = %f\n",c1);
-
-		/*Tracé de l'évolution du temps caractéractique en fonction de K*/
-		gp = gnuplot_init();
-		gnuplot_set_ylabel(gp, "temps caractéristique");
-		gnuplot_set_xlabel(gp, "K");
-#if defined ( __APPLE__ )
-		gnuplot_cmd(gp, "set terminal x11 3 persist");
-#else
-		gnuplot_cmd(gp, "set terminal wxt 3 persist");
-#endif
-//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
-//		gnuplot_cmd(gp, "set output 'Tc.jpeg'");
-		gnuplot_setstyle(gp, "linespoints");
-		gnuplot_plot_xy(gp, KvectCut, TcCut, (nbK-idxKc), "evolution du temps caracteristique");
-	/*il y a un souci au niveau de l'avant dernier point pour nbK=20*/
-		
-
-	/*Tracé de l'évolution de l'écart des r simulés et théoriques*/
-		gp = gnuplot_init();
-		gnuplot_set_ylabel(gp, "r théorique - r simulé");
-		gnuplot_set_xlabel(gp, "K");
-
-#if defined ( __APPLE__ )
-		gnuplot_cmd(gp, "set terminal x11 4 persist");
-#else
-		gnuplot_cmd(gp, "set terminal wxt 4 persist");
-#endif
-//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
-//		gnuplot_cmd(gp, "set output 'ecart.jpeg'");
-		gnuplot_setstyle(gp, "linespoints");
-		gnuplot_plot_xy(gp, KvectCut, deltarstable, (nbK-idxKc), "écart entre simulation et théorie");
-		
-
-	}
 
 	/*Détermination de la distribution des pulsations propres*/
 	for (idxw=0 ; idxw < nbw ; idxw++) {
@@ -356,7 +268,7 @@ int main(int argc, char *argv[])
 //	gnuplot_cmd(gp, "set terminal jpeg enhanced color");
 //	gnuplot_cmd(gp, "set output 'distribution.jpeg'");
 	gnuplot_setstyle(gp, "lines");
-	gnuplot_set_ylabel(gp, "distribution g(w)");
+	gnuplot_set_ylabel(gp, "distribution g(w)ééé");
 	gnuplot_set_xlabel(gp, "pulsation w");	
 	gnuplot_plot_xy(gp, w, N, nbw,"distribution des pulsations propres des oscillateurs");
 		
@@ -458,5 +370,96 @@ double kuramoto(double omega, double K, double psi, double rayon, double theta)
 	return(omega + K * rayon * sin(psi - theta));
 }
 
+int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, double *rayonstable)
+{
+	int idxK;
+	double ecartMax = 0;
+	int idxprim = 0;
+	int idxKc = 0;
+	idxKc = (int)ceil(Kc * (nbK - 1) / Kmax) + 4; // le +4 est pour éviter d'être trop proche du seuil
+	double *logk = (double *) malloc ((nbK-idxKc)*sizeof(double));
+	double *logr = (double *) malloc ((nbK-idxKc)*sizeof(double));
+	double *deltarstable = (double *) malloc ((nbK-idxKc)*sizeof(double));
+	double *KvectCut = (double *) malloc ((nbK-idxKc)*sizeof(double));
+	double *TcCut = (double *) malloc ((nbK-idxKc)*sizeof(double));
 
+	for (idxK = idxKc ; idxK < nbK ; idxK++) {
+		idxprim = idxK - idxKc;
+		logk[idxprim] = log(1 - Kc / Kvect[idxK]);
+		logr[idxprim] = log(rayonstable[idxK]);
+		deltarstable[idxprim] = (sqrt(1 - Kc / Kvect[idxK]) - rayonstable[idxK]) / sqrt(1 - Kc / Kvect[idxK]);
+		if (deltarstable[idxprim] > ecartMax)
+			ecartMax = deltarstable[idxprim];
+		KvectCut[idxprim] = Kvect[idxK];
+		TcCut[idxprim] = Tc[idxK];
+	}
+
+	/*Régression linéaire*/
+	double c0, c1, cov00, cov01, cov11, sumsq; 
+	size_t xstride = 1;
+	size_t ystride = 1;
+	size_t n = nbK - idxKc;
+	double *fit = (double *) malloc (n*sizeof(double));
+	gsl_fit_linear(logk, xstride, logr, ystride, n, &c0, &c1, &cov00, &cov01, &cov11, &sumsq);
+	for (idxK=0 ; idxK < nbK-idxKc ; idxK++) {
+		fit[idxK] = c0 + c1 * logk[idxK];
+	}
+
+
+	char titre[256];
+	gnuplot_ctrl * gp;
+	gp = gnuplot_init();
+#if defined ( __APPLE__ )
+	gnuplot_cmd(gp, "set terminal x11 2 persist");
+#else
+	gnuplot_cmd(gp, "set terminal wxt 2 persist");
+#endif
+	gnuplot_setstyle(gp, "linespoints");
+//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
+//		gnuplot_cmd(gp, "set output 'loglog.jpeg'");
+	gnuplot_set_ylabel(gp, "log rstable");
+	gnuplot_set_xlabel(gp, "log (K-Kc)/K");
+//		gnuplot_cmd(gp, "set yrange [-0.05:10.05]");
+//		gnuplot_plot_xy(gp, Kvect, invrayonstable, nbK, "evolution de rstable en fonction de K");
+	sprintf(titre,"evolution de rstable en fonction de (K-Kc)/K en log-log");
+	gnuplot_plot_xy(gp, logk, logr, (nbK-idxKc), titre);
+	sprintf(titre,"régression linéaire");
+	gnuplot_plot_xy(gp, logk, fit, (nbK-idxKc), titre);
+
+	printf("écart entre simulation et théorie = %f\n",ecartMax);
+	printf("pente du fit = %f\n",c1);
+
+	/*Tracé de l'évolution du temps caractéractique en fonction de K*/
+	gp = gnuplot_init();
+	gnuplot_set_ylabel(gp, "temps caractéristique");
+	gnuplot_set_xlabel(gp, "K");
+#if defined ( __APPLE__ )
+	gnuplot_cmd(gp, "set terminal x11 3 persist");
+#else
+	gnuplot_cmd(gp, "set terminal wxt 3 persist");
+#endif
+//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
+//		gnuplot_cmd(gp, "set output 'Tc.jpeg'");
+	gnuplot_setstyle(gp, "linespoints");
+	gnuplot_plot_xy(gp, KvectCut, TcCut, (nbK-idxKc), "evolution du temps caracteristique");
+/*il y a un souci au niveau de l'avant dernier point pour nbK=20*/
+
+
+/*Tracé de l'évolution de l'écart des r simulés et théoriques*/
+	gp = gnuplot_init();
+	gnuplot_set_ylabel(gp, "r théorique - r simulé");
+	gnuplot_set_xlabel(gp, "K");
+
+#if defined ( __APPLE__ )
+	gnuplot_cmd(gp, "set terminal x11 4 persist");
+#else
+	gnuplot_cmd(gp, "set terminal wxt 4 persist");
+#endif
+//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
+//		gnuplot_cmd(gp, "set output 'ecart.jpeg'");
+	gnuplot_setstyle(gp, "linespoints");
+	gnuplot_plot_xy(gp, KvectCut, deltarstable, (nbK-idxKc), "écart entre simulation et théorie");
+
+	return 0;
+}
 
