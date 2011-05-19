@@ -78,13 +78,13 @@ int main(int argc, char *argv[])
 	double *w = (double *) malloc (nbw*sizeof(double));
 	double *N = (double *) malloc (nbw*sizeof(double));
 
-	/*Détermination de Kc et de beta*/
-	double Kc, beta;
+	/*Détermination de Kc et de racine de beta*/
+	double Kc, sqrtbeta;
 	Kc = 2 / (M_PI * gsl_ran_cauchy_pdf(subcrit, sigma));
 
 	printf("Kc = %f\n", Kc);
-	beta = pow(Kc, 3) * (1 - 4 * pow(subcrit, 2) / (pow(sigma, 2) * (1 + pow(subcrit / sigma, 2))))/ (8 * pow(sigma, 3) * pow(1 + pow(subcrit / sigma, 2), 2));
-	printf("beta = %f\n", beta);
+	sqrtbeta = sqrt(pow(Kc, 3) * (1 - 4 * pow(subcrit, 2) / (pow(sigma, 2) * (1 + pow(subcrit / sigma, 2))))/ (8 * pow(sigma, 3) * pow(1 + pow(subcrit / sigma, 2), 2)));
+	printf("racine de beta = %f\n", sqrtbeta);
 
 	/*Déclaration des variables nécessaires à la détermination du rayon asymptotique rayonInfini*/
 	int idxC;
@@ -294,8 +294,8 @@ int main(int argc, char *argv[])
 
 
 	/*Définition pour les logarithmes*/
-	if (nbK > 4) {
-		logarithme(Kc, Tc, nbK, Kmax, Kvect, rayonstable);
+	if (nbK > 4 && Kc < Kvect[nbK - 1]) {
+		logarithme(Kc, Tc, nbK, Kmax, Kvect, rayoninfini);
 	}
 
 	/*Détermination de la distribution des pulsations propres*/
@@ -558,7 +558,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 
 	printf("écart entre simulation et théorie = %f\n",ecartMax);
 	printf("pente du fit = %f\n", c1);
-	printf("ordonnée à l'origine = %f\n", c0);
+	printf("racine de beta simulée = %f\n", pow(10, -c0));
 
 
 
