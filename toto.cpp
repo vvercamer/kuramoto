@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 	double *omega = (double *) malloc (nbosc*sizeof(double));
 	double *theta = (double *) malloc (nbosc*sizeof(double));
 	double K = 0;
-	double Kmax = 2;
+	double Kmax = 1;
 	double OMEGA = 0;
 	double sigma = 0.2;
 	double subcrit = 0;
@@ -429,8 +429,8 @@ int main(int argc, char *argv[])
 	else {
 
 		/*Tracé de l'évolution de rstable et rinfini*/
-//		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
-//		gnuplot_cmd(gp, "set output 'rayon.jpeg'");
+		gnuplot_cmd(gp, "set terminal jpeg enhanced color");
+		gnuplot_cmd(gp, "set output 'rayon.jpeg'");
 		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_xlabel(gp, "K");
 		gnuplot_set_ylabel(gp, "r infini");
@@ -558,6 +558,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 
 	printf("écart entre simulation et théorie = %f\n",ecartMax);
 	printf("pente du fit = %f\n", c1);
+	printf("coefficient de corrélation = %f\n", gsl_stats_correlation(logk, xstride, logr, ystride, n));
 	printf("racine de beta simulée = %f\n", pow(10, -c0));
 
 
