@@ -333,8 +333,8 @@ int main(int argc, char *argv[])
 #else
 	gnuplot_cmd(gp, "set terminal wxt 0 persist");
 #endif
-//	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-//	gnuplot_cmd(gp, "set output 'distribution.ps'");
+//	gnuplot_cmd(gp, "set terminal pdf enhanced color");
+//	gnuplot_cmd(gp, "set output 'distribution.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "pulsation w");
 	gnuplot_set_ylabel(gp, "distribution g(w)");
@@ -396,8 +396,8 @@ int main(int argc, char *argv[])
 	if (nbK == 1) {
 
 		/*Tracé de r, rmoyenRand et rayonmoyen en fonction du temps*/
-//		gnuplot_cmd(gp, "set terminal postscript enhanced color");
-//		gnuplot_cmd(gp, "set output 'rayon1.ps'");
+//		gnuplot_cmd(gp, "set terminal pdf enhanced color");
+//		gnuplot_cmd(gp, "set output 'rayon1.pdf'");
 		gnuplot_setstyle(gp, "dots");
 		gnuplot_set_xlabel(gp, "t");
 		gnuplot_set_ylabel(gp, "r");
@@ -418,8 +418,8 @@ int main(int argc, char *argv[])
 #else
 		gnuplot_cmd(gp, "set terminal wxt 5 persist");
 #endif
-//		gnuplot_cmd(gp, "set terminal postscript enhanced color");
-//		gnuplot_cmd(gp, "set output 'angle.ps'");
+//		gnuplot_cmd(gp, "set terminal pdf enhanced color");
+//		gnuplot_cmd(gp, "set output 'angle.pdf'");
 		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_ylabel(gp, "phase theta");
 		gnuplot_set_xlabel(gp, "numéro de l'oscillateur");
@@ -430,8 +430,8 @@ int main(int argc, char *argv[])
 	else {
 
 		/*Tracé de l'évolution de rstable et rinfini*/
-		gnuplot_cmd(gp, "set terminal postscript enhanced color");
-		gnuplot_cmd(gp, "set output 'rayon.ps'");
+		gnuplot_cmd(gp, "set terminal pdf enhanced color");
+		gnuplot_cmd(gp, "set output 'rayon.pdf'");
 		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_xlabel(gp, "K");
 		gnuplot_set_ylabel(gp, "r infini");
@@ -545,8 +545,8 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 #else
 	gnuplot_cmd(gp, "set terminal wxt 5 persist");
 #endif
-//	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-//	gnuplot_cmd(gp, "set output 'loglog.ps'");
+//	gnuplot_cmd(gp, "set terminal pdf enhanced color");
+//	gnuplot_cmd(gp, "set output 'loglog.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "log (K-Kc)/K");
 	gnuplot_set_ylabel(gp, "log rstable");
@@ -571,8 +571,8 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 #else
 	gnuplot_cmd(gp, "set terminal wxt 6 persist");
 #endif
-//	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-//	gnuplot_cmd(gp, "set output 'Tc.ps'");
+//	gnuplot_cmd(gp, "set terminal pdf enhanced color");
+//	gnuplot_cmd(gp, "set output 'Tc.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "K");
 	gnuplot_set_ylabel(gp, "temps caractéristique");
@@ -587,8 +587,8 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 #else
 	gnuplot_cmd(gp, "set terminal wxt 7 persist");
 #endif
-//	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-//	gnuplot_cmd(gp, "set output 'ecart.ps'");
+//	gnuplot_cmd(gp, "set terminal pdf enhanced color");
+//	gnuplot_cmd(gp, "set output 'ecart.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "K");
 	gnuplot_set_ylabel(gp, "r théorique - r simulé");
