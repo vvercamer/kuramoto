@@ -329,7 +329,7 @@ int main(int argc, char *argv[])
 	/*Tracé de la distribution théorique des pulsations*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal x11 0 persist");
+	gnuplot_cmd(gp, "set terminal aqua 0 ");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 0 persist");
 #endif
@@ -345,7 +345,7 @@ int main(int argc, char *argv[])
 	/*Tracé de l'histogramme des valeurs des pulsations*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal x11 1 persist");
+	gnuplot_cmd(gp, "set terminal aqua 1 ");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 1 persist");
 #endif
@@ -360,7 +360,7 @@ int main(int argc, char *argv[])
 	/*Tracé de l'histogramme des valeurs initiales des theta*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal x11 2 persist");
+	gnuplot_cmd(gp, "set terminal aqua 2 ");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 2 persist");
 #endif
@@ -375,7 +375,7 @@ int main(int argc, char *argv[])
 	/*Tracé de l'histogramme des valeurs finales des theta*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal x11 3 persist");
+	gnuplot_cmd(gp, "set terminal aqua 3 ");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 3 persist");
 #endif
@@ -389,7 +389,7 @@ int main(int argc, char *argv[])
 
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal x11 4 persist");
+	gnuplot_cmd(gp, "set terminal aqua 4 ");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 4 persist");
 #endif
@@ -414,7 +414,7 @@ int main(int argc, char *argv[])
 		/*Tracé de la phase des oscillateurs*/
 		gp = gnuplot_init();
 #if defined ( __APPLE__ )
-		gnuplot_cmd(gp, "set terminal x11 5 persist");
+		gnuplot_cmd(gp, "set terminal aqua 5 ");
 #else
 		gnuplot_cmd(gp, "set terminal wxt 5 persist");
 #endif
@@ -544,7 +544,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé en log-log de rstable en fonction de (K-Kc)/K */
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal x11 5 persist");
+	gnuplot_cmd(gp, "set terminal aqua 5 ");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 5 persist");
 #endif
@@ -570,9 +570,9 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé de l'évolution du temps caractéractique en fonction de K*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal x11 6 persist");
+	gnuplot_cmd(gp, "set terminal aqua 6 ");
 #else
-	gnuplot_cmd(gp, "set terminal wxt 6 persist");
+	gnuplot_cmd(gp, "set terminal wxt 6 ");
 #endif
 //	gnuplot_cmd(gp, "set terminal pdf enhanced color");
 //	gnuplot_cmd(gp, "set output 'Tc.pdf'");
@@ -586,7 +586,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé de l'évolution de l'écart des r simulés et théoriques*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal x11 7 persist");
+	gnuplot_cmd(gp, "set terminal aqua 7 ");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 7 persist");
 #endif
