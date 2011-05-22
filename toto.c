@@ -112,8 +112,6 @@ int main(int argc, char *argv[])
 
 	gsl_histogram *htheta = gsl_histogram_alloc(nhist);
 	gsl_histogram_set_ranges_uniform (htheta, -thetamax, thetamax);
-		
-
 
 	/*Boucle sur les valeurs de K*/
 	for (idxK = 0 ; idxK < nbK ; idxK++) {
@@ -143,7 +141,7 @@ int main(int argc, char *argv[])
 
 		/*Boucle sur les réalisations*/
 		for (idxRand = 0 ; idxRand < nbrand ; idxRand++) {
-		
+
 			/*Détermination des pulsations propres des oscillateurs*/
 			gsl_rng * r;
 			const gsl_rng_type * T;
@@ -157,7 +155,7 @@ int main(int argc, char *argv[])
 //				omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) + subcrit;
 				omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) + subcrit;
 			}
-		
+
 			for (idxOsc = (nbosc / 2) ; idxOsc < nbosc ; idxOsc++) {
 //				omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) - subcrit;
 				omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) - subcrit;
@@ -167,7 +165,7 @@ int main(int argc, char *argv[])
 			if (idxRand == 0) {
 				gsl_histogram *h = gsl_histogram_alloc(nhist);
 				gsl_histogram_set_ranges_uniform (h, -wmax, wmax);
-		
+
 				for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
 					gsl_histogram_increment (h, omega[idxOsc]);
 				}
@@ -198,7 +196,7 @@ int main(int argc, char *argv[])
 				temps[idxTime] = idxTime*deltaT;
 
 				for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
-					
+
 					/*Détermination des theta par la méthode de runge-kutta d'ordre 4*/
 					k1 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime - 1], rayon[idxTime - 1], theta[idxOsc]);
 					k2 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime - 1], rayon[idxTime - 1], theta[idxOsc] + deltaT * k1 / 2.0);
@@ -228,7 +226,7 @@ int main(int argc, char *argv[])
 						histthetafin[idxOsc] = gsl_histogram_get (htheta, idxOsc);
 					}
 				}
-	
+
 				/*Détermination de r et psi par l'approche champ moyen*/
 				meanField(theta , &rayontemp, &psitemp, nbosc);
 				rayon[idxTime] = rayontemp;
@@ -261,7 +259,7 @@ int main(int argc, char *argv[])
 
 		/*Définition du temps critique comme étant le temps pour lequel on atteint 90% de la valeur maximale*/
 		idxTime = 0;
-		while (rayonmoyenRand[idxTime] < 0.9 * rayonMax) 
+		while (rayonmoyenRand[idxTime] < 0.9 * rayonMax)
 			idxTime++;
 
 		idxC = idxTime;
@@ -315,7 +313,7 @@ int main(int argc, char *argv[])
 	}
 	for (idxOsc = 0 ; idxOsc < nbhist ; idxOsc++) {
 		Nhist[idxOsc] = idxOsc * 2 * wmax / nbhist - wmax;
-		Nhisttheta[idxOsc] = idxOsc * 2 * thetamax / nbhist - thetamax;	
+		Nhisttheta[idxOsc] = idxOsc * 2 * thetamax / nbhist - thetamax;
 	}
 
 
@@ -329,7 +327,7 @@ int main(int argc, char *argv[])
 	/*Tracé de la distribution théorique des pulsations*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 0 ");
+	gnuplot_cmd(gp, "set terminal aqua 0");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 0 persist");
 #endif
@@ -345,7 +343,7 @@ int main(int argc, char *argv[])
 	/*Tracé de l'histogramme des valeurs des pulsations*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 1 ");
+	gnuplot_cmd(gp, "set terminal aqua 1");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 1 persist");
 #endif
@@ -353,14 +351,14 @@ int main(int argc, char *argv[])
 	gnuplot_cmd(gp, "set yrange [0:%d]", (int)nbosc / 10);
 	gnuplot_set_xlabel(gp, "pulsation w");
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
-	gnuplot_plot_xy(gp, Nhist, hist, nbhist,"histogramme des valeurs des pulsations");	
+	gnuplot_plot_xy(gp, Nhist, hist, nbhist,"histogramme des valeurs des pulsations");
 
 
 
 	/*Tracé de l'histogramme des valeurs initiales des theta*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 2 ");
+	gnuplot_cmd(gp, "set terminal aqua 2");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 2 persist");
 #endif
@@ -368,14 +366,14 @@ int main(int argc, char *argv[])
 	gnuplot_cmd(gp, "set yrange [0:%d]", (int)nbosc / 2);
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
 	gnuplot_set_xlabel(gp, "phase theta");
-	gnuplot_plot_xy(gp, Nhisttheta, histthetadeb, nbhist,"histogramme des valeurs initiales des theta");	
+	gnuplot_plot_xy(gp, Nhisttheta, histthetadeb, nbhist,"histogramme des valeurs initiales des theta");
 
 
 
 	/*Tracé de l'histogramme des valeurs finales des theta*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 3 ");
+	gnuplot_cmd(gp, "set terminal aqua 3");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 3 persist");
 #endif
@@ -383,13 +381,13 @@ int main(int argc, char *argv[])
 	gnuplot_cmd(gp, "set yrange [0:%d]", (int)nbosc / 2);
 	gnuplot_set_xlabel(gp, "phase theta");
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
-	gnuplot_plot_xy(gp, Nhisttheta, histthetafin, nbhist,"histogramme des valeurs finales des theta");	
+	gnuplot_plot_xy(gp, Nhisttheta, histthetafin, nbhist,"histogramme des valeurs finales des theta");
 
 
 
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 4 ");
+	gnuplot_cmd(gp, "set terminal aqua 4");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 4 persist");
 #endif
@@ -414,7 +412,7 @@ int main(int argc, char *argv[])
 		/*Tracé de la phase des oscillateurs*/
 		gp = gnuplot_init();
 #if defined ( __APPLE__ )
-		gnuplot_cmd(gp, "set terminal aqua 5 ");
+		gnuplot_cmd(gp, "set terminal aqua 5");
 #else
 		gnuplot_cmd(gp, "set terminal wxt 5 persist");
 #endif
@@ -544,7 +542,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé en log-log de rstable en fonction de (K-Kc)/K */
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 5 ");
+	gnuplot_cmd(gp, "set terminal aqua 5");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 5 persist");
 #endif
@@ -570,9 +568,9 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé de l'évolution du temps caractéractique en fonction de K*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 6 ");
+	gnuplot_cmd(gp, "set terminal aqua 6");
 #else
-	gnuplot_cmd(gp, "set terminal wxt 6 ");
+	gnuplot_cmd(gp, "set terminal wxt 6");
 #endif
 //	gnuplot_cmd(gp, "set terminal pdf enhanced color");
 //	gnuplot_cmd(gp, "set output 'Tc.pdf'");
@@ -586,7 +584,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé de l'évolution de l'écart des r simulés et théoriques*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 7 ");
+	gnuplot_cmd(gp, "set terminal aqua 7");
 #else
 	gnuplot_cmd(gp, "set terminal wxt 7 persist");
 #endif
