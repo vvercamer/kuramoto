@@ -110,7 +110,7 @@ typedef struct _GNUPLOT_CTRL_ {
   
  */
 /*-------------------------------------------------------------------------*/
-char * gnuplot_get_program_path(char * pname);
+char * gnuplot_get_program_path(char const * pname);
 
 /*-------------------------------------------------------------------------*/
 /**

@@ -5,13 +5,13 @@
 #include <math.h>
 #include <errno.h>
 #include <time.h>
-#include <complex>
+#include <gsl/gsl_complex.h>
+#include <gsl/gsl_complex_math.h>
 #include <gsl/gsl_statistics_double.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_fit.h>
 #include <gsl/gsl_histogram.h>
-typedef std::complex<double> complex_d;
 
 #include "toto.h"
 #include "gnuplot_i.h"
@@ -479,15 +479,18 @@ int main(int argc, char *argv[])
 int meanField(double *theta, double *rayon, double *psi, int nbosc)
 {
 	int idxOsc;
-	complex_d rComplex(0,0);
+	gsl_complex rComplex;
+	gsl_complex rComplexTemp;
+	rComplex = gsl_complex_rect(0,0);
 	for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++)
 	{
-		rComplex += exp(complex_d(0,theta[idxOsc]));
+		rComplexTemp = gsl_complex_polar(1,theta[idxOsc]);
+		rComplex = gsl_complex_add(rComplex,rComplexTemp);
 	}
-	rComplex /= nbosc;
+	rComplex = gsl_complex_div_real(rComplex,nbosc);
 
-	*rayon = abs(rComplex);
-	*psi = arg(rComplex);
+	*rayon = gsl_complex_abs(rComplex);
+	*psi = gsl_complex_arg(rComplex);
 
 	return 0;
 }
