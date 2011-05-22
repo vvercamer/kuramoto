@@ -67,9 +67,7 @@ int main(int argc, char *argv[])
 	double *rayon = (double *) malloc (nbsamples*sizeof(double));
 	double *psi = (double *) malloc (nbsamples*sizeof(double));
 
-	double *rayonmoyen = (double *) malloc (nbsamples*sizeof(double));
 	double *rayonmoyenRand = (double *) malloc (nbsamples*sizeof(double)); /*moyenne sur les réalisations*/
-	double *rayonstable = (double *) malloc (nbK*sizeof(double));
 //	double *invrayonstable = (double *) malloc (nbK*sizeof(double));
 	double *Kvect = (double *) malloc (nbK*sizeof(double));
 
@@ -93,7 +91,7 @@ int main(int argc, char *argv[])
 	double *Tc = (double *) malloc (nbK*sizeof(double));
 	double *rayonCut = (double *) malloc (nbsamples*sizeof(double));
 	double *rayoninfini = (double *) malloc (nbK*sizeof(double));
-
+	double *rayonmoyen = (double *) malloc (nbsamples*sizeof(double));
 
 	/*Déclaration des variables nécessaires pour Runge-Kutta 4*/
 
@@ -128,13 +126,8 @@ int main(int argc, char *argv[])
 		Kvect[idxK] = K;
 		printf("K = %f\n",K);
 
-		/*Détermination des paramètres de calcul de rstable*/
-		rayonstable[idxK] = 0;
-		int idxTimeStart;
-		idxTimeStart = (int)floor(3 * nbsamples / 4.);
-
 		/*Initialisation de rayonmoyenRand*/
-		for (idxTime=1 ; idxTime < nbsamples ; idxTime++) {
+		for (idxTime=0 ; idxTime < nbsamples ; idxTime++) {
 			rayonmoyenRand[idxTime] = 0;
 		}
 
@@ -192,7 +185,7 @@ int main(int argc, char *argv[])
 
 			/*Corps du programme*/
 
-			for (idxTime = 1 ; idxTime < nbsamples ; idxTime++) {
+			for (idxTime = 0 ; idxTime < nbsamples ; idxTime++) {
 				temps[idxTime] = idxTime*deltaT;
 
 				for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
@@ -206,7 +199,7 @@ int main(int argc, char *argv[])
 				}
 
 				/*Histogramme des valeurs initiales des theta*/
-				if (idxK == nbK - 1 && idxRand == 0 && idxTime == 1) {
+				if (idxK == nbK - 1 && idxRand == 0 && idxTime == 0) {
 					for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
 						gsl_histogram_increment (htheta, theta[idxOsc]);
 					}
@@ -232,27 +225,17 @@ int main(int argc, char *argv[])
 				rayon[idxTime] = rayontemp;
 				psi[idxTime] = fmod(psitemp, 2 * M_PI);
 
-				/*Détermination de rstable et rayonmoyenRand*/
-				if (idxTime > idxTimeStart)
-					rayonstable[idxK] += rayontemp;
-
-				rayonmoyenRand[idxTime] += rayontemp;
+				/*Détermination de rayonmoyenRand*/
+				rayonmoyenRand[idxTime] += rayontemp / nbrand;
 			}
 		}
 
 		/*Fin de la boucle sur les réalisations*/
 
-		/*Détermination de rayonmoyenRand, moyenne de r sur plusieurs réalisations*/
-		for (idxTime = 1 ; idxTime < nbsamples ; idxTime++) {
-			rayonmoyenRand[idxTime]/=nbrand;
-		}
-
-		/*Détermination de rayonstable et de son inverse*/
-		rayonstable[idxK] /= (nbsamples - idxTimeStart + 1) * nbrand;
-//		invrayonstable[idxK] = 1 / (1 - rayonstable[idxK] * rayonstable[idxK]);	//pour formule 4.7
+//		invrayonstable[idxK] = 1 / (1 - rayonmoyen[idxK] * rayonmoyen[idxK]);	//pour formule 4.7
 
 		/*Définition de rayonMax, le maximum de r*/
-		for (idxTime = 1 ; idxTime < nbsamples ; idxTime++) {
+		for (idxTime = 0 ; idxTime < nbsamples ; idxTime++) {
 			if (rayonmoyenRand[idxTime] > rayonMax)
 				rayonMax = rayonmoyenRand[idxTime];
 		}
@@ -279,14 +262,18 @@ int main(int argc, char *argv[])
 			/*car sinon on obtiendrait des valeurs nulles de rayonInfini pour certaines valeurs de K < Kc */
 		}
 
-		/*Détermination de rayonmoyen, comme moyenne temporelle du signal entier*/
-		if (nbK == 1) {
+		/*Détermination de rayonmoyen, comme moyenne temporelle glissante sur les nbmoyglissante derniers temps*/
+		if (idxK == nbK - 1) {
+			int nbmoyglissante = 100;
 			rayonmoyen[0] = rayon[0];
-			for (idxTime = 1 ; idxTime < nbsamples ; idxTime++) {
+			for (idxTime = 1 ; idxTime < nbmoyglissante ; idxTime++) {
 				rayonmoyen[idxTime] = rayonmoyen[idxTime - 1] + rayon[idxTime];
 			}
+			for (idxTime = nbmoyglissante ; idxTime < nbsamples ; idxTime++) {
+				rayonmoyen[idxTime] = rayonmoyen[idxTime - 1] + rayon[idxTime] - rayon[idxTime - nbmoyglissante];
+			}
 			for (idxTime = 0 ; idxTime < nbsamples ; idxTime++) {
-				rayonmoyen[idxTime] /= idxTime + 1;
+				rayonmoyen[idxTime] /= nbmoyglissante;
 			}
 		}
 	}
@@ -402,7 +389,7 @@ int main(int argc, char *argv[])
 		gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
 		sprintf(titre,"evolution de r(t) pour K = %f", K);
 		gnuplot_plot_xy(gp, temps, rayon, nbsamples, titre);
-		sprintf(titre,"evolution de rmoyen(t) pour K = %f", K);
+		sprintf(titre,"evolution de rayonmoyen(t) pour K = %f", K);
 		gnuplot_plot_xy(gp, temps, rayonmoyen, nbsamples, titre) ;
 		sprintf(titre,"evolution de rmoy(t) pour K = %f", K);
 		gnuplot_plot_xy(gp, temps, rayonmoyenRand, nbsamples, titre);
@@ -420,7 +407,7 @@ int main(int argc, char *argv[])
 //		gnuplot_cmd(gp, "set output 'angle.pdf'");
 		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_ylabel(gp, "phase theta");
-		gnuplot_set_xlabel(gp, "numéro de l'oscillateur");
+		gnuplot_set_xlabel(gp, "numero de l'oscillateur");
 		gnuplot_plot_xy(gp, Nosc, omega, nbosc,"phase des oscillateurs");
 	}
 
@@ -434,7 +421,7 @@ int main(int argc, char *argv[])
 		gnuplot_set_xlabel(gp, "K");
 		gnuplot_set_ylabel(gp, "r infini");
 		gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
-		gnuplot_plot_xy(gp, Kvect, rayonstable, nbK, "evolution de rstable(K)");
+		gnuplot_plot_xy(gp, Kvect, rayonmoyen, nbK, "evolution de rstable(K)");
 		gnuplot_plot_xy(gp, Kvect, rayoninfini, nbK, "evolution de rinfini(K)");
 	}
 
@@ -451,7 +438,6 @@ int main(int argc, char *argv[])
 
 	free(rayonmoyen);
 	free(rayonmoyenRand);
-	free(rayonstable);
 	free(rayoninfini);
 	free(Kvect);
 
