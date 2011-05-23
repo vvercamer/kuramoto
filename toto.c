@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 	double K = 0;
 	double Kmax = 1;
 	double OMEGA = 0;
-	double sigma = 0.2;
+	double sigma = 0.01;
 	double subcrit = 0;
 	double *rayon = (double *) malloc (nbsamples*sizeof(double));
 	double *psi = (double *) malloc (nbsamples*sizeof(double));
@@ -314,12 +314,12 @@ int main(int argc, char *argv[])
 	/*Tracé de la distribution théorique des pulsations*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 0");
+	//gnuplot_cmd(gp, "set terminal aqua 0");
 #else
-	gnuplot_cmd(gp, "set terminal wxt 0 persist");
+	//gnuplot_cmd(gp, "set terminal wxt 0 persist");
 #endif
-//	gnuplot_cmd(gp, "set terminal pdf enhanced color");
-//	gnuplot_cmd(gp, "set output 'distribution.pdf'");
+	gnuplot_cmd(gp, "set terminal pdf enhanced color");
+	gnuplot_cmd(gp, "set output 'distribution.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "pulsation w");
 	gnuplot_set_ylabel(gp, "distribution g(w)");
@@ -330,10 +330,12 @@ int main(int argc, char *argv[])
 	/*Tracé de l'histogramme des valeurs des pulsations*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 1");
+	//gnuplot_cmd(gp, "set terminal aqua 1");
 #else
-	gnuplot_cmd(gp, "set terminal wxt 1 persist");
+	//gnuplot_cmd(gp, "set terminal wxt 1 persist");
 #endif
+    gnuplot_cmd(gp, "set terminal pdf enhanced color");
+    gnuplot_cmd(gp, "set output 'histo_pulsations.pdf'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_cmd(gp, "set yrange [0:%d]", (int)nbosc / 10);
 	gnuplot_set_xlabel(gp, "pulsation w");
@@ -345,10 +347,12 @@ int main(int argc, char *argv[])
 	/*Tracé de l'histogramme des valeurs initiales des theta*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 2");
+	//gnuplot_cmd(gp, "set terminal aqua 2");
 #else
-	gnuplot_cmd(gp, "set terminal wxt 2 persist");
+	//gnuplot_cmd(gp, "set terminal wxt 2 persist");
 #endif
+	    gnuplot_cmd(gp, "set terminal pdf enhanced color");
+		    gnuplot_cmd(gp, "set output 'histo_theta_init.pdf'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_cmd(gp, "set yrange [0:%d]", (int)nbosc / 2);
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
@@ -360,10 +364,12 @@ int main(int argc, char *argv[])
 	/*Tracé de l'histogramme des valeurs finales des theta*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 3");
+	//gnuplot_cmd(gp, "set terminal aqua 3");
 #else
-	gnuplot_cmd(gp, "set terminal wxt 3 persist");
+	//gnuplot_cmd(gp, "set terminal wxt 3 persist");
 #endif
+    gnuplot_cmd(gp, "set terminal pdf enhanced color");
+	gnuplot_cmd(gp, "set output 'histo_theta_fin.pdf'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_cmd(gp, "set yrange [0:%d]", (int)nbosc / 2);
 	gnuplot_set_xlabel(gp, "phase theta");
@@ -374,15 +380,15 @@ int main(int argc, char *argv[])
 
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 4");
+	//gnuplot_cmd(gp, "set terminal aqua 4");
 #else
-	gnuplot_cmd(gp, "set terminal wxt 4 persist");
+	//gnuplot_cmd(gp, "set terminal wxt 4 persist");
 #endif
 	if (nbK == 1) {
 
 		/*Tracé de r, rmoyenRand et rayonmoyen en fonction du temps*/
-//		gnuplot_cmd(gp, "set terminal pdf enhanced color");
-//		gnuplot_cmd(gp, "set output 'rayon1.pdf'");
+		gnuplot_cmd(gp, "set terminal pdf enhanced color");
+		gnuplot_cmd(gp, "set output 'rayon1.pdf'");
 		gnuplot_setstyle(gp, "dots");
 		gnuplot_set_xlabel(gp, "t");
 		gnuplot_set_ylabel(gp, "r");
@@ -399,12 +405,12 @@ int main(int argc, char *argv[])
 		/*Tracé de la phase des oscillateurs*/
 		gp = gnuplot_init();
 #if defined ( __APPLE__ )
-		gnuplot_cmd(gp, "set terminal aqua 5");
+		//gnuplot_cmd(gp, "set terminal aqua 5");
 #else
-		gnuplot_cmd(gp, "set terminal wxt 5 persist");
+
 #endif
-//		gnuplot_cmd(gp, "set terminal pdf enhanced color");
-//		gnuplot_cmd(gp, "set output 'angle.pdf'");
+		gnuplot_cmd(gp, "set terminal pdf enhanced color");
+		gnuplot_cmd(gp, "set output 'angle.pdf'");
 		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_ylabel(gp, "phase theta");
 		gnuplot_set_xlabel(gp, "numero de l'oscillateur");
@@ -528,12 +534,12 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé en log-log de rstable en fonction de (K-Kc)/K */
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 5");
+	//gnuplot_cmd(gp, "set terminal aqua 5");
 #else
-	gnuplot_cmd(gp, "set terminal wxt 5 persist");
+	//gnuplot_cmd(gp, "set terminal wxt 5 persist");
 #endif
-//	gnuplot_cmd(gp, "set terminal pdf enhanced color");
-//	gnuplot_cmd(gp, "set output 'loglog.pdf'");
+	gnuplot_cmd(gp, "set terminal pdf enhanced color");
+	gnuplot_cmd(gp, "set output 'loglog.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "log (K-Kc)/K");
 	gnuplot_set_ylabel(gp, "log rstable");
@@ -554,12 +560,12 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé de l'évolution du temps caractéractique en fonction de K*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 6");
+	//gnuplot_cmd(gp, "set terminal aqua 6");
 #else
-	gnuplot_cmd(gp, "set terminal wxt 6");
+	//gnuplot_cmd(gp, "set terminal wxt 6 persist");
 #endif
-//	gnuplot_cmd(gp, "set terminal pdf enhanced color");
-//	gnuplot_cmd(gp, "set output 'Tc.pdf'");
+	gnuplot_cmd(gp, "set terminal pdf enhanced color");
+	gnuplot_cmd(gp, "set output 'Tc.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "K");
 	gnuplot_set_ylabel(gp, "temps caractéristique");
@@ -570,12 +576,12 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé de l'évolution de l'écart des r simulés et théoriques*/
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
-	gnuplot_cmd(gp, "set terminal aqua 7");
+	//gnuplot_cmd(gp, "set terminal aqua 7");
 #else
-	gnuplot_cmd(gp, "set terminal wxt 7 persist");
+	//gnuplot_cmd(gp, "set terminal wxt 7 persist");
 #endif
-//	gnuplot_cmd(gp, "set terminal pdf enhanced color");
-//	gnuplot_cmd(gp, "set output 'ecart.pdf'");
+	gnuplot_cmd(gp, "set terminal pdf enhanced color");
+	gnuplot_cmd(gp, "set output 'ecart.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "K");
 	gnuplot_set_ylabel(gp, "r théorique - r simulé");
