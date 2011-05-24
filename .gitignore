@@ -1,7 +1,6 @@
 *.dat
 *.swp
 *.ps
-*.pdf
 *.csv
 toto
 gnuplot_i-2.10
@@ -13,4 +12,15 @@ LaTeX/dossierEET.synctex.gz
 LaTeX/dossierEET.toc
 LaTeX/dossierEET.bbl
 LaTeX/dossierEET.blg
+Tc.pdf
+angle.pdf
+distribution.pdf
+ecart.pdf
+histo_pulsations.pdf
+histo_theta_fin.pdf
+histo_theta_init.pdf
+loglog.pdf
+rayon.pdf
+Tc.pdf
+rayon1.pdf
 
