@@ -1,16 +1,11 @@
 %Dossier EET
 
-
-
-
-
-
-%En intro, faudrait parler des exemples de synchronisations d?oscillation qu?on peut trouver : exemples %biologiques comme les cellules cardiaques, les neurones, les lucioles, les criquets ; exemples physiques, %comme les jonctions de Jepherson.
+%En intro, faudrait parler des exemples de synchronisations d'oscillation qu'on peut trouver : exemples %biologiques comme les cellules cardiaques, les neurones, les lucioles, les criquets ; exemples physiques, %comme les jonctions de Jepherson.
 % exples : metronome, pendules, aplaudissement, marche au pas
 
 
 %simulation
-%réseau 2D avec pour commencer 5x5, intégrer les équations pour retrouver la fig 2 de l?article de Strogatz (2000) avec methode de Runge-Kutta ou avec l?algo de Verlet (p45 cf. http://www.lptmc.jussieu.fr/users/viot/ Simulation numérique en Physique Statistique)
+%réseau 2D avec pour commencer 5x5, intégrer les équations pour retrouver la fig 2 de l'article de Strogatz (2000) avec methode de Runge-Kutta ou avec l'algo de Verlet (p45 cf. http://www.lptmc.jussieu.fr/users/viot/ Simulation numérique en Physique Statistique)
 %possibilité de faire un représentation graphique avec des pixels clignotants de couleurs dépendant de la phase.
 % DEBUT DU DOSSIER
 
@@ -26,7 +21,7 @@
 \usepackage{textcomp}
 \usepackage[colorlinks=true, hyperindex=true,linkcolor=black,citecolor=blue, urlcolor=blue]{hyperref}%liens hypertextes
 \usepackage{amsmath,amsfonts,amssymb}
-\usepackage{marvosym}%pour le symbole ?
+\usepackage{marvosym}%pour le symbole euro
 \usepackage{xspace}
 \usepackage{graphicx}
 \usepackage{caption}
@@ -212,7 +207,7 @@ On fait apparaître ici l'approximation champ moyen. En effet, la phase $\theta_i
 \section{Simulation}
 
 
-Nous avons effectué une simulation du modèle de Kuramoto en language C++. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été prise gaussienne ; dans un second temps, elle a été assimilée à une fonction de Cauchy. La phase initiale des oscillateurs a elle aussi été choisie aléatoirement. Pour différentes valeurs du coefficient de couplage $K$, $r$ et $\psi$ ont été calculés à partir des phases des oscillateurs par la relation \eqref{parametre d'ordre}, puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. Ce processus a été réitéré jusqu'à atteindre le nombre de points souhaité.
+Nous avons effectué une simulation du modèle de Kuramoto en langage C. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été prise gaussienne ; dans un second temps, elle a été assimilée à une fonction de Cauchy (lorentzienne). La phase initiale des oscillateurs a elle aussi été choisie aléatoirement. Pour différentes valeurs du coefficient de couplage $K$, $r$ et $\psi$ ont été calculés à partir des phases des oscillateurs par la relation \eqref{parametre d'ordre}, puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. Ce processus a été réitéré jusqu'à atteindre le nombre de points souhaité.
 
 
 %Temps de simulation ? Estimation ?
@@ -240,8 +235,10 @@ La simulation permet de visualiser l'évolution temporelle de $r$ pour différente
 
 \chapter{Influence du nombre d'oscillateurs}
 
+\chapter{Influence d'une distribution ``chapeau''}
 
 \chapter{Simulation d'un couplage avec les plus proches voisins}
+NON ABORDÉ
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%   Fin du rapport   %%%%%%%%%%%%%%%
