@@ -5,3 +5,10 @@
 *.csv
 toto
 gnuplot_i-2.10
+LaTeX/dossier.aux
+LaTeX/dossier.lof
+LaTeX/dossier.log
+LaTeX/dossier.out
+LaTeX/dossier.synctex.gz
+LaTeX/dossier.toc
+

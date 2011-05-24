@@ -1,0 +1,158 @@
+﻿ARTICLE : From Kuramoto to Crawford : exploring the onset of synchronization in populations of coupled oscillators
+
+
+
+
+1. Introduction
+
+
+années 90 : Crawfird écrits papiers techniques sur le modèle de Kuramoto sur les oscillateurs couplés
+-> voir ref :         Crawford, Statist. Phys. 74 (1994) 1047 lire surtout celui-ci
+                Crawford Phys. Rev. Lett. 74 (1995) 4341
+                Crawford, Davies, Physica D 125 (1999) 1
+
+
+ou comment on est passé du modèle de Kuramoto au travail de Crawford
+
+
+
+
+2. Background
+
+
+- Phénomènes de synchronisation collective : blocage spontané du système à une fréquence commune ; exemples biologiques et physiques.
+
+
+- Etude de la synchronisation collective par Wiener, basée sur des intégrales de Fourier -> échec.
+
+
+- Approche de Winfree 1967: pas compris... (limit-cycle oscillator ???)
+Chaque oscillateur est couplé au rythme collectif.
+si tous les oscillateurs ont des fréquences différentes et un couplage faible, ils vont osciller chacun à leur fréquence propre et le système restera incohérent.
+à partir d’un certain seuil, une partie des oscillateurs peut soudainement se mettre a osciller de façon synchrone.
+peut-on déterminer ce seuil (écart en fréquences à partir duquel on aurait couplage)?
+réfléchir sur l’exemple de deux pendules simples de masses différentes reliées par un ressort.
+
+
+- Kuramoto 1975 : premier papier sur le sujet, présentation de résultats exacts et du modèle qui deviendra le “modèle Kuramoto”.
+
+
+
+
+3. Kuramoto model
+
+
+3.1. Governing equations
+
+
+-  Système faiblement couplé : Kuramoto utilise la “perturbative method of averaging” pour décrire la dynamique aux temps longs des oscillateurs. -> équation sur les phases des oscillateurs, en fonction de leur fréquence propre et de la phase des autres oscillateurs, avec un terme d’interaction 
+problème : différents types d’interactions possibles...
+
+
+- Approximation champ moyen
+Le modèle de Kuramoto correspond à un couplage sinusoïdal ->  est proportionnel à sin()
+
+
+- Distribution des fréquences propres suit la densité de probabilité g()
+Hypothèse de Kuramoto : g() est unimodal et symétrique par rapport à sa fréquence moyenne , comme une distribution gaussienne.
+Symétrie de rotation du modèle => =0
+
+
+-> nouvelle équation simplifiée de la phase de l’oscillateur i
+
+
+
+
+3.2. Order parameter
+
+
+- Introduction d’un paramètre d’ordre complexe : r exp(i*psi)
+r(t) : mesure la cohérence de phase
+psi(t) : phase moyenne
+
+
+- Equation résultante (3.3) ne faisant apparaître que r, psi et les paramètres de l’oscillateur i : pas de couplage avec les autres oscillateurs mais couplage à travers le champ moyen.
+
+
+- Boucle de rétroaction positive entre couplage et cohérence : 
+la population devient cohérente ->r augmente -> le couplage effectif Kr augmente ->encore plus d’oscillateurs se synchronisent au paquet d’oscillateurs qui est déjà synchronisé
+
+
+- Fig 2 : évolution de r(t) pour des K > ou < à un Kc critique -> Simulation à faire !!!
+
+
+ 
+3.3. Simulations
+
+
+Evolution de r(t) ???
+
+
+- Simulation
+hypo : g() gaussienne, K varie
+K<Kc : les oscillateurs agissent comme s’ils étaient pas couplés. N points uniformément répartis sur un cercle 
+K>Kc : r(t) croit exponentiellement - nucléation - oscillation collective - saturation à r_infini<1 (et tend vers 1 qd K augmente)
+
+
+3.4. Puzzles
+
+
+- Fif 3 : Evolution de r_infini avec K -> Simulation à faire !!!
+Bifurcation au delà de Kc
+
+
+
+
+4. Kuramoto’s analysis
+
+
+- psi choisi =0
+2 types de comportements possibles à long terme :
+si |i|<Kr :point fixe stable -> oscillateurs dits bloqués
+si |i|>Kr : oscillateurs à la dérive
+
+
+- Introduction de la fraction d’oscillateurs rho, à  , se trouvant entre  et +d
+
+
+- Détermination  des 2 régimes et de Kc
+
+
+- on retrouve la puissance ½ de mu=(K-Kc)/Kc, comme dans le modèle d’Ising
+
+
+
+
+5. Two unsolved problems
+
+
+
+
+
+
+
+
+
+
+6. Stability theories of Kuramoto and Nishikawa
+
+
+6.1. First theory
+
+
+- ils parviennent à une équation différentielle en r : chercher Y. Kuramoto, I. Nishikawa, J. Statist. Phys. 49 (1987) 569 pour en svoir plus sur comment ils arrivent à cetteéquation...
+
+
+-> détermiation de r_infini
+
+
+6.2. Second theory
+
+
+- les oscillateurs à la dérive ne sont en fait pas négligeables dans l’évolution de r(t). Du fait de leur réponse rapide aux fluctuations de r, ils ont un rôle décisif dans la dynamique du phénomène. Par contre, ils ont un rôle négligeable à long terme sur r.
+
+
+- Nouvelle stratégie : dire que r(t) est une force externe appelée h(t), se restreindre au régime linéire h(t)<<1, trouver les réponses individuelles de chaque oscillateur (dépendant de l’histoire de h(t)), et en déduire r(t).
+
+
+je (Flore) ne comprends pas ce qu’ils font avec leur h(t) et leur M...

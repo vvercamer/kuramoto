@@ -1,0 +1,20 @@
+﻿ARTICLE : Synchronisation Transitions in a Disordered Josephson Series Array
+
+
+
+
+Introduction :
+
+
+- exemples de synchronisations d’oscillateurs
+- Travaux de Winfree -> voir ref         Winfree, Theor. Biol. 16, 15 (1967)
+début de la synchronisation = trnsition de phase thermodynamique
+Kuramoto : modèle champ moyen => solution exacte.
+- but de l’article : application physique du modèle de Kurmoto : réseau de jonctions de Jepherson
+
+
+
+
+
+
+Position du modèle :
