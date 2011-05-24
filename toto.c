@@ -488,7 +488,6 @@ int main(int argc, char *argv[])
 		gnuplot_set_xlabel(gp, "K");
 		gnuplot_set_ylabel(gp, "r infini");
 		gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
-		gnuplot_plot_xy(gp, Kvect, rayonmoyen, nbK, "evolution de rstable(K)");
 		gnuplot_plot_xy(gp, Kvect, rayoninfini, nbK, "evolution de rinfini(K)");
 	}
 
