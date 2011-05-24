@@ -1,8 +1,4 @@
-#define  _XOPEN_SOURCE
-#include <stdio.h>
-#define _XOPEN_SOURCE_EXTENDED 1
-#include <stdlib.h>
-int mkstemp(char *template);
+
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -85,7 +81,7 @@ int mkstemp(char *template);
   
  */
 /*-------------------------------------------------------------------------*/
-char * gnuplot_get_program_path(char const * pname)
+char * gnuplot_get_program_path(char * pname)
 {
     int         i, j, lg;
     char    *   path;
@@ -193,7 +189,7 @@ void gnuplot_close(gnuplot_ctrl * handle)
 {
     int     i ;
 	
-    if (fclose(handle->gnucmd) == -1) {
+    if (pclose(handle->gnucmd) == -1) {
         fprintf(stderr, "problem closing communication to gnuplot\n") ;
         return ;
     }
@@ -232,7 +228,7 @@ void gnuplot_close(gnuplot_ctrl * handle)
  */
 /*--------------------------------------------------------------------------*/
 
-void gnuplot_cmd(gnuplot_ctrl *  handle, char const *  cmd, ...)
+void gnuplot_cmd(gnuplot_ctrl *  handle, char *  cmd, ...)
 {
     va_list ap ;
     char    local_cmd[GP_CMD_SIZE];
@@ -271,7 +267,7 @@ void gnuplot_cmd(gnuplot_ctrl *  handle, char const *  cmd, ...)
  */
 /*--------------------------------------------------------------------------*/
 
-void gnuplot_setstyle(gnuplot_ctrl * h, char const * plot_style) 
+void gnuplot_setstyle(gnuplot_ctrl * h, char * plot_style) 
 {
     if (strcmp(plot_style, "lines") &&
         strcmp(plot_style, "points") &&
@@ -302,7 +298,7 @@ void gnuplot_setstyle(gnuplot_ctrl * h, char const * plot_style)
  */
 /*--------------------------------------------------------------------------*/
 
-void gnuplot_set_xlabel(gnuplot_ctrl * h, char const * label)
+void gnuplot_set_xlabel(gnuplot_ctrl * h, char * label)
 {
     char    cmd[GP_CMD_SIZE] ;
 
@@ -323,7 +319,7 @@ void gnuplot_set_xlabel(gnuplot_ctrl * h, char const * label)
  */
 /*--------------------------------------------------------------------------*/
 
-void gnuplot_set_ylabel(gnuplot_ctrl * h, char const * label)
+void gnuplot_set_ylabel(gnuplot_ctrl * h, char * label)
 {
     char    cmd[GP_CMD_SIZE] ;
 
@@ -394,7 +390,7 @@ void gnuplot_plot_x(
     gnuplot_ctrl    *   handle,
     double          *   d,
     int                 n,
-    char const            *   title
+    char            *   title
 )
 {
     int     i ;
@@ -490,7 +486,7 @@ void gnuplot_plot_xy(
 	double			*	x,
 	double			*	y,
     int                 n,
-    char const            *   title
+    char            *   title
 )
 {
     int     i ;
@@ -570,10 +566,10 @@ void gnuplot_plot_xy(
 /*--------------------------------------------------------------------------*/
 
 void gnuplot_plot_once(
-	char const	*	title,
-	char const	*	style,
-	char const	*	label_x,
-	char const	*	label_y,
+	char	*	title,
+	char	*	style,
+	char	*	label_x,
+	char	*	label_y,
 	double	*	x,
 	double	*	y,
 	int			n
@@ -644,7 +640,7 @@ void gnuplot_plot_slope(
     gnuplot_ctrl    *   handle,
     double              a,
     double              b,
-    char const            *   title
+    char            *   title
 )
 {
     char    stitle[GP_TITLE_SIZE] ;
@@ -696,8 +692,8 @@ void gnuplot_plot_slope(
 
 void gnuplot_plot_equation(
     gnuplot_ctrl    *   h,
-    char const            *   equation,
-    char const            *   title
+    char            *   equation,
+    char            *   title
 )
 {
     char    cmd[GP_CMD_SIZE];

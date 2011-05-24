@@ -333,14 +333,8 @@ int main(int argc, char *argv[])
 	char titre[256];
 
 
-
 	/*Tracé de la distribution théorique des pulsations*/
 	gp = gnuplot_init();
-#if defined ( __APPLE__ )
-	//gnuplot_cmd(gp, "set terminal aqua 0");
-#else
-	//gnuplot_cmd(gp, "set terminal wxt 0 persist");
-#endif
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
 	gnuplot_cmd(gp, "set output 'distribution.ps'");
 	gnuplot_setstyle(gp, "lines");
@@ -349,14 +343,8 @@ int main(int argc, char *argv[])
 	gnuplot_plot_xy(gp, w, N, nbw,"distribution des pulsations propres des oscillateurs");
 
 
-
 	/*Tracé de l'histogramme des valeurs des pulsations*/
 	gp = gnuplot_init();
-#if defined ( __APPLE__ )
-	//gnuplot_cmd(gp, "set terminal aqua 1");
-#else
-	//gnuplot_cmd(gp, "set terminal wxt 1 persist");
-#endif
     gnuplot_cmd(gp, "set terminal postscript enhanced color");
     gnuplot_cmd(gp, "set output 'histo_pulsations.ps'");
 	gnuplot_setstyle(gp, "steps");
@@ -368,11 +356,6 @@ int main(int argc, char *argv[])
 
 	/*Tracé de l'histogramme des valeurs initiales des theta*/
 	gp = gnuplot_init();
-#if defined ( __APPLE__ )
-	//gnuplot_cmd(gp, "set terminal aqua 2");
-#else
-	//gnuplot_cmd(gp, "set terminal wxt 2 persist");
-#endif
     gnuplot_cmd(gp, "set terminal postscript enhanced color");
     gnuplot_cmd(gp, "set output 'histo_theta_init.ps'");
 	gnuplot_setstyle(gp, "steps");
@@ -382,15 +365,9 @@ int main(int argc, char *argv[])
 	gnuplot_set_xlabel(gp, "phase theta");
 	gnuplot_plot_xy(gp, Nhisttheta, histthetadeb, nbhist,"histogramme des valeurs initiales des theta");
 
-	
 
 	/*Tracé de l'histogramme des valeurs finales des theta*/
 	gp = gnuplot_init();
-#if defined ( __APPLE__ )
-	//gnuplot_cmd(gp, "set terminal aqua 3");
-#else
-	//gnuplot_cmd(gp, "set terminal wxt 3 persist");
-#endif
     gnuplot_cmd(gp, "set terminal postscript enhanced color");
 	gnuplot_cmd(gp, "set output 'histo_theta_fin.ps'");
 	gnuplot_setstyle(gp, "steps");
@@ -439,18 +416,15 @@ int main(int argc, char *argv[])
     }
 	*/
 
-	gp = gnuplot_init();
-#if defined ( __APPLE__ )
-	//gnuplot_cmd(gp, "set terminal aqua 4");
-#else
-	//gnuplot_cmd(gp, "set terminal wxt 4 persist");
-#endif
+
+	
 	if (nbK == 1) {
 
 		/*Tracé de r, rmoyenRand et rayonmoyen en fonction du temps*/
+		gp = gnuplot_init();
 		gnuplot_cmd(gp, "set terminal postscript enhanced color");
-		gnuplot_cmd(gp, "set output 'rayon1.ps'");
-		gnuplot_setstyle(gp, "dots");
+		gnuplot_cmd(gp, "set output \"rayon1.ps\"");
+		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_xlabel(gp, "t");
 		gnuplot_set_ylabel(gp, "r");
 		gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
@@ -461,15 +435,8 @@ int main(int argc, char *argv[])
 		sprintf(titre,"evolution de rmoy(t) pour K = %f", K);
 		gnuplot_plot_xy(gp, temps, rayonmoyenRand, nbsamples, titre);
 
-
-
 		/*Tracé de la phase des oscillateurs*/
 		gp = gnuplot_init();
-#if defined ( __APPLE__ )
-		//gnuplot_cmd(gp, "set terminal aqua 5");
-#else
-
-#endif
 		gnuplot_cmd(gp, "set terminal postscript enhanced color");
 		gnuplot_cmd(gp, "set output 'angle.ps'");
 		gnuplot_setstyle(gp, "lines");
@@ -482,6 +449,7 @@ int main(int argc, char *argv[])
 	else {
 
 		/*Tracé de l'évolution de rstable et rinfini*/
+		gp = gnuplot_init();
 		gnuplot_cmd(gp, "set terminal postscript enhanced color");
 		gnuplot_cmd(gp, "set output 'rayon.ps'");
 		gnuplot_setstyle(gp, "lines");
@@ -593,11 +561,6 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 
 	/*Tracé en log-log de rstable en fonction de (K-Kc)/K */
 	gp = gnuplot_init();
-#if defined ( __APPLE__ )
-	//gnuplot_cmd(gp, "set terminal aqua 5");
-#else
-	//gnuplot_cmd(gp, "set terminal wxt 5 persist");
-#endif
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
 	gnuplot_cmd(gp, "set output 'loglog.ps'");
 	gnuplot_setstyle(gp, "lines");
@@ -619,11 +582,6 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 
 	/*Tracé de l'évolution du temps caractéractique en fonction de K*/
 	gp = gnuplot_init();
-#if defined ( __APPLE__ )
-	//gnuplot_cmd(gp, "set terminal aqua 6");
-#else
-	//gnuplot_cmd(gp, "set terminal wxt 6 persist");
-#endif
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
 	gnuplot_cmd(gp, "set output 'Tc.ps'");
 	gnuplot_setstyle(gp, "lines");
@@ -635,11 +593,6 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 
 	/*Tracé de l'évolution de l'écart des r simulés et théoriques*/
 	gp = gnuplot_init();
-#if defined ( __APPLE__ )
-	//gnuplot_cmd(gp, "set terminal aqua 7");
-#else
-	//gnuplot_cmd(gp, "set terminal wxt 7 persist");
-#endif
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
 	gnuplot_cmd(gp, "set output 'ecart.ps'");
 	gnuplot_setstyle(gp, "lines");
