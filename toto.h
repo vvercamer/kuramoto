@@ -17,4 +17,5 @@ double gaussianRand(void);
 
 int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, double *rayonstable);
 
+double modulo(double num, double deno);
 #endif

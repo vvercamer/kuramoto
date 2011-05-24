@@ -2,5 +2,6 @@
 *.swp
 *.ps
 *.pdf
+*.csv
 toto
 gnuplot_i-2.10

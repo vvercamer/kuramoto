@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 
 	/*Définition des oscillatteurs*/
 	int idxOsc, idxTime, idxK, idxRand;
+	size_t idxh;
 
 	double rayontemp = 0, psitemp = 0;
 
@@ -100,7 +101,7 @@ int main(int argc, char *argv[])
 
 	/*Définition des paramètres pour les histogrammes*/
 	double wmax = 0.8;
-	double thetamax = M_PI + 0.2;
+	double thetamax = M_PI;
 	size_t nhist = 100;
 	int nbhist = (int) nhist;
 
@@ -109,7 +110,9 @@ int main(int argc, char *argv[])
 	double *histthetafin = (double *) malloc (nbhist*sizeof(double));
 
 	gsl_histogram *htheta = gsl_histogram_alloc(nhist);
-	gsl_histogram_set_ranges_uniform (htheta, -thetamax, thetamax);
+	gsl_histogram_set_ranges_uniform (htheta, 0, 2 * thetamax);
+	
+	FILE* fichier = NULL;
 
 	/*Boucle sur les valeurs de K*/
 	for (idxK = 0 ; idxK < nbK ; idxK++) {
@@ -163,14 +166,15 @@ int main(int argc, char *argv[])
 					gsl_histogram_increment (h, omega[idxOsc]);
 				}
 
-				for (idxOsc = 0 ; idxOsc < nbhist ; idxOsc++) {
-					hist[idxOsc] = gsl_histogram_get (h, idxOsc);
+				for (idxh = 0 ; idxh < nbhist ; idxh++) {
+					hist[idxh] = gsl_histogram_get (h, idxh);
 				}
+				gsl_histogram_free (h);
 			}
 
 			/*Initialisation de theta, de rayon et de psi*/
 			for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
-				theta[idxOsc] = fmod(rand(), 2 * M_PI) - M_PI;
+				theta[idxOsc] = modulo(rand()/10000.0, 2 * M_PI);
 			}
 
 			for (idxTime = 0 ; idxTime < nbsamples ; idxTime++) {
@@ -195,7 +199,31 @@ int main(int argc, char *argv[])
 					k2 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime - 1], rayon[idxTime - 1], theta[idxOsc] + deltaT * k1 / 2.0);
 					k3 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime - 1], rayon[idxTime - 1], theta[idxOsc] + deltaT * k2 / 2.0);
 					k4 = deltaT * kuramoto(omega[idxOsc], K, psi[idxTime - 1], rayon[idxTime - 1], theta[idxOsc] + deltaT * k3);
-					theta[idxOsc] = fmod(theta[idxOsc] + (k1 + 2 * k2 + 2 * k3 + k4) * deltaT / 6.0 + M_PI, 2*M_PI) - M_PI;
+					theta[idxOsc] = theta[idxOsc] + (k1 + 2 * k2 + 2 * k3 + k4) * deltaT / 6.0;
+					theta[idxOsc] = modulo(theta[idxOsc], 2 * M_PI);
+				}
+
+				/*Détermination de r et psi par l'approche champ moyen*/
+				meanField(theta , &rayontemp, &psitemp, nbosc);
+				rayon[idxTime] = rayontemp;
+				psi[idxTime] = psitemp;
+
+				/*Détermination de rayonmoyenRand*/
+				rayonmoyenRand[idxTime] += rayontemp / nbrand;
+	
+	
+				if (idxK == nbK - 1 && idxRand == 0 && idxTime == 0) {
+					fichier = fopen("thetadeb.csv", "w");
+				
+				    if (fichier != NULL) {
+						for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {	
+				   			fprintf(fichier, "%d;%f\n", idxOsc, theta[idxOsc]);
+						}
+				        fclose(fichier);
+				    }
+					else {
+				        printf("Impossible d'ecrire dans le fichier");
+				    }
 				}
 
 				/*Histogramme des valeurs initiales des theta*/
@@ -204,29 +232,23 @@ int main(int argc, char *argv[])
 						gsl_histogram_increment (htheta, theta[idxOsc]);
 					}
 
-					for (idxOsc = 0 ; idxOsc < nbhist ; idxOsc++) {
-						histthetadeb[idxOsc] = gsl_histogram_get (htheta, idxOsc);
+					for (idxh = 0 ; idxh < nbhist ; idxh++) {
+						histthetadeb[idxh] = gsl_histogram_get (htheta, idxh);
 					}
 				}
 
 				/*Histogramme des valeurs finales des theta*/
 				if (idxK == nbK - 1 && idxRand == 0 && idxTime == nbsamples - 1) {
+					gsl_histogram_reset (htheta);
 					for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {
 						gsl_histogram_increment (htheta, theta[idxOsc]);
 					}
 
-					for (idxOsc = 0 ; idxOsc < nbhist ; idxOsc++) {
-						histthetafin[idxOsc] = gsl_histogram_get (htheta, idxOsc);
+					for (idxh = 0 ; idxh < nbhist ; idxh++) {
+						histthetafin[idxh] = gsl_histogram_get (htheta, idxh);
 					}
+					gsl_histogram_free (htheta);
 				}
-
-				/*Détermination de r et psi par l'approche champ moyen*/
-				meanField(theta , &rayontemp, &psitemp, nbosc);
-				rayon[idxTime] = rayontemp;
-				psi[idxTime] = fmod(psitemp, 2 * M_PI);
-
-				/*Détermination de rayonmoyenRand*/
-				rayonmoyenRand[idxTime] += rayontemp / nbrand;
 			}
 		}
 
@@ -299,8 +321,8 @@ int main(int argc, char *argv[])
 		Nosc[idxOsc] = idxOsc;
 	}
 	for (idxOsc = 0 ; idxOsc < nbhist ; idxOsc++) {
-		Nhist[idxOsc] = idxOsc * 2 * wmax / nbhist - wmax;
-		Nhisttheta[idxOsc] = idxOsc * 2 * thetamax / nbhist - thetamax;
+		Nhist[idxOsc] = idxOsc * 2.0 * wmax / (nbhist -1) - wmax;
+		Nhisttheta[idxOsc] = idxOsc * 2.0 * thetamax / (nbhist - 1); //XXX
 	}
 
 
@@ -337,7 +359,6 @@ int main(int argc, char *argv[])
     gnuplot_cmd(gp, "set terminal pdf enhanced color");
     gnuplot_cmd(gp, "set output 'histo_pulsations.pdf'");
 	gnuplot_setstyle(gp, "steps");
-	gnuplot_cmd(gp, "set yrange [0:%d]", (int)nbosc / 10);
 	gnuplot_set_xlabel(gp, "pulsation w");
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
 	gnuplot_plot_xy(gp, Nhist, hist, nbhist,"histogramme des valeurs des pulsations");
@@ -351,15 +372,15 @@ int main(int argc, char *argv[])
 #else
 	//gnuplot_cmd(gp, "set terminal wxt 2 persist");
 #endif
-	    gnuplot_cmd(gp, "set terminal pdf enhanced color");
-		    gnuplot_cmd(gp, "set output 'histo_theta_init.pdf'");
+    gnuplot_cmd(gp, "set terminal pdf enhanced color");
+    gnuplot_cmd(gp, "set output 'histo_theta_init.pdf'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_cmd(gp, "set yrange [0:%d]", (int)nbosc / 2);
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
 	gnuplot_set_xlabel(gp, "phase theta");
 	gnuplot_plot_xy(gp, Nhisttheta, histthetadeb, nbhist,"histogramme des valeurs initiales des theta");
 
-
+	
 
 	/*Tracé de l'histogramme des valeurs finales des theta*/
 	gp = gnuplot_init();
@@ -376,6 +397,43 @@ int main(int argc, char *argv[])
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
 	gnuplot_plot_xy(gp, Nhisttheta, histthetafin, nbhist,"histogramme des valeurs finales des theta");
 
+
+	
+	fichier = fopen("histthetadeb.csv", "w");
+
+    if (fichier != NULL) {
+		for (idxh = 0 ; idxh < nbhist ; idxh++) {	
+   			fprintf(fichier, "%f;%f\n", Nhisttheta[idxh], histthetadeb[idxh]);
+		}
+        fclose(fichier);
+    }
+	else {
+        printf("Impossible d'ecrire dans le fichier");
+    }
+	
+	fichier = fopen("histthetafin.csv", "w");
+
+    if (fichier != NULL) {
+		for (idxh = 0 ; idxh < nbhist ; idxh++) {	
+   			fprintf(fichier, "%f;%f\n", Nhisttheta[idxh], histthetafin[idxh]);
+		}
+        fclose(fichier);
+    }
+	else {
+        printf("Impossible d'ecrire dans le fichier");
+    }
+
+	fichier = fopen("thetafin.csv", "w");
+
+    if (fichier != NULL) {
+		for (idxOsc = 0 ; idxOsc < nbosc ; idxOsc++) {	
+   			fprintf(fichier, "%d;%f\n", idxOsc, theta[idxOsc]);
+		}
+        fclose(fichier);
+    }
+	else {
+        printf("Impossible d'ecrire dans le fichier");
+    }
 
 
 	gp = gnuplot_init();
@@ -590,4 +648,14 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	return 0;
 }
 
-
+double modulo(double num,double deno)
+{
+	deno = abs(deno);
+	while (num > 0) {
+		num -= deno;
+	}
+	while (num < 0) {
+		num += deno;
+	}
+	return num;
+}
