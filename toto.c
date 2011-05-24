@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 	gsl_histogram *htheta = gsl_histogram_alloc(nhist);
 	gsl_histogram_set_ranges_uniform (htheta, 0, 2 * thetamax);
 	
-	FILE* fichier = NULL;
+	//FILE* fichier = NULL;
 
 	/*Boucle sur les valeurs de K*/
 	for (idxK = 0 ; idxK < nbK ; idxK++) {
@@ -211,7 +211,7 @@ int main(int argc, char *argv[])
 				/*Détermination de rayonmoyenRand*/
 				rayonmoyenRand[idxTime] += rayontemp / nbrand;
 	
-	
+				/*
 				if (idxK == nbK - 1 && idxRand == 0 && idxTime == 0) {
 					fichier = fopen("thetadeb.csv", "w");
 				
@@ -225,6 +225,7 @@ int main(int argc, char *argv[])
 				        printf("Impossible d'ecrire dans le fichier");
 				    }
 				}
+				*/
 
 				/*Histogramme des valeurs initiales des theta*/
 				if (idxK == nbK - 1 && idxRand == 0 && idxTime == 0) {
@@ -399,7 +400,7 @@ int main(int argc, char *argv[])
 
 
 	
-	fichier = fopen("histthetadeb.csv", "w");
+	/*fichier = fopen("histthetadeb.csv", "w");
 
     if (fichier != NULL) {
 		for (idxh = 0 ; idxh < nbhist ; idxh++) {	
@@ -434,7 +435,7 @@ int main(int argc, char *argv[])
 	else {
         printf("Impossible d'ecrire dans le fichier");
     }
-
+	*/
 
 	gp = gnuplot_init();
 #if defined ( __APPLE__ )
