@@ -1,4 +1,8 @@
-
+#define  _XOPEN_SOURCE
+#include <stdio.h>
+#define _XOPEN_SOURCE_EXTENDED 1
+#include <stdlib.h>
+int mkstemp(char *template);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -189,7 +193,7 @@ void gnuplot_close(gnuplot_ctrl * handle)
 {
     int     i ;
 	
-    if (pclose(handle->gnucmd) == -1) {
+    if (fclose(handle->gnucmd) == -1) {
         fprintf(stderr, "problem closing communication to gnuplot\n") ;
         return ;
     }
