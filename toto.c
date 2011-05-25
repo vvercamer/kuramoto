@@ -345,8 +345,8 @@ int main(int argc, char *argv[])
 
 	/*Tracé de l'histogramme des valeurs des pulsations*/
 	gp = gnuplot_init();
-    gnuplot_cmd(gp, "set terminal postscript enhanced color");
-    gnuplot_cmd(gp, "set output 'histo_pulsations.ps'");
+	gnuplot_cmd(gp, "set terminal postscript enhanced color");
+	gnuplot_cmd(gp, "set output 'histo_pulsations.ps'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_set_xlabel(gp, "pulsation w");
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
