@@ -226,7 +226,7 @@ Différents histogrammes ont été tracés : le premier représente la distribution d
 
 Enfin, la fonction $logarithme$ nous a permis de calculer le logarithme de $r_\infty$ et de $\frac{K-K_c}{K}$. Le tracé de $log(r_\infty)$ en fonction de $log(\frac{K-K_c}{K})$ pour $K \geqslant K_c$ nous permet de vérifier l'approximation champ moyen et d'en déduire par régression linéaire le coefficient $\alpha$ ???.
 
-Dans la suite, les différentes simulations ont été réalisées avec 300 oscillateurs, en prenant pour les courbes temporelles 10000 points avec un espacement temporel $deltaT = 0.1$. La distribution des $\omega_i$ a été choisie de Cauchy, centrée sur $0$ ($\OMEGA = 0$) et d'écart-type $\sigma = 0.1$.
+Dans la suite, les différentes simulations ont été réalisées avec 300 oscillateurs, en prenant pour les courbes temporelles 10000 points avec un espacement temporel $deltaT = 0.1$. La distribution des $\omega_i$ a été choisie de Cauchy, centrée sur $0$ ($\Omega = 0$) et d'écart-type $\sigma = 0.1$.
 
 %Temps de simulation ? Estimation ?
 
@@ -235,9 +235,14 @@ Dans la suite, les différentes simulations ont été réalisées avec 300 oscillateu
 
 Voici le résultat de la simulation obtenu pour 4 réalisations et pour $K = 1$ : 
 
-???
-\includegraphics[width=5cm]{images/rayon_K1_sigma01_lorentz.pdf}						
-???
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=12cm]{images/rayon_K1_sigma01_lorentz.pdf}						
+	\caption{Évolution temporelle de la cohérence}
+	\label{coherence}
+\end{figure} 
+
+dans la figure \ref{coherence}... ???
 
 La simulation permet de visualiser l'évolution temporelle de $r$ pour différentes valeurs de $K$. On observe sur la figure ??? l'existence d'une valeur seuil pour $K$. En effet, pour des $K$ inférieurs à $K_c$, le couplage est trop faible et les oscillateurs se comportent comme s'ils n'étaient pas couplés. Les phases sont distribuées de façon uniforme sur le cercle trigonométrique, et ce quelle que soit la condition initiale. On obtient alors une cohérence de phase faible, mais présentant des variations assez importantes. En revanche, pour des $K$ supérieurs à $K_c$, l'état incohérent devient instable et on observe une augmentation brutale de $r$ jusqu'à atteindre une valeur de saturation rinfini, inférieure à 1. Cela montre bien qu'une partie du groupe d'oscillateurs s'est synchronisé tandis que le reste du groupe est resté incohérent. La population d'oscillateurs s'est scindée en deux groupes : d'un côté, les oscillateurs ayant une pulsation proche de la pulsation moyenne vont voir leur pulsation se bloquer à $\Omega$, et vont tourner avec une même phase $\psi$ ; de l'autre côté, les oscillateurs dont la pulsation se retrouve dans la queue de la distribution vont garder une pulsation proche de leur pulsation propre. Lorsque ces deux groupes sont identifiables, on se situe dans un état partiellement synchronisé.
 
