@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 	double K = 0;
 	double Kmax = 1;
 	double OMEGA = 0;
-	double sigma = 0.2;
+	double sigma = 0.1;
 	double subcrit = 0;
 	double *rayon = (double *) malloc (nbsamples*sizeof(double));
 	double *psi = (double *) malloc (nbsamples*sizeof(double));
@@ -114,6 +114,26 @@ int main(int argc, char *argv[])
 	
 	//FILE* fichier = NULL;
 
+	/*Détermination des pulsations propres des oscillateurs*/
+	gsl_rng * r;
+	const gsl_rng_type * T;
+	gsl_rng_env_setup();
+	gsl_rng_default_seed = rand();
+	T = gsl_rng_default;
+	r = gsl_rng_alloc (T);
+//		printf ("seed = %lu\n", gsl_rng_default_seed);
+
+	for (idxOsc = 0 ; idxOsc < (nbosc / 2) ; idxOsc++) {
+//			omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) + subcrit;
+		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) + subcrit;
+	}
+
+	for (idxOsc = (nbosc / 2) ; idxOsc < nbosc ; idxOsc++) {
+//			omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) - subcrit;
+		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) - subcrit;
+	}
+
+
 	/*Boucle sur les valeurs de K*/
 	for (idxK = 0 ; idxK < nbK ; idxK++) {
 
@@ -138,24 +158,6 @@ int main(int argc, char *argv[])
 		/*Boucle sur les réalisations*/
 		for (idxRand = 0 ; idxRand < nbrand ; idxRand++) {
 
-			/*Détermination des pulsations propres des oscillateurs*/
-			gsl_rng * r;
-			const gsl_rng_type * T;
-			gsl_rng_env_setup();
-			gsl_rng_default_seed = rand();
-			T = gsl_rng_default;
-			r = gsl_rng_alloc (T);
-//			printf ("seed = %lu\n", gsl_rng_default_seed);
-
-			for (idxOsc = 0 ; idxOsc < (nbosc / 2) ; idxOsc++) {
-//				omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) + subcrit;
-				omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) + subcrit;
-			}
-
-			for (idxOsc = (nbosc / 2) ; idxOsc < nbosc ; idxOsc++) {
-//				omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) - subcrit;
-				omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) - subcrit;
-			}
 
 			/*Histogramme des pulsations*/
 			if (idxRand == 0) {
@@ -336,7 +338,7 @@ int main(int argc, char *argv[])
 	/*Tracé de la distribution théorique des pulsations*/
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-	gnuplot_cmd(gp, "set output 'distribution.ps'");
+	gnuplot_cmd(gp, "set output 'distribution.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "pulsation w");
 	gnuplot_set_ylabel(gp, "distribution g(w)");
@@ -346,7 +348,7 @@ int main(int argc, char *argv[])
 	/*Tracé de l'histogramme des valeurs des pulsations*/
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-	gnuplot_cmd(gp, "set output 'histo_pulsations.ps'");
+	gnuplot_cmd(gp, "set output 'histo_pulsations.pdf'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_set_xlabel(gp, "pulsation w");
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
@@ -356,8 +358,8 @@ int main(int argc, char *argv[])
 
 	/*Tracé de l'histogramme des valeurs initiales des theta*/
 	gp = gnuplot_init();
-    gnuplot_cmd(gp, "set terminal postscript enhanced color");
-    gnuplot_cmd(gp, "set output 'histo_theta_init.ps'");
+	gnuplot_cmd(gp, "set terminal postscript enhanced color");
+	gnuplot_cmd(gp, "set output 'histo_theta_init.pdf'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_cmd(gp, "set xrange [-0.2:%f]", 2 * thetamax + 0.2);
 	gnuplot_cmd(gp, "set yrange [0:%d]", nbosc);
@@ -368,8 +370,8 @@ int main(int argc, char *argv[])
 
 	/*Tracé de l'histogramme des valeurs finales des theta*/
 	gp = gnuplot_init();
-    gnuplot_cmd(gp, "set terminal postscript enhanced color");
-	gnuplot_cmd(gp, "set output 'histo_theta_fin.ps'");
+	gnuplot_cmd(gp, "set terminal postscript enhanced color");
+	gnuplot_cmd(gp, "set output 'histo_theta_fin.pdf'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_cmd(gp, "set xrange [-0.2:%f]", 2 * thetamax + 0.2);
 	gnuplot_cmd(gp, "set yrange [0:%d]", nbosc);
@@ -423,7 +425,7 @@ int main(int argc, char *argv[])
 		/*Tracé de r, rmoyenRand et rayonmoyen en fonction du temps*/
 		gp = gnuplot_init();
 		gnuplot_cmd(gp, "set terminal postscript enhanced color");
-		gnuplot_cmd(gp, "set output \"rayon1.ps\"");
+		gnuplot_cmd(gp, "set output \"rayon1.pdf\"");
 		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_xlabel(gp, "t");
 		gnuplot_set_ylabel(gp, "r");
@@ -438,7 +440,7 @@ int main(int argc, char *argv[])
 		/*Tracé de la phase des oscillateurs*/
 		gp = gnuplot_init();
 		gnuplot_cmd(gp, "set terminal postscript enhanced color");
-		gnuplot_cmd(gp, "set output 'angle.ps'");
+		gnuplot_cmd(gp, "set output 'angle.pdf'");
 		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_ylabel(gp, "phase theta");
 		gnuplot_set_xlabel(gp, "numero de l'oscillateur");
@@ -451,7 +453,7 @@ int main(int argc, char *argv[])
 		/*Tracé de l'évolution de rstable et rinfini*/
 		gp = gnuplot_init();
 		gnuplot_cmd(gp, "set terminal postscript enhanced color");
-		gnuplot_cmd(gp, "set output 'rayon.ps'");
+		gnuplot_cmd(gp, "set output 'rayon.pdf'");
 		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_xlabel(gp, "K");
 		gnuplot_set_ylabel(gp, "r infini");
@@ -562,7 +564,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé en log-log de rstable en fonction de (K-Kc)/K */
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-	gnuplot_cmd(gp, "set output 'loglog.ps'");
+	gnuplot_cmd(gp, "set output 'loglog.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "log (K-Kc)/K");
 	gnuplot_set_ylabel(gp, "log rstable");
@@ -583,7 +585,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé de l'évolution du temps caractéractique en fonction de K*/
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-	gnuplot_cmd(gp, "set output 'Tc.ps'");
+	gnuplot_cmd(gp, "set output 'Tc.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "K");
 	gnuplot_set_ylabel(gp, "temps caractéristique");
@@ -594,7 +596,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	/*Tracé de l'évolution de l'écart des r simulés et théoriques*/
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-	gnuplot_cmd(gp, "set output 'ecart.ps'");
+	gnuplot_cmd(gp, "set output 'ecart.pdf'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "K");
 	gnuplot_set_ylabel(gp, "r théorique - r simulé");

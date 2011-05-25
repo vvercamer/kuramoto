@@ -209,14 +209,35 @@ On fait apparaître ici l'approximation champ moyen. En effet, la phase $\theta_i
 \section{Simulation}
 
 
-Nous avons effectué une simulation du modèle de Kuramoto en langage C. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été prise gaussienne ; dans un second temps, elle a été assimilée à une fonction de Cauchy (lorentzienne). La phase initiale des oscillateurs a elle aussi été choisie aléatoirement. Pour différentes valeurs du coefficient de couplage $K$, $r$ et $\psi$ ont été calculés à partir des phases des oscillateurs par la relation \eqref{parametre d'ordre}, puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. Ce processus a été réitéré jusqu'à atteindre le nombre de points souhaité.
+Nous avons effectué une simulation du modèle de Kuramoto en langage C. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été assimilée à une fonction de Cauchy (lorentzienne). Nous avons ensuite étudié l'influence d'un changement de distribution. Nous verrons dans la partie 3 l'influence de la distribution $g$ sur les résultats.
 
+Le programme que nous avons fait fonctionne de la façon suivante : 
+On commence par définir les pulsations propres $\omega_i$ des oscillateurs. Pour cela, on les choisit aléatoirement suivant la fonction de distribution $g$, choisie de Cauchy dans un premier temps.
+
+Ensuite, pour différentes valeurs du coefficient de couplage $K$, nous avons cherché à simuler l'évolution temporelle des paramètres $r$ et $\psi$ de l'approximation champ moyen. Pour s'affranchir de l'influence des valeurs initiales des phases des oscillateurs sur $r$ et $\psi$, un moyennage sur plusieurs réalisations a été fait. Ainsi, pour chaque valeur de $K$, la phase initiale $\theta_i$ des oscillateurs a été redéterminée aléatoirement, entre 0 et $2\pi$. 
+
+Nous remarquerons ici que simuler sur plusieurs réalisations ne revient pas à rajouter des oscillateurs, car le champ moyen généré n'est alors pas le même. Augmenter le nombre de réalisations nous permettra donc seulement de moyenner nos résultats, et non de regarder le comportement à grand nombre d'oscillateurs.
+
+$r$ et $\psi$ ont ensuite été calculés à partir des phases des oscillateurs par la relation \eqref{parametre d'ordre} en utilisant la fonction $meanField$, puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. En réitérant ce processus, les évolutions temporelles des $\theta_i$, de $r$ et de $\psi$ ont été déterminées.
+
+Une fois que cela est fait, il suffit alors de déterminer pour chaque valeur de K la valeur asymptotique de $r$. Pour cela, nous avons effectué, pour chaque réalisation, la moyenne des valeurs de $r$ sur toute la période temporelle de la simulation dans le cas où $K \leqslant K_c$, et une moyenne des valeurs de $r$ pour tous les $r$ supérieurs à 90\% de $r_{max}$, dans le cas où $K \geqslant K_c$. Nous avons esuite calculé la moyenne des valeurs ainsi obtenues, et notées $r_\infty$, sur les réalisations.
+
+Différents histogrammes ont été tracés : le premier représente la distribution des $\omega_i$ de la simulation, le deuxième représente la distribution initiale des $\theta_i$ et le troisième représente la distribution finale des $\theta_i$. Dans le cas où l'on s'intéresse à plusieurs valeurs de K et à un moyennage sur plusieurs réalisations, seuls les histogrammes correspondant à la dernière valeur de K et à l première réalisation ont été affichés. Ces histogrammes nous permettent de voir de façon ostensible la synchronisation des oscillateurs.
+
+Enfin, la fonction $logarithme$ nous a permis de calculer le logarithme de $r_\infty$ et de $\frac{K-K_c}{K}$. Le tracé de $log(r_\infty)$ en fonction de $log(\frac{K-K_c}{K})$ pour $K \geqslant K_c$ nous permet de vérifier l'approximation champ moyen et d'en déduire par régression linéaire le coefficient $\alpha$ ???.
+
+Dans la suite, les différentes simulations ont été réalisées avec 300 oscillateurs, en prenant pour les courbes temporelles 10000 points avec un espacement temporel $deltaT = 0.1$. La distribution des $\omega_i$ a été choisie de Cauchy, centrée sur $0$ ($\OMEGA = 0$) et d'écart-type $\sigma = 0.1$.
 
 %Temps de simulation ? Estimation ?
 
 
 \section{Evolution de la cohérence avec le temps}
 
+Voici le résultat de la simulation obtenu pour 4 réalisations et pour $K = 1$ : 
+
+???
+\includegraphics[width=5cm]{images/rayon_K1_sigma01_lorentz.pdf}						
+???
 
 La simulation permet de visualiser l'évolution temporelle de $r$ pour différentes valeurs de $K$. On observe sur la figure ??? l'existence d'une valeur seuil pour $K$. En effet, pour des $K$ inférieurs à $K_c$, le couplage est trop faible et les oscillateurs se comportent comme s'ils n'étaient pas couplés. Les phases sont distribuées de façon uniforme sur le cercle trigonométrique, et ce quelle que soit la condition initiale. On obtient alors une cohérence de phase faible, mais présentant des variations assez importantes. En revanche, pour des $K$ supérieurs à $K_c$, l'état incohérent devient instable et on observe une augmentation brutale de $r$ jusqu'à atteindre une valeur de saturation rinfini, inférieure à 1. Cela montre bien qu'une partie du groupe d'oscillateurs s'est synchronisé tandis que le reste du groupe est resté incohérent. La population d'oscillateurs s'est scindée en deux groupes : d'un côté, les oscillateurs ayant une pulsation proche de la pulsation moyenne vont voir leur pulsation se bloquer à $\Omega$, et vont tourner avec une même phase $\psi$ ; de l'autre côté, les oscillateurs dont la pulsation se retrouve dans la queue de la distribution vont garder une pulsation proche de leur pulsation propre. Lorsque ces deux groupes sont identifiables, on se situe dans un état partiellement synchronisé.
 
@@ -235,13 +256,18 @@ La simulation permet de visualiser l'évolution temporelle de $r$ pour différente
 \cite{PhysRevLett.74.4341}
 
 
+\chapter{Influence de la distribution initiale des pulsations}
+
+\section{distribution gaussienne}
+
+\section{distribution de Cauchy décalée}
+
+\section{distribution ``chapeau'}
+
+
 \chapter{Influence du nombre d'oscillateurs}
 
-\chapter{Influence d'une distribution ``chapeau''}
-
-\chapter{Simulation d'un couplage avec les plus proches voisins}
-NON ABORDÉ
-
+A partir de quel nombre d'oscillateurs obtient-on des graphes potables ?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%   Fin du rapport   %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
