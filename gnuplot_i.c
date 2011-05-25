@@ -1,4 +1,8 @@
-
+#define  _XOPEN_SOURCE
+#include <stdio.h>
+#define _XOPEN_SOURCE_EXTENDED 1
+#include <stdlib.h>
+int mkstemp(char *template);
 
 /*-------------------------------------------------------------------------*/
 /**
