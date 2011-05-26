@@ -258,7 +258,14 @@ Nous avons effectué une simulation du modèle de Kuramoto en langage C. Dans cett
 \end{figure} 
 
 Le programme que nous avons fait fonctionne de la façon suivante : 
-On commence par définir les pulsations propres $\omega_i$ des oscillateurs. Pour cela, on les choisit aléatoirement suivant la fonction de distribution $g$, choisie de Cauchy dans un premier temps.
+On commence par définir les pulsations propres $\omega_i$ des oscillateurs. Pour cela, on les choisit aléatoirement suivant la fonction de distribution $g$ de Cauchy.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=12cm]{images/histo-omega-cauchy.pdf}
+	\caption{Histogramme des pulsations $\omega_{i}$ pour 300 oscillateurs}
+	\label{histomegacauchy}
+\end{figure}
 
 Ensuite, pour différentes valeurs du coefficient de couplage $K$, nous avons cherché à simuler l'évolution temporelle des paramètres $r$ et $\psi$ de l'approximation champ moyen. Pour s'affranchir de l'influence des valeurs initiales des phases des oscillateurs sur $r$ et $\psi$, un moyennage sur plusieurs réalisations a été fait. Ainsi, pour chaque valeur de $K$, la phase initiale $\theta_i$ des oscillateurs a été redéterminée aléatoirement, entre 0 et $2\pi$. 
 
