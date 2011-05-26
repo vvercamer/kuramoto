@@ -1,6 +1,7 @@
 *.dat
 *.swp
 *.csv
+*~
 toto
 gnuplot_i-2.10
 LaTeX/dossierEET.aux
