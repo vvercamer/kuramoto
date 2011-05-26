@@ -90,6 +90,8 @@
 
 %\sloppy
 
+\renewcommand{\tablename}{T\sc{ableau}}
+
 %début page de garde
 \begin{titlepage} 
 
@@ -142,14 +144,13 @@ Nous avons ici souhaité reprendre la théorie de Kuramoto afin de comprendre les 
 
 \tableofcontents
 
-
 \chapter{Le modèle de Kuramoto}
-
+ en considérant chaque oscillateur est couplé au rythme collectif, généré par l'ensemble des oscillateurs
 
 \section{Approche théorique}
+\emph{Dans cette partie, nous allons utiliser l'approximation champ moyen afin de résoudre plus simplement le problème}
 
-
-Considérons une importante population d'oscillateurs couplés et mettons-nous dans le cas où le couplage est faible et où les oscillateurs sont semblables. On suppose que chaque oscillateur est couplé au rythme collectif, généré par l'ensemble des oscillateurs. La phase de l'oscillateur i, notée $\theta_i$, suit alors l'expression :
+Considérons une importante population de $N$ oscillateurs semblables (d'amplitude égale à 1 mais dont la phase~$\theta$ et la pulsation propre $\omega$ diffèrent), couplés entre eux, et mettons-nous dans le cas où le couplage $\Gamma_{ij}(\theta)$, entre deux oscillateurs $i$ et $j$, est faible. La phase de l'oscillateur $i$, notée $\theta_i$, suit alors l'expression :
 \begin{equation}
 \dot{\theta}_i=\omega_i+\sum_{j=1}^N
 \Gamma_{ij}(\theta_j-\theta_i)    %(cf l'equation 1 p.3)
@@ -159,31 +160,36 @@ Considérons une importante population d'oscillateurs couplés et mettons-nous dan
 
 Dans le cas où le couplage ne dépend que de la différence de phase entre les oscillateurs, et en supposant que cette dépendance est sinusoïdale, on a alors :
 \begin{equation}
-\dot{\theta}_i=\omega_i+\frac {K}{N} \sum_{j=1}^N
-\sin(\theta_j-\theta_i)\label{totoro}
+\dot{\theta}_i=\omega_i+\frac {K}{N} \sum_{j=1}^N\sin(\theta_j-\theta_i)\label{totoro}
 %(cf équation 3 p.3)
 \end{equation}
 
+$K$ est appelé coefficient de couplage.
+\vspace{1em}
 
-On intuite que lorsque la distribution des fréquences propres des oscillateurs est large, les oscillateurs vont se comporter de façon incohérente et garderont chacun leur propre fréquence. En revanche, lorsque cette distribution sera suffisamment faible pour que le couplage ait de l'influence, une partie des oscillateurs va se synchroniser.
-
-
-Notons $g(\omega)$ la distribution des pulsations propres des oscillateurs. Supposons que $g$ est unimodale et symétrique par rapport à la pulsation moyenne $\Omega$ des oscillateurs. On a alors $g(\Omega+\omega)=g(\Omega-\omega)$.
-On effectue le changement de variable $\theta_i'=\theta_i+\Omega t$, de sorte à centrer la distribution $g$ en $0$.
+On intuite que lorsque la distribution des pulsations propres des oscillateurs est large, les oscillateurs vont se comporter de façon incohérente et garderont chacun leur propre fréquence. En revanche, lorsque cette distribution sera suffisamment étroite pour que le couplage ait de l'influence, une partie des oscillateurs va se synchroniser.
 
 
-Nous allons à présent utiliser une représentation géométrique pour visualiser l'évolution des phases des oscillateurs. Chaque oscillateur est caractérisé par sa phase $\theta_i$. On représentera chaque oscillateur par un point se déplaçant sur le cercle trigonométrique avec sa propre phase $\theta_i$.
+Notons $g(\omega)$ la distribution des pulsations propres des oscillateurs. Supposons que $g$ est unimodale et symétrique par rapport à la pulsation moyenne $\Omega$ des oscillateurs prise nulle par changement de variable. On a alors $g(-\omega)=g(\omega)$.
+
+Nous allons à présent utiliser une représentation géométrique pour visualiser l'évolution des phases des oscillateurs. Chaque oscillateur est caractérisé par sa phase $\theta_i$. On représentera chaque oscillateur par un point se déplaçant sur le cercle trigonométrique avec sa propre phase $\theta_i$ (cf. figure~\ref{cercletrigo}).
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=3cm]{images/cercletrigo.png}
+	\caption{Interprétation géométrique du paramètre d'ordre complexe}
+	\label{cercletrigo}
+\end{figure}
 
 
-(cf figure)
+On peut alors définir le paramètre d'ordre complexe de module $r$ et de  phase $\psi$ tel que :
 
-
-On peut alors définir $r$ et $\psi$ tels que :
 \begin{equation}
-r sin(\psi-\theta_i)=\frac{1}{N} \sum_{j=1}^N
-\label{parametre d'ordre}
-%(cf équation (3.2))
+r e^{i\psi}=\frac{1}{N} \sum_{j=1}^N e^{i\theta_j}
 \end{equation}
+%(cf équation (3.2))
+
+
 
 
 Plus les oscillateurs oscilleront de façon cohérente, plus la population se comportera comme un unique oscillateur, et plus $r$ sera proche de 1 ; en revanche, plus les oscillateurs oscilleront de façon incohérente, plus ils seront dispersés aléatoirement sur le cercle trigonométrique, et plus $r$ tendra vers 0. Ainsi, $r$ représente la cohérence de phase de la population d'oscillateurs. $\psi$ représente quant à lui la phase moyenne des oscillateurs.
@@ -191,11 +197,12 @@ $r e^{i \psi}$ est le paramètre d'ordre du système %pourquoi on peut dire ça ???
 
 
 En multipliant le paramètre d'ordre par $e^{-i\theta_i}$, puis en ne gardant que la partie imaginaire de l'expression ainsi obtenue, on trouve que :
-\begin{equation}
-r e^{i\psi}=\frac{1}{N} \sum_{j=1}^N e^{i\theta_j}
-\sin(\theta_j-\theta_i)%(cf équation 3 de p.4)
-\end{equation}
 
+
+\begin{equation}
+r sin(\psi-\theta_i)=\frac{1}{N} \sum_{j=1}^N\sin(\theta_j-\theta_i)
+\label{parametre d'ordre}
+\end{equation}
 
 En réinjectant ce résultat dans l'équation \ref{totoro}, on obtient alors :
 \begin{equation}
@@ -206,6 +213,17 @@ En réinjectant ce résultat dans l'équation \ref{totoro}, on obtient alors :
 
 On fait apparaître ici l'approximation champ moyen. En effet, la phase $\theta_i$ de l'oscillateur i ne dépend plus de la phase des autres oscillateurs $\theta_j$, mais de la cohérence de phase $r$ et de la phase moyenne $\psi$. Ainsi, un oscillateur ne ressent pas les autres oscillateurs indépendamment les uns des autres, mais ressentira le champ moyen créé par tous les oscillateurs du groupe.
 
+\begin{table}[!ht]
+				\centering
+				\begin{tabular}{|*{6}{c|}r}
+				\hline
+				\textbf{échantillon} & \textbf{temps (min)}& \textbf{résistance ($\Omega$)} & \textbf{longueur (mm)}& \textbf{largeur (mm)}& \textbf{épaisseur (nm)}\\ \hline
+				
+				1&	1	&	116	&	8,2	&	1,2	&	1,6	\\ \hline
+				2&	10	&	28	&	30,4	&	1,5	&	20	\\ \hline
+				\end{tabular}
+				\caption{\label{vitessedepot} échantillons de verre pour mesure de la vitesse de dépôt}
+			\end{table}
 
 \section{Analogies avec le modèle d'Ising}
 
