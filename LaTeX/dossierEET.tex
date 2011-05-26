@@ -240,7 +240,14 @@ Ce problème est analogue à celui du modèle d'Ising. En effet, dans le modèle d'I
 \section{Simulation}
 
 
-Nous avons effectué une simulation du modèle de Kuramoto en langage C. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été assimilée à une fonction de Cauchy (lorentzienne). Nous avons ensuite étudié l'influence d'un changement de distribution. Nous verrons dans la partie 3 l'influence de la distribution $g$ sur les résultats.
+Nous avons effectué une simulation du modèle de Kuramoto en langage C. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été assimilée à une fonction de Cauchy (lorentzienne, cf. figure \ref{lorentzienne}). Nous avons ensuite étudié l'influence d'un changement de distribution. Nous verrons dans le chapitre~\ref{influencedistribution} l'influence de la distribution $g$ sur les résultats.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=12cm]{images/lorentzienne.pdf}
+	\caption{distribution de Cauchy}
+	\label{lorentzienne}
+\end{figure} 
 
 Le programme que nous avons fait fonctionne de la façon suivante : 
 On commence par définir les pulsations propres $\omega_i$ des oscillateurs. Pour cela, on les choisit aléatoirement suivant la fonction de distribution $g$, choisie de Cauchy dans un premier temps.
@@ -313,7 +320,7 @@ En conclusion, on retrouve bien les résultats attendus sur l'évolution temporell
 \cite{PhysRevLett.74.4341}
 
 
-\chapter{Influence de la distribution initiale des pulsations}
+\chapter{Influence de la distribution initiale des pulsations} \label{influencedistribution}
 
 \section{distribution gaussienne}
 
