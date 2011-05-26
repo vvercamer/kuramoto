@@ -326,6 +326,10 @@ Le modèle d'Ising permet de modéliser des problèmes où $N$ corps ont deux états 
 
 Dans le modèle d'Ising appliqué au ferromagnétisme, on considère le paramètre d'ordre $m$, qui n'est autre que le module de l'aimantation globale du réseau de spins. Ce paramètre est dépendant de la température T du système. Dans notre cas, le paramètre d'ordre réel est $r$, le module de la somme des signaux des oscillateurs. Celui-ci est dépendant du coefficient de couplage $K$.
 
+On remarque cependant une différence entre les deux modèles : dans le modèle d'Ising appliqué au ferromagnétisme, on introduit l'écart de température réduit $t = \frac{T - T_c}{T_c}$, et le modèle nous permet d'arriver à l'équation $m = t^\beta$ avec $\beta = 0.5$, $\beta$ étant appelé \textsl{exposant critique} ; en revanche, dans le modèle de Kuramoto, il faut poser $k = \frac{K - K_c}{K}$ pour pouvoir retomber sur $r = k^\beta$ avec $\beta = 0.5$. Notons tout de même que l'on garde la dépendance en racine carré.
+
+Enfin, nous verrons dans la suite ??? que le temps caractéritique du problème diverge au voisinage du point critique, ce qui n'est pas le cas dans le modèle d'Ising. En effet, dans le modèle de Kuramoto, on a une bifurcation ; le temps caractéristique, temps au bout duqul le système se stabilise, diverge en $ K = K_c$ et décroît exponentiellement lorsque $K \geqslant K_c$ (cf figure ???). Dans le modèle d'Ising, on observe en revanche un ralentissement critique, et non une divergence.
+
 L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto sont répertoriés dans le tableau \ref{analogies}.
 
 \begin{table}[!ht]
@@ -335,11 +339,12 @@ L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto sont r
 	\textbf{} & \textbf{modèle de Kuramoto} & \textbf{modèle d'Ising}\\ \hline
 	
 	corps	&	oscillateurs	&	spins	\\ \hline
-	paramètre d'ordre	&	r	&	m	\\ \hline
-	point critique	&	$K_c$	&	$T_c$	\\ \hline
-	exposant critique $\beta$	&	0.5	&	0.5	\\ \hline
+	paramètre d'ordre	&	$r$	&	$m$	\\ \hline
+	écart au point critique	&	$k$	&	$t$	\\ \hline
+	exposant critique $\beta$	&	$0.5$	&	$0.5$	\\ \hline
+	temps caractéristique	&	divergence	&	ralentissement	\\ \hline
 	\end{tabular}
-	\caption{\label{analogies} Analogies entre le modèle de Kuramoto et le modèle d'Ising}
+	\caption{\label{analogies} Analogies et différences entre le modèle de Kuramoto et le modèle d'Ising}
 \end{table}
 
 
@@ -433,9 +438,6 @@ En conclusion, on retrouve bien les résultats attendus sur l'évolution temporell
 
 
 \subsection{Détermination de l'exposant critique $\beta$ du modèle de Kuramoto}
-
-
-\subsection{Influence de la forme de la distribution des fréquences propre des oscillateurs}
 
 \cite{PhysRevLett.74.4341}
 
