@@ -213,27 +213,29 @@ En réinjectant ce résultat dans l'équation \ref{totoro}, on obtient alors :
 
 On fait apparaître ici l'approximation champ moyen. En effet, la phase $\theta_i$ de l'oscillateur i ne dépend plus de la phase des autres oscillateurs $\theta_j$, mais de la cohérence de phase $r$ et de la phase moyenne $\psi$. Ainsi, un oscillateur ne ressent pas les autres oscillateurs indépendamment les uns des autres, mais ressentira le champ moyen créé par tous les oscillateurs du groupe.
 
-\begin{table}[!ht]
-				\centering
-				\begin{tabular}{|*{6}{c|}r}
-				\hline
-				\textbf{échantillon} & \textbf{temps (min)}& \textbf{résistance ($\Omega$)} & \textbf{longueur (mm)}& \textbf{largeur (mm)}& \textbf{épaisseur (nm)}\\ \hline
-				
-				1&	1	&	116	&	8,2	&	1,2	&	1,6	\\ \hline
-				2&	10	&	28	&	30,4	&	1,5	&	20	\\ \hline
-				\end{tabular}
-				\caption{\label{vitessedepot} échantillons de verre pour mesure de la vitesse de dépôt}
-			\end{table}
+
 
 \section{Analogies avec le modèle d'Ising}
 
-Le modèle d'Ising permet de modéliser des problèmes où des particules ont deux états accessibles (dans le cas du réseau de spin : les états "spin up" et "spin down") et où les interactions locales vont avoir des effets collectifs. Dans notre cas, nous sommes en présence d'oscillateurs qui ont pour états accessibles les états "blocked" et "drifting". L'état "blocked" correspond aux oscillateurs synchronisés et l'état "drifting" aux oscillateurs non synchronisés.
+Le modèle d'Ising permet de modéliser des problèmes où $N$ corps ont deux états accessibles (dans le cas du réseau de spin : les états "spin up" et "spin down") et où les interactions locales vont avoir des effets collectifs. Dans notre cas, nous sommes en présence d'oscillateurs qui ont pour états accessibles les états "blocked" et "drifting". L'état "blocked" correspond aux oscillateurs synchronisés et l'état "drifting" aux oscillateurs non synchronisés.
 
 Dans le modèle d'Ising appliqué au ferromagnétisme, on considère le paramètre d'ordre $m$, qui n'est autre que le module de l'aimantation globale du réseau de spins. Dans notre cas, le paramètre d'ordre réel est $r$, le module de la somme des signaux des oscillateurs.
 
 L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto sont répertoriés dans le tableau ???.
 
-
+\begin{table}[!ht]
+	\centering
+	\begin{tabular}{|*{6}{c|}r}
+	\hline
+	\textbf{} & \textbf{modèle de Kuramoto} & \textbf{modèle d'Ising}\\ \hline
+	
+	corps	&	oscillateurs	&	spins	\\ \hline
+	paramètre d'ordre	&	r	&	m	\\ \hline
+	point critique	&	$K_c$	&	$T_c$	\\ \hline
+	exposant critique $\beta$	&	0.5	&	0.5	\\ \hline
+	\end{tabular}
+	\caption{\label{analogies} Analogies entre le modèle de Kuramoto et le modèle d'Ising}
+\end{table}
 
 
 
