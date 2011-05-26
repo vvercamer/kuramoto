@@ -425,7 +425,7 @@ int main(int argc, char *argv[])
 		/*Tracé de r, rmoyenRand et rayonmoyen en fonction du temps*/
 		gp = gnuplot_init();
 		gnuplot_cmd(gp, "set terminal postscript enhanced color");
-		gnuplot_cmd(gp, "set output \"rayon1.pdf\"");
+		gnuplot_cmd(gp, "set output \"rayon1.ps\"");
 		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_xlabel(gp, "t");
 		gnuplot_set_ylabel(gp, "r");
