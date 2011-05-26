@@ -210,13 +210,20 @@ En réinjectant ce résultat dans l'équation \ref{totoro}, on obtient alors :
 
 On fait apparaître ici l'approximation champ moyen. En effet, la phase $\theta_i$ de l'oscillateur i ne dépend plus de la phase des autres oscillateurs $\theta_j$, mais de la cohérence de phase $r$ et de la phase moyenne $\psi$. Ainsi, un oscillateur ne ressent pas les autres oscillateurs indépendamment les uns des autres, mais ressentira le champ moyen créé par tous les oscillateurs du groupe.
 
-\subsection{Kuramoto's analysis} %??? titre à changer
+Nous détaillerons dans la partie \ref{sectionAnalogies} les analogies existant entre le modèle de Kuramoto et le modèle d'Ising.
+
+\subsection{Détermination théorique des paramètres critiques du modèle} %??? titre à changer
 
 
 
-\section{Analogies avec le modèle d'Ising}
 
-Le modèle d'Ising permet de modéliser des problèmes où $N$ corps ont deux états accessibles (dans le cas du réseau de spin : les états "spin up" et "spin down") et où les interactions locales vont avoir des effets collectifs. Dans notre cas, nous sommes en présence d'oscillateurs qui ont pour états accessibles les états "blocked" et "drifting". L'état "blocked" correspond aux oscillateurs synchronisés et l'état "drifting" aux oscillateurs non synchronisés.
+
+
+
+
+\section{Analogies avec le modèle d'Ising} \label{sectionAnalogies}
+
+Le modèle d'Ising permet de modéliser des problèmes où $N$ corps ont deux états accessibles (dans le cas du réseau de spin : les états "spin up" et "spin down") et où les interactions locales vont avoir des effets collectifs. Dans notre cas, nous sommes en présence d'oscillateurs qui ont pour états accessibles les états "locked" et "drifting".
 
 Dans le modèle d'Ising appliqué au ferromagnétisme, on considère le paramètre d'ordre $m$, qui n'est autre que le module de l'aimantation globale du réseau de spins. Ce paramètre est dépendant de la température T du système. Dans notre cas, le paramètre d'ordre réel est $r$, le module de la somme des signaux des oscillateurs. Celui-ci est dépendant du coefficient de couplage $K$.
 
@@ -272,9 +279,9 @@ Nous remarquerons ici que simuler sur plusieurs réalisations ne revient pas à ra
 
 $r$ et $\psi$ ont ensuite été calculés à partir des phases des oscillateurs par la relation \eqref{parametre d'ordre} en utilisant la fonction $meanField$, puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. En réitérant ce processus, les évolutions temporelles des $\theta_i$, de $r$ et de $\psi$ ont été déterminées.
 
-Une fois que cela est fait, il suffit alors de déterminer pour chaque valeur de K la valeur asymptotique de $r$. Pour cela, nous avons effectué, pour chaque réalisation, la moyenne des valeurs de $r$ sur toute la période temporelle de la simulation dans le cas où $K \leqslant K_c$, et une moyenne des valeurs de $r$ pour tous les $r$ supérieurs à 90\% de $r_{max}$, dans le cas où $K \geqslant K_c$. Nous avons esuite calculé la moyenne des valeurs ainsi obtenues, et notées $r_\infty$, sur les réalisations.
+Une fois que cela est fait, il suffit alors de déterminer pour chaque valeur de $K$ la valeur asymptotique de $r$. Pour cela, nous avons effectué, pour chaque réalisation, la moyenne des valeurs de $r$ sur toute la période temporelle de la simulation dans le cas où $K \leqslant K_c$, et une moyenne des valeurs de $r$ pour tous les $r$ supérieurs à 90\% de $r_{max}$, dans le cas où $K \geqslant K_c$. Nous avons esuite calculé la moyenne des valeurs ainsi obtenues, et notées $r_\infty$, sur les réalisations.
 
-Différents histogrammes ont été tracés : le premier représente la distribution initiale des $\theta_i$ et le deuxième représente la distribution finale des $\theta_i$. Dans le cas où l'on s'intéresse à plusieurs valeurs de K et à un moyennage sur plusieurs réalisations, seuls les histogrammes correspondant à la dernière valeur de K et à l première réalisation ont été affichés. Ces histogrammes nous permettent de voir de façon ostensible la synchronisation des oscillateurs.
+Différents histogrammes ont été tracés : le premier représente la distribution initiale des $\theta_i$ et le deuxième représente la distribution finale des $\theta_i$. Dans le cas où l'on s'intéresse à plusieurs valeurs de $K$ et à un moyennage sur plusieurs réalisations, seuls les histogrammes correspondant à la dernière valeur de $K$ et à l première réalisation ont été affichés. Ces histogrammes nous permettent de voir de façon ostensible la synchronisation des oscillateurs.
 
 Enfin, la fonction $logarithme$ nous a permis de calculer le logarithme de $r_\infty$ et de $\frac{K-K_c}{K}$. Le tracé de $log(r_\infty)$ en fonction de $log(\frac{K-K_c}{K})$ pour $K \geqslant K_c$ nous permet de vérifier l'approximation champ moyen et d'en déduire par régression linéaire la valeur de l'exposant $\beta$.
 
@@ -320,13 +327,13 @@ En conclusion, on retrouve bien les résultats attendus sur l'évolution temporell
 
 
 
-\section{Influence du coefficient de couplage K}
+\section{Influence du coefficient de couplage $K$}
 
 
-\subsection{Evolution de la cohérence en régime stationnaire avec le coefficient de couplage K}
+\subsection{Evolution de la cohérence en régime stationnaire avec le coefficient de couplage $K$}
 
 
-\subsection{Détermination du coefficient alpha du modèle d'Ising}
+\subsection{Détermination de l'exposant critique $\beta$ du modèle de Kuramoto}
 
 
 \subsection{Influence de la forme de la distribution des fréquences propre des oscillateurs}
@@ -336,11 +343,11 @@ En conclusion, on retrouve bien les résultats attendus sur l'évolution temporell
 
 \chapter{Influence de la distribution initiale des pulsations} \label{influencedistribution}
 
-\section{distribution gaussienne}
+\section{Distribution gaussienne}
 
-\section{distribution de Cauchy décalée}
+\section{Distribution de Cauchy décalée}
 
-\section{distribution ``chapeau'}
+\section{Distribution "chapeau"}
 
 
 \chapter{Influence du nombre d'oscillateurs}
