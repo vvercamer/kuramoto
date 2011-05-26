@@ -30,8 +30,10 @@
 \usepackage[dvipsnames,usenames]{color} 
 \usepackage{array}%pour certaine option tableau~:m{}
 \usepackage{grffile}
-
-
+\usepackage{ifvtex}
+\ifvtex
+\DeclareGraphicsExtensions{.ps}
+\fi
 
 %table des matières des annexes
 \newcommand\annexe[1]
@@ -79,6 +81,8 @@
 \newcommand\ec{\end{center}}
 
 \makeatletter \renewcommand{\@dotsep}{10000} \makeatother %retirer les points de suspension sur les subsections
+
+
 
 %\usepackage[none]{hyphenat}
 
@@ -240,7 +244,7 @@ Voici le résultat de la simulation obtenu pour 4 réalisations et pour $K = 1$ :
 
 \begin{figure}[!ht]
 	\centering
-%	\includegraphics[width=12cm]{images/rayon-K1-sigma01-lorentz.ps}
+	\includegraphics[width=12cm]{images/rayon-K1-sigma01-lorentz.pdf}
 %à changer pour une image représentant l'évolution pour différentes valeurs de K						
 	\caption{Évolution temporelle de la cohérence}
 	\label{coherence}
@@ -252,7 +256,7 @@ Des histogrammes représentant la distribution en phase des oscillateurs ont été 
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=12cm]{images/histo-theta-init.ps}
+	\includegraphics[width=12cm]{images/histo-theta-init.pdf}
 	\caption{Distribution initiale des phases des oscillateurs}
 	\label{histothetadeb}
 \end{figure}
@@ -260,7 +264,7 @@ Des histogrammes représentant la distribution en phase des oscillateurs ont été 
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=12cm]{images/histo-theta-fin.ps}
+	\includegraphics[width=12cm]{images/histo-theta-fin.pdf}
 	\caption{Distribution finale des phases des oscillateurs}
 	\label{histothetafin}
 \end{figure}
