@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 	double *omega = (double *) malloc (nbosc*sizeof(double));
 	double *theta = (double *) malloc (nbosc*sizeof(double));
 	double K = 0;
-	double Kmax = 1;
+	double Kmax = 2;
 	double OMEGA = 0;
 	double sigma = 0.1;
 	double subcrit = 0;
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 	printf("racine de beta = %f\n", sqrtbeta);
 
 	/*Déclaration des variables nécessaires à la détermination du rayon asymptotique rayonInfini*/
-	int idxC;
+	int idxC = 0;
 	double rayonMax = 0;
 	double *Tc = (double *) malloc (nbK*sizeof(double));
 	double *rayonCut = (double *) malloc (nbsamples*sizeof(double));
@@ -252,25 +252,28 @@ int main(int argc, char *argv[])
 					gsl_histogram_free (htheta);
 				}
 			}
+
+			/*Définition de rayonMax, le maximum de r*/
+			for (idxTime = 0 ; idxTime < nbsamples ; idxTime++) {
+				if (rayonmoyenRand[idxTime] > rayonMax)
+					rayonMax = rayonmoyenRand[idxTime];
+			}
+
+			/*Définition du temps critique comme étant le temps pour lequel on atteint 90% de la valeur maximale*/
+			idxTime = 0;
+			idxC = 0;
+			while (rayonmoyenRand[idxTime] < 0.90 * rayonMax)
+				idxTime++;
+
+			idxC = idxTime;
+			if (idxC < nbsamples)
+				Tc[idxK] += idxC*deltaT / nbrand;
 		}
 
 		/*Fin de la boucle sur les réalisations*/
 
 //		invrayonstable[idxK] = 1 / (1 - rayonmoyen[idxK] * rayonmoyen[idxK]);	//pour formule 4.7
 
-		/*Définition de rayonMax, le maximum de r*/
-		for (idxTime = 0 ; idxTime < nbsamples ; idxTime++) {
-			if (rayonmoyenRand[idxTime] > rayonMax)
-				rayonMax = rayonmoyenRand[idxTime];
-		}
-
-		/*Définition du temps critique comme étant le temps pour lequel on atteint 90% de la valeur maximale*/
-		idxTime = 0;
-		while (rayonmoyenRand[idxTime] < 0.9 * rayonMax)
-			idxTime++;
-
-		idxC = idxTime;
-		Tc[idxK] = idxC*deltaT;
 
 		/*Détermination de rayonInfini*/
 		if (idxC < nbsamples) {
@@ -588,7 +591,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "K");
 	gnuplot_set_ylabel(gp, "temps caractéristique");
-	gnuplot_plot_xy(gp, KvectCut, TcCut, (nbK-idxKc), "évolution du temps caracteristique");
+	gnuplot_plot_xy(gp, KvectCut, TcCut, (nbK-idxKc), "Evolution du temps caracteristique");
 
 
 
@@ -599,7 +602,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "K");
 	gnuplot_set_ylabel(gp, "r théorique - r simulé");
-	gnuplot_plot_xy(gp, KvectCut, deltarstable, (nbK-idxKc), "écart entre simulation et théorie");
+	gnuplot_plot_xy(gp, KvectCut, deltarstable, (nbK-idxKc), "Ecart entre simulation et théorie");
 
 	return 0;
 }
