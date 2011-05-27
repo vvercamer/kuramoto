@@ -142,7 +142,7 @@ Nous avons ici souhaité reprendre la théorie de Kuramoto afin de comprendre les 
 
 \chapter{Le modèle de Kuramoto}
 
-\section{Approche théorique}
+\section{Approche théorique} \label{théorie}
 \subsection{Modèle de Kuramoto}
 \emph{Dans cette partie, nous allons utiliser l'approximation champ moyen afin de résoudre plus simplement le problème}
 
@@ -299,17 +299,17 @@ K_c = \frac{2}{\pi g(0)}
 En résolvant l'équation \ref{solution2}, Kuramoto en déduit que juste au dessus du point critique, on a une amplitude de bifurcation suivant une loi en racine carré : 
 
 \begin{equation}
-r_\infty = \sqrt{\frac{\mu}{\beta}}
-%\label{rayonInfini}
+r_\infty = \sqrt{\frac{k}{\alpha}}
+\label{rayonInfini}
 \end{equation}
 
 
 \begin{equation}
-avec \quad \mu = \frac{K - K_c}{K}
+avec \quad \k = \frac{K - K_c}{K}
 \end{equation}
 
 \begin{equation}
-et \quad \beta = \frac{- \pi K_c^3 g"(0)}{16}
+et \quad \alpha = \frac{- \pi K_c^3 g"(0)}{16}
 \end{equation}
 
 Pour une distribution des pulsations propres $g$ ayant une forme de lorentzienne de paramètre $\gamma$, Kuramoto a intégré l'équation \ref{solution2}, trouvant ainsi une solution exacte au problème : 
@@ -326,9 +326,37 @@ Le modèle d'Ising permet de modéliser des problèmes où $N$ corps ont deux états 
 
 Dans le modèle d'Ising appliqué au ferromagnétisme, on considère le paramètre d'ordre $m$, qui n'est autre que le module de l'aimantation globale du réseau de spins. Ce paramètre est dépendant de la température T du système. Dans notre cas, le paramètre d'ordre réel est $r$, le module de la somme des signaux des oscillateurs. Celui-ci est dépendant du coefficient de couplage $K$.
 
-On remarque cependant une différence entre les deux modèles : dans le modèle d'Ising appliqué au ferromagnétisme, on introduit l'écart de température réduit $t = \frac{T - T_c}{T_c}$, et le modèle nous permet d'arriver à l'équation $m = t^\beta$ avec $\beta = 0.5$, $\beta$ étant appelé \textsl{exposant critique} ; en revanche, dans le modèle de Kuramoto, il faut poser $k = \frac{K - K_c}{K}$ pour pouvoir retomber sur $r = k^\beta$ avec $\beta = 0.5$. Notons tout de même que l'on garde la dépendance en racine carré.
+On remarque cependant une différence entre les deux modèles : dans le modèle d'Ising appliqué au ferromagnétisme, on introduit l'écart de température réduit 
+\begin{equation}
+t = \frac{T - T_c}{T_c}
+\end{equation}
 
-Enfin, nous verrons dans la suite ??? que le temps caractéritique du problème diverge au voisinage du point critique, ce qui n'est pas le cas dans le modèle d'Ising. En effet, dans le modèle de Kuramoto, on a une bifurcation ; le temps caractéristique, temps au bout duqul le système se stabilise, diverge en $ K = K_c$ et décroît exponentiellement lorsque $K \geqslant K_c$ (cf figure ???). Dans le modèle d'Ising, on observe en revanche un ralentissement critique, et non une divergence.
+et le modèle nous permet d'arriver à l'équation : 
+
+\begin{equation}
+m = t^\beta \quad avec \quad \beta = 0.5
+\end{equation}
+
+$\beta$ étant appelé \textsl{exposant critique}. 
+\vspace{1em}
+
+En revanche, dans le modèle de Kuramoto, il faut poser : 
+\begin{equation}
+k = \frac{K - K_c}{K}
+\end{equation}
+
+pour pouvoir retomber sur : 
+
+\begin{equation}
+r = k^\beta \quad avec \quad \beta = 0.5
+\end{equation}
+
+Notons tout de même que l'on garde la dépendance en racine carré.
+\vspace{1em}
+
+Enfin, nous verrons dans la suite ??? que le temps caractéritique du problème diverge au voisinage du point critique, ce qui n'est pas le cas dans le modèle d'Ising. En effet, dans le modèle de Kuramoto, on a une bifurcation ; le temps caractéristique, temps au bout duquel le système se stabilise, diverge en $ K = K_c$ et décroît exponentiellement lorsque $K \geqslant K_c$ (cf figure ???). Dans le modèle d'Ising, on observe en revanche un ralentissement critique, et non une divergence.
+
+Sensibilité au point de bifurcation ???
 
 L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto sont répertoriés dans le tableau \ref{analogies}.
 
@@ -373,7 +401,7 @@ On commence par définir les pulsations propres $\omega_i$ des oscillateurs. Pour
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=12cm]{images/histo-omega-cauchy.pdf}
-	\caption{Histogramme des pulsations $\omega_{i}$ pour 300 oscillateurs}
+	\caption{Histogramme des pulsations $\omega_{i}$ pour $300$ oscillateurs}
 	\label{histomegacauchy}
 \end{figure}
 
@@ -389,7 +417,7 @@ Différents histogrammes ont été tracés : le premier représente la distribution i
 
 Enfin, la fonction $logarithme$ nous a permis de calculer le logarithme de $r_\infty$ et de $\frac{K-K_c}{K}$. Le tracé de $log(r_\infty)$ en fonction de $log(\frac{K-K_c}{K})$ pour $K \geqslant K_c$ nous permet de vérifier l'approximation champ moyen et d'en déduire par régression linéaire la valeur de l'exposant $\beta$.
 
-Dans la suite, les différentes simulations ont été réalisées avec 300 oscillateurs, en prenant pour les courbes temporelles 10000 points avec un espacement temporel $deltaT = 0.1$. La distribution des $\omega_i$ a été choisie de Cauchy, centrée sur $0$ ($\Omega = 0$) et d'écart-type $\sigma = 0.1$.
+Dans la suite, les différentes simulations ont été réalisées avec $300$ oscillateurs, en prenant pour les courbes temporelles $10000$ points avec un espacement temporel $deltaT = 0.1$. La distribution des $\omega_i$ a été choisie de Cauchy, centrée sur $0$ ($\Omega = 0$) et d'écart-type $\sigma = 0.1$.
 
 %Temps de simulation ? Estimation ?
 
@@ -436,10 +464,64 @@ En conclusion, on retrouve bien les résultats attendus sur l'évolution temporell
 
 \subsection{Evolution de la cohérence en régime stationnaire avec le coefficient de couplage $K$}
 
+\cite{PhysRevLett.74.4341}
 
 \subsection{Détermination de l'exposant critique $\beta$ du modèle de Kuramoto}
 
-\cite{PhysRevLett.74.4341}
+Afin de déterminer la valeur de l'exposant critique $\beta$, nous avons tracé $log(r_\infty)$ en fonction de $log(k)$, avec $k = \frac{K - K_c}{K}$. Pour un moyennage sur 4 réalisations et pour $101$ valeurs de $K$ comprises entre $0$ et $1$, la simulation nous donne : 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=12cm]{images/lorentzienne.pdf}
+	\caption{Représentation logarithmique de l'évolution de $r_\infty$ en fonction de $k$ au-delà du seuil critique, avec sa régression linéaire}
+	\label{loglog}
+\end{figure}
+
+Une régression linéaire a été ajoutée grâce à la fonction \textsl{gsl\_fit\_linear} de la librairie GSL. Celle-ci est représentée sur la figure \ref{loglog}. Cette régression linéaire a pour équation : 
+
+\begin{equation}
+y = a k + b
+\end{equation}
+
+Or l'équation \ref{rayonInfini} relie $a$ et $b$ à $\alpha$ et $\beta$ de la façon suivante :
+
+\begin{equation}
+a = \beta
+\end{equation}
+
+\begin{equation}
+b = - \frac{1}{2}log\alpha
+\end{equation}
+
+Ceci nous donne donc que :
+
+\begin{equation}
+\sqrt\alpha = 0.969273
+\end{equation}
+
+et 
+
+\begin{equation}
+\beta =  0.580990
+\end{equation}
+
+le coefficient de corrélation étant de $0.998101$.
+
+Or d'après ce qu'on a vu dans la partie \ref{théorie}, on a :
+
+\begin{equation}
+(\sqrt\alpha)_{théorique} = 1
+\end{equation}
+
+et 
+
+\begin{equation}
+\beta_{théorique} = 0.5
+\end{equation}
+
+Ainsi, le résultat trouvé par la simulation est assez proche de la théorie, lorsque l'on regarde le comportement de $300$ oscillateurs sur $4$ réalisations.
+
+Nous verrons dans la partie \ref{influenceN} qu'une augmentation du nombre d'oscillateurs a pour conséquence un rapprochement du paramètre $\alpha$ et de l'exposant critique $\beta$ vers les valeurs théoriques attendues.
 
 
 \chapter{Influence de la distribution initiale des pulsations} \label{influencedistribution}
@@ -451,8 +533,9 @@ En conclusion, on retrouve bien les résultats attendus sur l'évolution temporell
 \section{Distribution "chapeau"}
 
 
-\chapter{Influence du nombre d'oscillateurs}
+\chapter{Influence du nombre d'oscillateurs} \label{influenceN}
 
+%Parler de l'influence de N sur le calcul de beta simulé.
 A partir de quel nombre d'oscillateurs obtient-on des graphes potables ?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%   Fin du rapport   %%%%%%%%%%%%%%%

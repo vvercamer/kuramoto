@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 	double *theta = (double *) malloc (nbosc*sizeof(double));
 	double *thetapoint = (double *) malloc (nbosc*sizeof(double));
 	double K = 0;
-	double Kmax = 2;
+	double Kmax = 1;
 	double OMEGA = 0;
 	double sigma = 0.1;
 	double subcrit = 0;
@@ -605,7 +605,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 		if (deltarstable[idxprim] > ecartMax)
 			ecartMax = deltarstable[idxprim];
 		KvectCut[idxprim] = Kvect[idxK];
-		TcCut[idxprim] = Tc[idxK];
+		TcCut[idxprim] = log(Tc[idxK]);
 	}
 
 	/*Régression linéaire*/
@@ -630,13 +630,13 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
 	gnuplot_cmd(gp, "set output 'loglog.ps'");
 	gnuplot_setstyle(gp, "lines");
-	gnuplot_set_xlabel(gp, "log (K-Kc)/K");
-	gnuplot_set_ylabel(gp, "log rstable");
+	gnuplot_set_xlabel(gp, "k");
+	gnuplot_set_ylabel(gp, "rayon infini");
 //	gnuplot_cmd(gp, "set yrange [-0.05:10.05]");
 //	gnuplot_plot_xy(gp, Kvect, invrayonstable, nbK, "evolution de rstable en fonction de K");
-	sprintf(titre,"évolution de rstable en fonction de (K-Kc)/K en log-log");
+	sprintf(titre,"evolution du rayon infini");
 	gnuplot_plot_xy(gp, logk, logr, (nbK-idxKc), titre);
-	sprintf(titre,"régression linéaire");
+	sprintf(titre,"regression lineaire");
 	gnuplot_plot_xy(gp, logk, fit, (nbK-idxKc), titre);
 
 	printf("écart entre simulation et théorie = %f\n",ecartMax);
