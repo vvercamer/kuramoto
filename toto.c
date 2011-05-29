@@ -498,10 +498,21 @@ int main(int argc, char *argv[])
 		sprintf(titre,"evolution de rmoy(t) pour K = %f", K);
 		gnuplot_plot_xy(gp, temps, rayonmoyenRand, nbsamples, titre);
 
+		/*Tracé de psi*/
+		gp = gnuplot_init();
+		gnuplot_cmd(gp, "set terminal postscript enhanced color");
+		gnuplot_cmd(gp, "set output \"psi1.ps\"");
+		gnuplot_setstyle(gp, "lines");
+		gnuplot_set_xlabel(gp, "t");
+		gnuplot_set_ylabel(gp, "psi");
+		gnuplot_cmd(gp, "set yrange [-3.2:3.2]");
+		sprintf(titre,"evolution de psi(t) pour K = %f", K);
+		gnuplot_plot_xy(gp, temps, psi, nbsamples, titre);
+
 		/*Tracé de la phase des oscillateurs*/
 		gp = gnuplot_init();
 		gnuplot_cmd(gp, "set terminal postscript enhanced color");
-		gnuplot_cmd(gp, "set output 'angle.ps'");
+		gnuplot_cmd(gp, "set output \"angle.ps\"");
 		gnuplot_setstyle(gp, "lines");
 		gnuplot_set_ylabel(gp, "phase theta");
 		gnuplot_set_xlabel(gp, "numero de l'oscillateur");

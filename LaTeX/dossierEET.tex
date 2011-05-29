@@ -28,7 +28,7 @@
 \usepackage{pdfpages}
 \usepackage{multicol}
 \usepackage[dvipsnames,usenames]{color} 
-\usepackage{array}%pour certaine option tableau~:m{}
+\usepackage{array} %pour certaine option tableau~:m{}
 
 
 %table des matières des annexes
@@ -409,7 +409,7 @@ Ensuite, pour différentes valeurs du coefficient de couplage $K$, nous avons che
 
 Nous remarquerons ici que simuler sur plusieurs réalisations ne revient pas à rajouter des oscillateurs, car le champ moyen généré n'est alors pas le même. Augmenter le nombre de réalisations nous permettra donc seulement de moyenner nos résultats, et non de regarder le comportement à grand nombre d'oscillateurs.
 
-$r$ et $\psi$ ont ensuite été calculés à partir des phases des oscillateurs par la relation \eqref{parametre d'ordre} en utilisant la fonction $meanField$, puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. En réitérant ce processus, les évolutions temporelles des $\theta_i$, de $r$ et de $\psi$ ont été déterminées.
+$r$ et $\psi$ ont ensuite été calculés à partir des phases des oscillateurs par la relation \eqref{parametre d'ordre} en utilisant l'approximation de champ moyen, puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. En réitérant ce processus, les évolutions temporelles des $\theta_i$, de $r$ et de $\psi$ ont été déterminées.
 
 Une fois que cela est fait, il suffit alors de déterminer pour chaque valeur de $K$ la valeur asymptotique de $r$. Pour cela, nous avons effectué, pour chaque réalisation, la moyenne des valeurs de $r$ sur toute la période temporelle de la simulation dans le cas où $K \leqslant K_c$, et une moyenne des valeurs de $r$ pour tous les $r$ supérieurs à 90\% de $r_{max}$, dans le cas où $K \geqslant K_c$. Nous avons esuite calculé la moyenne des valeurs ainsi obtenues, et notées $r_\infty$, sur les réalisations.
 
