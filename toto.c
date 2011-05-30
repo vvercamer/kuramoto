@@ -388,7 +388,7 @@ int main(int argc, char *argv[])
 	/*Tracé de l'histogramme des valeurs des pulsations*/
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-	gnuplot_cmd(gp, "set output 'histo_pulsations.ps'");
+	gnuplot_cmd(gp, "set output 'histo-pulsations.ps'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_set_xlabel(gp, "pulsation w");
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
@@ -399,47 +399,51 @@ int main(int argc, char *argv[])
 	/*Tracé de l'histogramme des valeurs initiales des theta*/
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-	gnuplot_cmd(gp, "set output 'histo_theta_init.ps'");
+	gnuplot_cmd(gp, "set output 'histo-theta-init.ps'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_cmd(gp, "set xrange [-0.2:%f]", 2 * thetamax + 0.2);
 	gnuplot_cmd(gp, "set yrange [0:100]");
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
 	gnuplot_set_xlabel(gp, "phase theta");
-	gnuplot_plot_xy(gp, Nhisttheta, histthetadeb, nbhist,"histogramme des valeurs initiales des theta");
+	sprintf(titre,"histogramme des valeurs initiales des theta pour K = %f", K);
+	gnuplot_plot_xy(gp, Nhisttheta, histthetadeb, nbhist, titre);
 
 
 	/*Tracé de l'histogramme des valeurs finales des theta*/
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-	gnuplot_cmd(gp, "set output 'histo_theta_fin.ps'");
+	gnuplot_cmd(gp, "set output 'histo-theta-fin.ps'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_cmd(gp, "set xrange [-0.2:%f]", 2 * thetamax + 0.2);
 	gnuplot_cmd(gp, "set yrange [0:100]");
 	gnuplot_set_xlabel(gp, "phase theta");
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
-	gnuplot_plot_xy(gp, Nhisttheta, histthetafin, nbhist,"histogramme des valeurs finales des theta");
+	sprintf(titre,"histogramme des valeurs finales des theta pour K = %f", K);
+	gnuplot_plot_xy(gp, Nhisttheta, histthetafin, nbhist, titre);
 
 	/*Tracé de l'histogramme des valeurs initiales des thetapoint*/
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-	gnuplot_cmd(gp, "set output 'histo_thetapoint_deb.ps'");
+	gnuplot_cmd(gp, "set output 'histo-thetapoint-deb.ps'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_cmd(gp, "set xrange [%f:%f]", thetapointmin, thetapointmax);
 	gnuplot_cmd(gp, "set yrange [0:%d]", nbosc);
 	gnuplot_set_xlabel(gp, "phase theta");
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
-	gnuplot_plot_xy(gp, Nhistthetapoint, histthetapointdeb, nbhist,"histogramme des valeurs initiales des thetapoint");
+	sprintf(titre,"histogramme des valeurs initiales des thetapoint pour K = %f", K);
+	gnuplot_plot_xy(gp, Nhistthetapoint, histthetapointdeb, nbhist, titre);
 
 	/*Tracé de l'histogramme des valeurs finales des thetapoint*/
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
-	gnuplot_cmd(gp, "set output 'histo_thetapoint_fin.ps'");
+	gnuplot_cmd(gp, "set output 'histo-thetapoint-fin.ps'");
 	gnuplot_setstyle(gp, "steps");
 	gnuplot_cmd(gp, "set xrange [%f:%f]", thetapointmin, thetapointmax);
 	gnuplot_cmd(gp, "set yrange [0:%d]", nbosc);
 	gnuplot_set_xlabel(gp, "phase theta");
 	gnuplot_set_ylabel(gp, "Nombre d'oscillateurs");
-	gnuplot_plot_xy(gp, Nhistthetapoint, histthetapointfin, nbhist,"histogramme des valeurs finales des thetapoint");
+	sprintf(titre,"histogramme des valeurs finales des thetapoint pour K = %f", K);
+	gnuplot_plot_xy(gp, Nhistthetapoint, histthetapointfin, nbhist, titre);
 
 
 	/*fichier = fopen("histthetadeb.csv", "w");
