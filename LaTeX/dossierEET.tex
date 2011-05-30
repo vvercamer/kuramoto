@@ -28,7 +28,7 @@
 \usepackage{pdfpages}
 \usepackage{multicol}
 \usepackage[dvipsnames,usenames]{color} 
-\usepackage{array}%pour certaine option tableau~:m{}
+\usepackage{array} %pour certaine option tableau~:m{}
 
 
 %table des matières des annexes
@@ -409,11 +409,22 @@ Ensuite, pour différentes valeurs du coefficient de couplage $K$, nous avons che
 
 Nous remarquerons ici que simuler sur plusieurs réalisations ne revient pas à rajouter des oscillateurs, car le champ moyen généré n'est alors pas le même. Augmenter le nombre de réalisations nous permettra donc seulement de moyenner nos résultats, et non de regarder le comportement à grand nombre d'oscillateurs.
 
-$r$ et $\psi$ ont ensuite été calculés à partir des phases des oscillateurs par la relation \eqref{parametre d'ordre} en utilisant la fonction $meanField$, puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. En réitérant ce processus, les évolutions temporelles des $\theta_i$, de $r$ et de $\psi$ ont été déterminées.
+$r$ et $\psi$ ont ensuite été calculés à partir des phases des oscillateurs par la relation~\ref{parametre d'ordre} en utilisant l'approximation de champ moyen, puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. En réitérant ce processus, les évolutions temporelles des $\theta_i$, de $r$ et de $\psi$ ont été déterminées.
 
 Une fois que cela est fait, il suffit alors de déterminer pour chaque valeur de $K$ la valeur asymptotique de $r$. Pour cela, nous avons effectué, pour chaque réalisation, la moyenne des valeurs de $r$ sur toute la période temporelle de la simulation dans le cas où $K \leqslant K_c$, et une moyenne des valeurs de $r$ pour tous les $r$ supérieurs à 90\% de $r_{max}$, dans le cas où $K \geqslant K_c$. Nous avons esuite calculé la moyenne des valeurs ainsi obtenues, et notées $r_\infty$, sur les réalisations.
 
 Différents histogrammes ont été tracés : le premier représente la distribution initiale des $\theta_i$ et le deuxième représente la distribution finale des $\theta_i$. Dans le cas où l'on s'intéresse à plusieurs valeurs de $K$ et à un moyennage sur plusieurs réalisations, seuls les histogrammes correspondant à la dernière valeur de $K$ et à l première réalisation ont été affichés. Ces histogrammes nous permettent de voir de façon ostensible la synchronisation des oscillateurs.
+
+\begin{figure}[!ht]
+\begin{multicols}{2}
+\includegraphics[height  =6cm]{images/histo-theta-deb.pdf}
+\caption{histo-theta-deb}
+\label{histo-theta-deb}
+\includegraphics[height  =6cm]{images/histo-theta-fin.pdf}
+x\caption{histo-theta-fin}
+\label{histo-theta-fin}
+\end{multicols}
+\end{figure}
 
 Enfin, la fonction $logarithme$ nous a permis de calculer le logarithme de $r_\infty$ et de $\frac{K-K_c}{K}$. Le tracé de $log(r_\infty)$ en fonction de $log(\frac{K-K_c}{K})$ pour $K \geqslant K_c$ nous permet de vérifier l'approximation champ moyen et d'en déduire par régression linéaire la valeur de l'exposant $\beta$.
 
@@ -440,7 +451,7 @@ Des histogrammes représentant la distribution en phase des oscillateurs ont été 
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=12cm]{images/histo-theta-init.pdf}
+	\includegraphics[width=12cm]{images/histo-theta-deb.pdf}
 	\caption{Distribution initiale des phases des oscillateurs}
 	\label{histothetadeb}
 \end{figure}
