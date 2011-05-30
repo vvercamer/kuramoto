@@ -129,10 +129,10 @@ juin 2011\\
 \section*{Introduction}
 
 
-Lorsque l'on observe des populations d'oscillateurs non linéaires couplés entre eux et ayant chacune leur propre fréquence, il arrive que celles-ci se synchronisent spontanément à une fréquence commune. C'est ce que l'on appelle la synchronisation collective d'oscillateurs. La synchronisation d'oscillations est un phénomène que l'on retrouve fréquemment dans la vie courante. Par exemple en biologie, on retrouve ce phénomène chez les cellules cardiaques  : celles-ci synchronisent leurs battements pour faire fonctionner le c\oe ur ; dans les réseaux de neurones, permettant ainsi la transmission des messages nerveux ; ou bien encore chez les grillons et les lucioles chez qui on observe une synchronisation collective des crissements et respectivement des émissions lumineuses. En physique, on peut citer les réseaux de jonctions Josephson. Enfin, citons quelques exemples de la vie courante, comme la marche au pas, la synchronisation des applaudissements d'une foule ou encore la synchronisation de métronomes.
+Lorsque l'on observe des populations d'oscillateurs non linéaires couplés entre eux et ayant chacune leur propre fréquence, il arrive que celles-ci se synchronisent spontanément à une fréquence commune. C'est ce que l'on appelle la synchronisation collective d'oscillateurs. La synchronisation d'oscillateurs est un phénomène que l'on retrouve fréquemment dans la vie courante. Par exemple en biologie, on retrouve ce phénomène chez les cellules cardiaques  : celles-ci synchronisent leurs battements pour faire fonctionner le c\oe ur ; dans les réseaux de neurones, permettant ainsi la transmission des messages nerveux ; ou bien encore chez les grillons et les lucioles chez qui on observe une synchronisation collective des crissements et respectivement des émissions lumineuses. En physique, on peut citer les réseaux de jonctions Josephson  \cite{PhysRevLett.76.404}. Enfin, citons quelques exemples de la vie courante, comme la marche au pas, la synchronisation des applaudissements d'une foule ou encore la synchronisation de métronomes.
 
 
-Le phénomène de synchronisation collective est étudiée depuis les années 1960. Le pionnier dans le domaine est A.T. Winfree. Celui-ci qui fit une étude mathématique des populations d'oscillateurs et montra qu'il existait une analogie avec  les modèles de transition de phase thermodynamique. Y. Kuramoto développa par la suite un modèle basé sur la théorie du champ moyen et trouva une solution exacte du problème des oscillateurs couplés. Enfin, Crawford ... ??? ben je sais pas ce qu'il a fichu celui-là.
+Le phénomène de synchronisation collective est étudiée depuis les années 1960. Le pionnier dans le domaine est A.T. Winfree. Celui-ci qui fit une étude mathématique des populations d'oscillateurs et montra qu'il existait une analogie avec  les modèles de transition de phase thermodynamique. Y. Kuramoto \cite{PhysicaD.143.1} développa par la suite un modèle basé sur la théorie du champ moyen et trouva une solution exacte du problème des oscillateurs couplés. Enfin, Crawford s'intéressa plus particulièrement aux instabilités dans le comportement de populations d'oscillateurs couplés ???.
 
 
 Nous avons ici souhaité reprendre la théorie de Kuramoto afin de comprendre les analogies existantes avec le modèle d'Ising. Nous avons ainsi cherché à faire des simulations afin de retrouver les résultats de Kuramoto.
@@ -462,7 +462,11 @@ En conclusion, on retrouve bien les résultats attendus sur l'évolution temporell
 \section{Influence du coefficient de couplage $K$}
 
 
-\subsection{Evolution de la cohérence en régime stationnaire avec le coefficient de couplage $K$}
+\subsection{Evolution de la cohérence en régime stationnaire avec le coefficient de couplage $K$} \label{rFonctionDeK}
+
+
+
+%introduire l'écart entre le r de la simulation et celui de la théorie
 
 \cite{PhysRevLett.74.4341}
 
@@ -496,8 +500,10 @@ b = - \frac{1}{2}log\alpha
 Ceci nous donne donc que :
 
 \begin{equation}
-\sqrt\alpha = 0.969273
+\alpha = 0.939490
 \end{equation}
+
+% à changer dans le programme !!! 
 
 et 
 
@@ -510,7 +516,7 @@ le coefficient de corrélation étant de $0.998101$.
 Or d'après ce qu'on a vu dans la partie \ref{théorie}, on a :
 
 \begin{equation}
-(\sqrt\alpha)_{théorique} = 1
+\alpha_{théorique} = 1
 \end{equation}
 
 et 
@@ -535,8 +541,31 @@ Nous verrons dans la partie \ref{influenceN} qu'une augmentation du nombre d'osc
 
 \chapter{Influence du nombre d'oscillateurs} \label{influenceN}
 
+En modifiant le nombre d'oscillateurs dans montre programme, nous sommes capables de voir l'influence du nombre d'oscillateurs sur les résultats de la simulation. Nous avons cherché dans cette partie à voir l'influence du nombre d'oscillateurs $N$ sur l'écart $\Delta r$ entre la simulation et la théorie, défini dans la partie \ref{rFonctionDeK} et sur la valeur simulée de $\beta$.
+
+\section{Influence sur l'écart entre simulation et théorie}
+
+On s'attend à ce que $\Delta r$ diminue lorsque l'on augmente le nombre d'oscillateurs.
+
+
+\section{Influence sur la valeur simulée de $\beta$}
+
+Comme l'approche théorique repose sur un raisonnement avec un grand nombre d'oscillateurs, on s'attend à ce que la simulation se rapproche de la théorie, et donc que la valeur simulée de $\beta$ se rapproche de $0.5$. Pour le vérifier, nous avons fait des simulations pour différents nombres d'oscillateurs.
+
+Voici la courbe que l'on obtient : 
+
+
+
+On observe, comme attendu, une diminution de l'écart entre le $\beta$ simulé et le $\beta$ théorique.
+
+Pour conclure cette partie, on remarque que la simulation approche suffisamment les résultats théoriques attendus dès que le nombre d'oscillateurs passe au-delà de $???$.
+
+
 %Parler de l'influence de N sur le calcul de beta simulé.
-A partir de quel nombre d'oscillateurs obtient-on des graphes potables ?
+%A partir de quel nombre d'oscillateurs obtient-on des graphes potables ?
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%   Fin du rapport   %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
