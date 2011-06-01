@@ -472,6 +472,19 @@ En conclusion, on retrouve bien les résultats attendus sur l'évolution temporell
 \section{Temps caractéristique de stabilisation}
 
 
+Regardons maintenant l'évolution du temps caractéristique de stabilisation $T_c$ en fonction de $K$. Ce temps caractéristique est défini ici comme le temps au bout duquel la cohérence $r$ atteint $90\%$ de sa valeur maximale. Cette définition n'a de sens que pour des coefficients de couplage supérieurs à $K_c$. Pour des coefficients de couplage proches de $K_c$, on s'attend à avoir des temps caractéristiques très importants, vu l'évolution observée sur la figure \ref{coherence}. Et pour des valeurs croissantes de $K$, on s'attend à une diminution de $T_c$.
+
+Voici ce que l'on obtient pour un moyennage sur $4$ réalisations de $r$ et pour des valeurs de $K$ comprises entre $0$ et $2$ : 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=12cm]{images/histo-theta-fin.pdf}
+%à modifier en Tc.pdf
+	\caption{Evolution du temps caractéristique de stabilisation en fonction de $K$}
+	\label{Tc}
+\end{figure}
+
+On observe sur la figure \ref{Tc} une divergence du temps caractéristique de stabilisation au voisinage du point critique. Au-delà du point critique $K_c$, le temps caractéristique $T_c$ semble décroître exponentiellement avec $K$.
 
 
 \section{Influence du coefficient de couplage $K$}
