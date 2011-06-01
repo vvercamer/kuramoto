@@ -644,7 +644,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
 	gnuplot_cmd(gp, "set output 'loglog.ps'");
-	gnuplot_setstyle(gp, "linespoints");
+	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "k");
 	gnuplot_set_ylabel(gp, "rayon infini");
 //	gnuplot_cmd(gp, "set yrange [-0.05:10.05]");
@@ -667,7 +667,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	gnuplot_cmd(gp, "set output 'Tc.ps'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "K");
-	gnuplot_set_ylabel(gp, "temps caractéristique");
+	gnuplot_set_ylabel(gp, "temps caracteristique");
 	gnuplot_plot_xy(gp, KvectCut, TcCut, (nbK-idxKc), "Evolution du temps caracteristique");
 
 
