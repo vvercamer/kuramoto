@@ -79,13 +79,13 @@ int main(int argc, char *argv[])
 	double *w = (double *) malloc (nbw*sizeof(double));
 	double *N = (double *) malloc (nbw*sizeof(double));
 
-	/*Détermination de Kc et de racine de beta*/
-	double Kc, sqrtbeta;
+	/*Détermination de Kc et de alpha*/
+	double Kc, alpha;
 	Kc = 2 / (M_PI * gsl_ran_cauchy_pdf(subcrit, sigma));
 
 	printf("Kc = %f\n", Kc);
-	sqrtbeta = sqrt(pow(Kc, 3) * (1 - 4 * pow(subcrit, 2) / (pow(sigma, 2) * (1 + pow(subcrit / sigma, 2))))/ (8 * pow(sigma, 3) * pow(1 + pow(subcrit / sigma, 2), 2)));
-	printf("racine de beta = %f\n", sqrtbeta);
+	alpha = pow(Kc, 3) * (1 - 4 * pow(subcrit, 2) / (pow(sigma, 2) * (1 + pow(subcrit / sigma, 2))))/ (8 * pow(sigma, 3) * pow(1 + pow(subcrit / sigma, 2), 2));
+	printf("alpha = %f\n", alpha);
 
 	/*Déclaration des variables nécessaires à la détermination du rayon asymptotique rayonInfini*/
 	int idxC = 0;
@@ -299,7 +299,7 @@ int main(int argc, char *argv[])
 			while (rayonmoyenRand[idxTime] < 0.90 * rayonMax)
 				idxTime++;
 
-			idxC = idxTime;
+			idxC = idxTime + 20;
 			if (idxC < nbsamples)
 				Tc[idxK] += idxC*deltaT / nbrand;
 		}
@@ -644,7 +644,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	gp = gnuplot_init();
 	gnuplot_cmd(gp, "set terminal postscript enhanced color");
 	gnuplot_cmd(gp, "set output 'loglog.ps'");
-	gnuplot_setstyle(gp, "lines");
+	gnuplot_setstyle(gp, "linespoints");
 	gnuplot_set_xlabel(gp, "k");
 	gnuplot_set_ylabel(gp, "rayon infini");
 //	gnuplot_cmd(gp, "set yrange [-0.05:10.05]");
@@ -657,7 +657,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	printf("écart entre simulation et théorie = %f\n",ecartMax);
 	printf("pente du fit = %f\n", c1);
 	printf("coefficient de corrélation = %f\n", gsl_stats_correlation(logk, xstride, logr, ystride, n));
-	printf("racine de beta simulée = %f\n", pow(10, -c0));
+	printf("alpha simulé = %f\n", pow(10, -2 * c0));
 
 
 

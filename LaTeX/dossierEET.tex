@@ -132,7 +132,7 @@ juin 2011\\
 Lorsque l'on observe des populations d'oscillateurs non linéaires couplés entre eux et ayant chacune leur propre fréquence, il arrive que celles-ci se synchronisent spontanément à une fréquence commune. C'est ce que l'on appelle la synchronisation collective d'oscillateurs. La synchronisation d'oscillateurs est un phénomène que l'on retrouve fréquemment dans la vie courante. Par exemple en biologie, on retrouve ce phénomène chez les cellules cardiaques  : celles-ci synchronisent leurs battements pour faire fonctionner le c\oe ur ; dans les réseaux de neurones, permettant ainsi la transmission des messages nerveux ; ou bien encore chez les grillons et les lucioles chez qui on observe une synchronisation collective des crissements et respectivement des émissions lumineuses. En physique, on peut citer les réseaux de jonctions Josephson  \cite{PhysRevLett.76.404}. Enfin, citons quelques exemples de la vie courante, comme la marche au pas, la synchronisation des applaudissements d'une foule ou encore la synchronisation de métronomes.
 
 
-Le phénomène de synchronisation collective est étudiée depuis les années 1960. Le pionnier dans le domaine est A.T. Winfree. Celui-ci qui fit une étude mathématique des populations d'oscillateurs et montra qu'il existait une analogie avec  les modèles de transition de phase thermodynamique. Y. Kuramoto \cite{PhysicaD.143.1} développa par la suite un modèle basé sur la théorie du champ moyen et trouva une solution exacte du problème des oscillateurs couplés. Enfin, Crawford s'intéressa plus particulièrement aux instabilités dans le comportement de populations d'oscillateurs couplés ???.
+Le phénomène de synchronisation collective est étudiée depuis les années 1960. Le pionnier dans le domaine est A.T. Winfree. Celui-ci qui fit une étude mathématique des populations d'oscillateurs et montra qu'il existait une analogie avec  les modèles de transition de phase thermodynamique. Y. Kuramoto \cite{PhysicaD.143.1} développa par la suite un modèle basé sur la théorie du champ moyen et trouva une solution exacte du problème des oscillateurs couplés. Enfin, Crawford s'intéressa plus particulièrement aux instabilités dans le comportement de populations d'oscillateurs couplés \cite{PhysRevLett.74.4341}???.
 
 
 Nous avons ici souhaité reprendre la théorie de Kuramoto afin de comprendre les analogies existantes avec le modèle d'Ising. Nous avons ainsi cherché à faire des simulations afin de retrouver les résultats de Kuramoto.
@@ -483,7 +483,7 @@ En conclusion, on retrouve bien les résultats attendus sur l'évolution temporell
 
 \subsection{Détermination de l'exposant critique $\beta$ du modèle de Kuramoto}
 
-Afin de déterminer la valeur de l'exposant critique $\beta$, nous avons tracé $log(r_\infty)$ en fonction de $log(k)$, avec $k = \frac{K - K_c}{K}$. Pour un moyennage sur 4 réalisations et pour $101$ valeurs de $K$ comprises entre $0$ et $1$, la simulation nous donne : 
+Afin de déterminer la valeur de l'exposant critique $\beta$, nous avons tracé $log(r_\infty)$ en fonction de $log(k)$, avec $k = \frac{K - K_c}{K}$. Pour un moyennage sur $4$ réalisations et pour $101$ valeurs de $K$ comprises entre $0$ et $1$, la simulation nous donne : 
 
 \begin{figure}[!ht]
 	\centering
@@ -511,18 +511,18 @@ b = - \frac{1}{2}log\alpha
 Ceci nous donne donc que :
 
 \begin{equation}
-\alpha = 0.939490
+\alpha = 0.960206
 \end{equation}
 
-% à changer dans le programme !!! 
+% valeurs à modifier lorsque l'on refera la bonne simulation avec un nbsamples suffisamment grand pour que ca se comporte bien autour du seuil
 
 et 
 
 \begin{equation}
-\beta =  0.580990
+\beta = 0.492794
 \end{equation}
 
-le coefficient de corrélation étant de $0.998101$.
+le coefficient de corrélation étant de $0.991610$.
 
 Or d'après ce qu'on a vu dans la partie \ref{théorie}, on a :
 
