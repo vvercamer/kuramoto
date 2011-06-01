@@ -299,7 +299,7 @@ int main(int argc, char *argv[])
 			while (rayonmoyenRand[idxTime] < 0.90 * rayonMax)
 				idxTime++;
 
-			idxC = idxTime + 20;
+			idxC = idxTime;
 			if (idxC < nbsamples)
 				Tc[idxK] += idxC*deltaT / nbrand;
 		}
