@@ -124,7 +124,8 @@ juin 2011\\
 %fin page de garde
 \setcounter{page}{2}
 
-
+\tableofcontents
+\newpage
 
 \section*{Introduction}
 
@@ -138,7 +139,6 @@ Le phénomène de synchronisation collective est étudiée depuis les années 1960. L
 Nous avons ici souhaité reprendre la théorie de Kuramoto afin de comprendre les analogies existantes avec le modèle d'Ising. Nous avons ainsi cherché à faire des simulations afin de retrouver les résultats de Kuramoto.
 
 
-\tableofcontents
 
 \chapter{Le modèle de Kuramoto}
 
@@ -265,8 +265,12 @@ Considérons tout d'abord la contribution des oscillateurs bloqués. Ceux-ci vont 
 On obtient alors après calculs : 
 
 \begin{equation}
-\langle e^{i\theta}\rangle _{lock} = \int_{-K r_\infty}^{K r_\infty} e^{i\theta} g(\omega) \mathrm{d}\omega = K r_\infty \int_{-K r_\infty}^{K r_\infty} \cos^2(\theta) g(K r_\infty \sin\theta) \mathrm{d}\theta
+\langle e^{i\theta}\rangle _{lock} = \int_{-K r_\infty}^{K r_\infty} e^{i\theta} g(\omega) \mathrm{d}\omega 
 \end{equation}
+
+d'où :
+
+$\langle e^{i\theta}\rangle _{lock} = K r_\infty \displaystyle\int_{-K r_\infty}^{K r_\infty} \cos^2(\theta) g(K r_\infty \sin\theta) \mathrm{d}\theta$
 
 Considérons maintenant la contribution des oscillateurs à la dérive. On a : 
 
