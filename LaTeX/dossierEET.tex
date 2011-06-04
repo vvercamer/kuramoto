@@ -196,7 +196,7 @@ En multipliant le paramètre d'ordre par $e^{-i\theta_i}$, puis en ne gardant que
 
 
 \begin{equation}
-r sin(\psi - \theta_i)=\frac{1}{N} \sum_{j = 1}^N\sin(\theta_j - \theta_i)
+r \sin(\psi - \theta_i)=\frac{1}{N} \sum_{j = 1}^N\sin(\theta_j - \theta_i)
 \label{parametre d'ordre}
 \end{equation}
 
@@ -255,23 +255,23 @@ Comme de plus, on sait que $\int_{-\pi}^\pi \rho(\theta, \omega) \mathrm{d}\thet
 Décomposons maintenant les signaux des oscillateurs en fonction de leur type :
 
 \begin{equation}
-<e^{i\theta}> = r_\infty = <e^{i\theta}>_{lock} + <e^{i\theta}>_{drift}
+\langle e^{i\theta}\rangle  = r_\infty = \langle e^{i\theta}\rangle _{lock} + \langle e^{i\theta}\rangle _{drift}
 \end{equation}
 
 car on a pris $\psi = 0$.
 
 
-Considérons tout d'abord la contribution des oscillateurs bloqués. Ceux-ci vont atteindre en régime stationnaire une phase vérifiant $\sin(\theta) = \frac{\omega}{K r_\infty}$. Comme la distribution $g$ des pulsations propres des oscillateurs est symétriques, en considérant qu'on a un grand nombre d'oscillateurs, on a donc $<\sin(\theta)>_{lock} = 0$.
+Considérons tout d'abord la contribution des oscillateurs bloqués. Ceux-ci vont atteindre en régime stationnaire une phase vérifiant $\sin(\theta) = \frac{\omega}{K r_\infty}$. Comme la distribution $g$ des pulsations propres des oscillateurs est symétriques, en considérant qu'on a un grand nombre d'oscillateurs, on a donc $\langle \sin(\theta)\rangle _{lock} = 0$.
 On obtient alors après calculs : 
 
 \begin{equation}
-<e^{i\theta}>_{lock} = \int_{-K r_\infty}^{K r_\infty} e^{i\theta} g(\omega) \mathrm{d}\omega = K r_\infty \int_{-K r_\infty}^{K r_\infty} \cos^2(\theta) g(K r_\infty \sin\theta) \mathrm{d}\theta
+\langle e^{i\theta}\rangle _{lock} = \int_{-K r_\infty}^{K r_\infty} e^{i\theta} g(\omega) \mathrm{d}\omega = K r_\infty \int_{-K r_\infty}^{K r_\infty} \cos^2(\theta) g(K r_\infty \sin\theta) \mathrm{d}\theta
 \end{equation}
 
 Considérons maintenant la contribution des oscillateurs à la dérive. On a : 
 
 \begin{equation}
-<e^{i\theta}>_{drift} = \int_{-\pi}^{\pi} \int_{|\omega| > K r_\infty} e^{i\theta} \rho(\theta, \omega) g(\omega) \mathrm{d}\omega \mathrm{d}\theta
+\langle e^{i\theta}\rangle _{drift} = \int_{-\pi}^{\pi} \int_{|\omega| > K r_\infty} e^{i\theta} \rho(\theta, \omega) g(\omega) \mathrm{d}\omega \mathrm{d}\theta
 \end{equation}
 
 Or cette intégrale est nulle du fait des symétries de $g$ et de $\rho$.
@@ -478,7 +478,7 @@ Voici ce que l'on obtient pour un moyennage sur $4$ réalisations de $r$ et pour 
 
 \begin{figure}[!ht]
 	\centering
-%	\includegraphics[width=12cm]{images/Tc.pdf}
+	\includegraphics[width=12cm]{images/Tc.pdf}
 	\caption{Evolution du temps caractéristique de stabilisation en fonction de $K$}
 	\label{Tc}
 \end{figure}
@@ -503,7 +503,7 @@ Afin de déterminer la valeur de l'exposant critique $\beta$, nous avons tracé $l
 
 \begin{figure}[!ht]
 	\centering
-%	\includegraphics[width=12cm]{images/loglog.pdf}
+	\includegraphics[width=12cm]{images/loglog.pdf}
 	\caption{Représentation logarithmique de l'évolution de $r_\infty$ en fonction de $k$ au-delà du seuil critique, avec sa régression linéaire}
 	\label{loglog}
 \end{figure}
