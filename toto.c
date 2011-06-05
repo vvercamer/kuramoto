@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 	double *theta = (double *) malloc (nbosc*sizeof(double));
 	double *thetapoint = (double *) malloc (nbosc*sizeof(double));
 	double K = 0;
-	double Kmax = 1;
+	double Kmax = 2;
 	double OMEGA = 0;
 	double sigma = 0.1;
 	double subcrit = 0;
@@ -287,22 +287,24 @@ int main(int argc, char *argv[])
 
 			}
 
-			/*Définition de rayonMax, le maximum de r*/
-			for (idxTime = 0 ; idxTime < nbsamples ; idxTime++) {
-				if (rayonmoyenRand[idxTime] > rayonMax)
-					rayonMax = rayonmoyenRand[idxTime];
-			}
-
-			/*Définition du temps critique comme étant le temps pour lequel on atteint 90% de la valeur maximale*/
-			idxTime = 0;
-			idxC = 0;
-			while (rayonmoyenRand[idxTime] < 0.90 * rayonMax)
-				idxTime++;
-
-			idxC = idxTime;
-			if (idxC < nbsamples)
-				Tc[idxK] += idxC*deltaT / nbrand;
 		}
+
+		/*Définition de rayonMax, le maximum de r*/
+		for (idxTime = 0 ; idxTime < nbsamples ; idxTime++) {
+			if (rayonmoyenRand[idxTime] > rayonMax)
+				rayonMax = rayonmoyenRand[idxTime];
+		}
+
+		/*Définition du temps critique comme étant le temps pour lequel on atteint 90% de la valeur maximale*/
+		idxTime = 0;
+		idxC = 0;
+		while (rayonmoyenRand[idxTime] < 0.90 * rayonMax)
+			idxTime++;
+
+		idxC = idxTime;
+		if (idxC < nbsamples)
+			Tc[idxK] = idxC*deltaT;
+
 
 		/*Fin de la boucle sur les réalisations*/
 
@@ -667,7 +669,8 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 	gnuplot_cmd(gp, "set output 'Tc.ps'");
 	gnuplot_setstyle(gp, "lines");
 	gnuplot_set_xlabel(gp, "K");
-	gnuplot_set_ylabel(gp, "temps caracteristique");
+	gnuplot_cmd(gp, "set xrange [-0.05:%f+0.05]",Kmax);
+	gnuplot_set_ylabel(gp, "logarithme du temps caracteristique");
 	gnuplot_plot_xy(gp, KvectCut, TcCut, (nbK-idxKc), "Evolution du temps caracteristique");
 
 
