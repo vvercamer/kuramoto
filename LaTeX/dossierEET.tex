@@ -10,7 +10,7 @@
 % DEBUT DU DOSSIER
 
 \pdfminorversion=5
-\documentclass[11pt,twoside,a4paper]{article} 
+\documentclass[11pt,twoside,a4paper]{report} 
 
 \setlength{\columnsep}{15pt}
 
@@ -119,7 +119,7 @@ juin 2011\\
    \clearpage
 
 
-\subsection*{Introduction}
+\section*{Introduction}
 
 
 Lorsque l'on observe des populations d'oscillateurs non linéaires couplés entre eux et ayant chacune leur propre fréquence, il arrive que celles-ci se synchronisent spontanément à une fréquence commune. C'est ce que l'on appelle la synchronisation collective d'oscillateurs. La synchronisation d'oscillateurs est un phénomène que l'on retrouve fréquemment dans la vie courante. Par exemple en biologie, on retrouve ce phénomène chez les cellules cardiaques  : celles-ci synchronisent leurs battements pour faire fonctionner le c\oe ur ; dans les réseaux de neurones, permettant ainsi la transmission des messages nerveux ; ou bien encore chez les grillons et les lucioles chez qui on observe une synchronisation collective des crissements et respectivement des émissions lumineuses. En physique, on peut citer les réseaux de jonctions Josephson  \cite{PhysRevLett.76.404}. Enfin, citons quelques exemples de la vie courante, comme la marche au pas, la synchronisation des applaudissements d'une foule ou encore la synchronisation de métronomes.
@@ -132,10 +132,10 @@ Nous avons ici souhaité reprendre la théorie de Kuramoto afin de comprendre les 
 
 
 
-\section{Le modèle de Kuramoto}
+\chapter{Le modèle de Kuramoto}
 
-\subsection{Approche théorique} \label{théorie}
-\subsubsection{Modèle de Kuramoto}
+\section{Approche théorique} \label{théorie}
+\subsection{Modèle de Kuramoto}
 \emph{Dans cette partie, nous allons utiliser l'approximation champ moyen afin de résoudre plus simplement le problème}
 
 Considérons une importante population de $N$ oscillateurs semblables (d'amplitude égale à 1 mais dont la phase~$\theta$ et la pulsation propre $\omega$ diffèrent), couplés entre eux, et mettons-nous dans le cas où le couplage $\Gamma_{ij}(\theta)$, entre deux oscillateurs $i$ et $j$, est faible et ne dépend que de la phase. La phase de l'oscillateur $i$, notée $\theta_i$, suit alors l'expression :
@@ -158,7 +158,7 @@ $K$ est appelé coefficient de couplage.
 On intuite que lorsque la distribution des pulsations propres des oscillateurs est large, les oscillateurs vont se comporter de façon incohérente et garderont chacun leur propre fréquence. En revanche, lorsque cette distribution sera suffisamment étroite pour que le couplage ait de l'influence, une partie des oscillateurs va se synchroniser.
 
 
-Notons $g(\omega)$ la distribution des pulsations propres des oscillateurs. Supposons que $g$ est unimodale et symétrique par rapport à la pulsation moyenne $\Omega$ des oscillateurs prise nulle par changement de variable. On a alors $g(-\omega)=g(\omega)$.
+Notons $g(\omega)$ la distribution des pulsations propres des oscillateurs. Supposons que $g$ est unimodale et symétrique par rapport à la pulsation moyenne $\Omega$ des oscillateurs, prise nulle par changement de variable. On a alors $g(-\omega)=g(\omega)$.
 
 Nous allons à présent utiliser une représentation géométrique pour visualiser l'évolution des phases des oscillateurs. Chaque oscillateur est caractérisé par sa phase $\theta_i$. On représentera chaque oscillateur par un point se déplaçant sur le cercle trigonométrique avec sa propre phase $\theta_i$ (cf. figure~\ref{cercletrigo}).
 
@@ -181,7 +181,6 @@ r e^{i\psi} = \frac{1}{N} \sum_{j = 1}^N e^{i\theta_j}
 
 
 Plus les oscillateurs oscilleront de façon cohérente, plus la population se comportera comme un unique oscillateur, et plus $r$ sera proche de 1 ; en revanche, plus les oscillateurs oscilleront de façon incohérente, plus ils seront dispersés aléatoirement sur le cercle trigonométrique, et plus $r$ tendra vers 0. Ainsi, $r$ représente la cohérence de phase de la population d'oscillateurs. $\psi$ représente quant à lui la phase moyenne des oscillateurs.
-$r e^{i \psi}$ est le paramètre d'ordre du système %pourquoi on peut dire ça ???
 
 
 En multipliant le paramètre d'ordre par $e^{-i\theta_i}$, puis en ne gardant que la partie imaginaire de l'expression ainsi obtenue, on trouve que :
@@ -206,27 +205,27 @@ Nous détaillerons dans la partie \ref{sectionAnalogies} les analogies existant e
 
 
 
-\subsubsection{Mise en évidence de deux types de comportement}
+\subsection{Mise en évidence de deux types de comportement}
 
-Dans cette partie, nous allons chercher les solutions stationnaires du problème, où $r(t)$ est constant et $\psi(t)$ tourne avec une pulsation $\Omega$. En se mettant dans le référentiel tournant à la pulsation $\Omega$, , on peut alors se ramener au cas où $\psi = 0$, et l'équation \ref{thetapoint} devient alors : 
+Dans cette partie, nous allons chercher les solutions stationnaires du problème, où $r(t)$ est constant et $\psi(t)$ tourne avec une pulsation $\Omega$. En se mettant dans le référentiel tournant à la pulsation $\Omega$, on peut alors se ramener au cas où $\psi = 0$, et l'équation \ref{thetapoint} devient alors : 
 
 \begin{equation}
 \dot{\theta}_i=\omega_i - K r \sin(\theta_i)
 \label{thetapointsimple}
 \end{equation}
 
-L'équation \ref{thetapointsimple} met en évidence deux types de comportements à long terme des oscillateurs. En effet, si la pulsation de l'oscillateur $i$ vérifie $|\omega_i| \leqslant K r_\infty$, alors l'équation \ref{thetapointsimple}admet un point fixe stable défini par : 
+L'équation \ref{thetapointsimple} met en évidence deux types de comportements à long terme des oscillateurs. En effet, si la pulsation de l'oscillateur $i$ vérifie $|\omega_i| \leqslant K r_\infty$, alors l'équation \ref{thetapointsimple} admet un point fixe stable défini par : 
 
 \begin{equation}
 \omega_i = K r_\infty \sin(\theta_i)
 \end{equation}
 
-Ce type d'oscillateurs sera qualifié de "locked", ou \textsl{oscillateurs bloqués}, dans la suite du rapport.
+Ce type d'oscillateur sera qualifié de "locked", ou \textsl{oscillateur bloqué}, dans la suite du rapport.
 
-En revanche, si la pulsation de l'oscillateur $i$ ne vérifie pas cette relation, on a alors : $|\omega_i| > K r_\infty$, et on n'aura pas de point fixe stable. L'oscillateur va voir sa pulsation dériver. Ce type d'oscillateurs sera qualifié de "drifting", ou \textsl{oscillateurs à la dérive}.
+En revanche, si la pulsation de l'oscillateur $i$ ne vérifie pas cette relation, on a alors : $|\omega_i| > K r_\infty$, et on n'aura pas de point fixe stable. L'oscillateur va voir sa pulsation dériver. Ce type d'oscillateur sera qualifié de "drifting", ou \textsl{oscillateur à la dérive}.
 
 
-\subsubsection{Détermination théorique des paramètres critiques du modèle}
+\subsection{Détermination théorique des paramètres critiques du modèle}
 
 
 Pour déterminer les paramètres critiques du modèle, nous allons introduire $\rho(\theta, \omega)$, la densité de probabilité qu'un oscillateur de pulsation $\omega$ ait une phase comprise entre $\theta$ et $\theta + d\theta$.
@@ -238,7 +237,7 @@ L'équation de conservation du nombre d'oscillateurs ??? s'écrit alors :
 
 Comme on est dans l'hypothèse régime stationnaire, $\frac{\partial \rho}{\partial t} = 0$, ce qui entraîne que $\rho$ est proportionnel à l'inverse de la vitesse $|\dot{\theta}|$. 
 
-Comme de plus, on sait que $\int_{-\pi}^\pi \rho(\theta, \omega) \mathrm{d}\theta$, on en déduit que : 
+Comme de plus, on sait que $\displaystyle\int_{-\pi}^\pi \rho(\theta, \omega) \mathrm{d}\theta = 1$, on en déduit que : 
 
 \begin{equation}
 \rho(\theta, \omega) = \frac{1}{2\pi} \frac{\sqrt{\omega^2 - (K r_\infty)^2}}{|\omega - K r_\infty \sin(\theta)|}
@@ -257,12 +256,9 @@ Considérons tout d'abord la contribution des oscillateurs bloqués. Ceux-ci vont 
 On obtient alors après calculs : 
 
 \begin{equation}
-\langle e^{i\theta}\rangle _{lock} = \int_{-K r_\infty}^{K r_\infty} e^{i\theta} g(\omega) \mathrm{d}\omega 
+\langle e^{i\theta}\rangle _{lock} = \int_{-K r_\infty}^{K r_\infty} e^{i\theta} g(\omega) \mathrm{d}\omega = K r_\infty \displaystyle\int_{-K r_\infty}^{K r_\infty} \cos^2(\theta) g(K r_\infty \sin\theta) \mathrm{d}\theta
 \end{equation}
 
-d'où :
-
-$\langle e^{i\theta}\rangle _{lock} = K r_\infty \displaystyle\int_{-K r_\infty}^{K r_\infty} \cos^2(\theta) g(K r_\infty \sin\theta) \mathrm{d}\theta$
 
 Considérons maintenant la contribution des oscillateurs à la dérive. On a : 
 
@@ -285,23 +281,23 @@ Cette équation a deux solutions. La première est la solution nulle $r_\infty = 0
 \label{solution2}
 \end{equation}
 
-Par continuité des solutions, on doit retrouver l'égalité de ces deux sloutions pour un coefficient de couplage critique noté $K_c$, lorsqu'on fait tendre $r_\infty$ vers $0$ dans l'équation \ref{solution2}. Cette égalité nous permet après calculs d'en déduire que : 
+Par continuité des solutions, on doit retrouver l'égalité de ces deux solutions pour un coefficient de couplage critique noté $K_c$, lorsqu'on fait tendre $r_\infty$ vers $0$ dans l'équation \ref{solution2}. Cette égalité nous permet après calculs d'en déduire que : 
 
 \begin{equation}
-K_c = \frac{2}{\pi g(0)}
-%\label{K_c}
+\fbox{$K_c = \dfrac{2}{\pi g(0)}$}
+\label{K_c}
 \end{equation}
 
 En résolvant l'équation \ref{solution2}, Kuramoto en déduit que juste au dessus du point critique, on a une amplitude de bifurcation suivant une loi en racine carré : 
 
 \begin{equation}
-r_\infty = \sqrt{\frac{k}{\alpha}}
+r_\infty = \sqrt{\dfrac{k}{\alpha}}
 \label{rayonInfini}
 \end{equation}
 
 
 \begin{equation}
-avec \quad \k = \frac{K - K_c}{K}
+avec \quad k = \frac{K - K_c}{K}
 \end{equation}
 
 \begin{equation}
@@ -316,7 +312,7 @@ r_\infty = \sqrt{\frac{K - K_c}{K}}
 
 
 
-\subsection{Analogies avec le modèle d'Ising} \label{sectionAnalogies}
+\section{Analogies avec le modèle d'Ising} \label{sectionAnalogies}
 
 Le modèle d'Ising permet de modéliser des problèmes où $N$ corps ont deux états accessibles (dans le cas du réseau de spin : les états "spin up" et "spin down") et où les interactions locales vont avoir des effets collectifs. Dans notre cas, nous sommes en présence d'oscillateurs qui ont pour états accessibles les états "locked" et "drifting".
 
@@ -376,10 +372,10 @@ L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto sont r
 
 
 
-\section{Simulation avec l'approximation champ moyen}
+\chapter{Simulation avec l'approximation champ moyen}
 
 
-\subsection{Simulation}
+\section{Simulation}
 
 
 Nous avons effectué une simulation du modèle de Kuramoto en langage C. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été assimilée à une fonction de Cauchy (lorentzienne, cf. figure \ref{lorentzienne}). Nous avons ensuite étudié l'influence d'un changement de distribution. Nous verrons dans le chapitre~\ref{influencedistribution} l'influence de la distribution $g$ sur les résultats.
@@ -407,9 +403,9 @@ Nous remarquerons ici que simuler sur plusieurs réalisations ne revient pas à ra
 
 $r$ et $\psi$ ont ensuite été calculés à partir des phases des oscillateurs par la relation~\ref{parametre d'ordre} en utilisant l'approximation de champ moyen, puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. En réitérant ce processus, les évolutions temporelles des $\theta_i$, de $r$ et de $\psi$ ont été déterminées.
 
-Une fois que cela est fait, il suffit alors de déterminer pour chaque valeur de $K$ la valeur asymptotique de $r$. Pour cela, nous avons effectué, pour chaque réalisation, la moyenne des valeurs de $r$ sur toute la période temporelle de la simulation dans le cas où $K \leqslant K_c$, et une moyenne des valeurs de $r$ pour tous les $r$ supérieurs à 90\% de $r_{max}$, dans le cas où $K \geqslant K_c$. Nous avons esuite calculé la moyenne des valeurs ainsi obtenues, et notées $r_\infty$, sur les réalisations.
+Une fois que cela est fait, il suffit alors de déterminer pour chaque valeur de $K$ la valeur asymptotique de $r$. Pour cela, nous avons effectué, pour chaque réalisation, la moyenne des valeurs de $r$ sur toute la période temporelle de la simulation dans le cas où $K \leqslant K_c$, et une moyenne des valeurs de $r$ pour tous les $r$ supérieurs à 90\% de $r_{max}$, dans le cas où $K \geqslant K_c$. Nous avons ensuite calculé la moyenne des valeurs ainsi obtenues, et notées $r_\infty$, sur les réalisations.
 
-Différents histogrammes ont été tracés : le premier représente la distribution initiale des $\theta_i$ et le deuxième représente la distribution finale des $\theta_i$. Dans le cas où l'on s'intéresse à plusieurs valeurs de $K$ et à un moyennage sur plusieurs réalisations, seuls les histogrammes correspondant à la dernière valeur de $K$ et à l première réalisation ont été affichés. Ces histogrammes nous permettent de voir de façon ostensible la synchronisation des oscillateurs.
+Différents histogrammes ont été tracés : le premier représente la distribution initiale des $\theta_i$ et le deuxième représente la distribution finale des $\theta_i$. Dans le cas où l'on s'intéresse à plusieurs valeurs de $K$ et à un moyennage sur plusieurs réalisations, seuls les histogrammes correspondant à la dernière valeur de $K$ et à la première réalisation ont été affichés. Ces histogrammes nous permettent de voir de façon ostensible la synchronisation des oscillateurs.
 
 \begin{figure}[!ht]
 \begin{multicols}{2}
@@ -430,7 +426,7 @@ Dans la suite, les différentes simulations ont été réalisées avec $300$ oscillat
 %Temps de simulation ? Estimation ?
 
 
-\subsection{Evolution de la cohérence avec le temps}
+\section{Evolution de la cohérence avec le temps}
 
 Voici le résultat de la simulation obtenu pour 4 réalisations et pour $K = 1$ : 
 
@@ -466,7 +462,7 @@ On remarque sur ces deux histogrammes que les oscillateurs ont initialement une 
 En conclusion, on retrouve bien les résultats attendus sur l'évolution temporelle de la cohérence des oscillateurs, aiisi que sur leur synchronisation.
 
 
-\subsection{Temps caractéristique de stabilisation}
+\section{Temps caractéristique de stabilisation}
 
 
 Regardons maintenant l'évolution du temps caractéristique de stabilisation $T_c$ en fonction de $K$. Ce temps caractéristique est défini ici comme le temps au bout duquel la cohérence $r$ atteint $90\%$ de sa valeur maximale. Cette définition n'a de sens que pour des coefficients de couplage supérieurs à $K_c$. Pour des coefficients de couplage proches de $K_c$, on s'attend à avoir des temps caractéristiques très importants, vu l'évolution observée sur la figure \ref{coherence}. Et pour des valeurs croissantes de $K$, on s'attend à une diminution de $T_c$.
@@ -483,10 +479,10 @@ Voici ce que l'on obtient pour un moyennage sur $4$ réalisations de $r$ et pour 
 On observe sur la figure \ref{Tc} une divergence du temps caractéristique de stabilisation au voisinage du point critique. Au-delà du point critique $K_c$, le temps caractéristique $T_c$ semble décroître exponentiellement avec $K$.
 
 
-\subsection{Influence du coefficient de couplage $K$}
+\section{Influence du coefficient de couplage $K$}
 
 
-\subsubsection{Evolution de la cohérence en régime stationnaire avec le coefficient de couplage $K$} \label{rFonctionDeK}
+\subsection{Evolution de la cohérence en régime stationnaire avec le coefficient de couplage $K$} \label{rFonctionDeK}
 
 
 
@@ -494,7 +490,7 @@ On observe sur la figure \ref{Tc} une divergence du temps caractéristique de sta
 
 \cite{PhysRevLett.74.4341}
 
-\subsubsection{Détermination de l'exposant critique $\beta$ du modèle de Kuramoto}
+\subsection{Détermination de l'exposant critique $\beta$ du modèle de Kuramoto}
 
 Afin de déterminer la valeur de l'exposant critique $\beta$, nous avons tracé $log(r_\infty)$ en fonction de $log(k)$, avec $k = \frac{K - K_c}{K}$. Nous avons vu précédemment que le temps caractériqtique de stabilisation augmentait exponentiellement lorsque l'on s'approchait du point critique. C'est pourquoi nous avons augmenté le temps de simulation en effectuant la simulation sur $50000$ points de mesures. Pour un moyennage sur $4$ réalisations et pour $101$ valeurs de $K$ comprises entre $0$ et $1$, la simulation nous donne : 
 
@@ -553,25 +549,25 @@ Ainsi, le résultat trouvé par la simulation est assez proche de la théorie, lors
 Nous verrons dans la partie \ref{influenceN} qu'une augmentation du nombre d'oscillateurs a pour conséquence un rapprochement du paramètre $\alpha$ et de l'exposant critique $\beta$ vers les valeurs théoriques attendues.
 
 
-\section{Influence de la distribution initiale des pulsations} \label{influencedistribution}
+\chapter{Influence de la distribution initiale des pulsations} \label{influencedistribution}
 
-\subsection{Distribution gaussienne}
+\section{Distribution gaussienne}
 
-\subsection{Distribution de Cauchy décalée}
+\section{Distribution de Cauchy décalée}
 
-\subsection{Distribution "chapeau"}
+\section{Distribution "chapeau"}
 
 
-\section{Influence du nombre d'oscillateurs} \label{influenceN}
+\chapter{Influence du nombre d'oscillateurs} \label{influenceN}
 
 En modifiant le nombre d'oscillateurs dans montre programme, nous sommes capables de voir l'influence du nombre d'oscillateurs sur les résultats de la simulation. Nous avons cherché dans cette partie à voir l'influence du nombre d'oscillateurs $N$ sur l'écart $\Delta r$ entre la simulation et la théorie, défini dans la partie \ref{rFonctionDeK} et sur la valeur simulée de $\beta$.
 
-\subsection{Influence sur l'écart entre simulation et théorie}
+\section{Influence sur l'écart entre simulation et théorie}
 
 On s'attend à ce que $\Delta r$ diminue lorsque l'on augmente le nombre d'oscillateurs.
 
 
-\subsection{Influence sur la valeur simulée de $\beta$}
+\section{Influence sur la valeur simulée de $\beta$}
 
 Comme l'approche théorique repose sur un raisonnement avec un grand nombre d'oscillateurs, on s'attend à ce que la simulation se rapproche de la théorie, et donc que la valeur simulée de $\beta$ se rapproche de $0.5$. Pour le vérifier, nous avons fait des simulations pour différents nombres d'oscillateurs.
 

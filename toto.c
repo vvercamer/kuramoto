@@ -495,10 +495,10 @@ int main(int argc, char *argv[])
 		gnuplot_set_xlabel(gp, "t");
 		gnuplot_set_ylabel(gp, "r");
 		gnuplot_cmd(gp, "set yrange [-0.05:1.05]");
-		sprintf(titre,"evolution de r(t) pour K = %f", K);
-		gnuplot_plot_xy(gp, temps, rayon, nbsamples, titre);
-		sprintf(titre,"evolution de rayonmoyen(t) pour K = %f", K);
-		gnuplot_plot_xy(gp, temps, rayonmoyen, nbsamples, titre) ;
+//		sprintf(titre,"evolution de r(t) pour K = %f", K);
+//		gnuplot_plot_xy(gp, temps, rayon, nbsamples, titre);
+//		sprintf(titre,"evolution de rayonmoyen(t) pour K = %f", K);
+//		gnuplot_plot_xy(gp, temps, rayonmoyen, nbsamples, titre) ;
 		sprintf(titre,"evolution de rmoy(t) pour K = %f", K);
 		gnuplot_plot_xy(gp, temps, rayonmoyenRand, nbsamples, titre);
 
