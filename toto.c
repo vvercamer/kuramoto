@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 	double *theta = (double *) malloc (nbosc*sizeof(double));
 	double *thetapoint = (double *) malloc (nbosc*sizeof(double));
 	double K = 0;
-	double Kmax = 2;
+	double Kmax = 1;
 	double OMEGA = 0;
 	double sigma = 0.1;
 	double subcrit = 0;
