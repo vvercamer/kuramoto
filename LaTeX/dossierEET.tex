@@ -33,16 +33,6 @@
 \usepackage{array} %pour certaine option tableau~:m{}
 
 
-%table des matières des annexes
-\newcommand\annexe[1]
-	{\addcontentsline{xmp}{annexe}{#1}}
-\makeatletter \newcommand\listofannexes
-	{\@starttoc{xmp}}
-  \newcommand\l@annexe[2]
-	{\par\noindent#1,~\textit{#2}\par} % mise en forme de la table
-\makeatother
-	
-	
 
 %début en-tête et pied de page
 \usepackage{fancyhdr}
@@ -368,7 +358,7 @@ L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto sont r
 
 \begin{table}[!ht]
 	\centering
-	\begin{tabular}{|p{2.9cm}| >{\centering\arraybackslash}m{2cm}|>{\centering\arraybackslash}m{2.3cm}|}
+	\begin{tabular}{|p{4cm}| >{\centering\arraybackslash}m{3cm}|>{\centering\arraybackslash}m{3cm}|}
 	\hline
 	\textbf{} & \textbf{modèle de Kuramoto} & \textbf{modèle d'Ising}\\ \hline
 	
@@ -376,8 +366,7 @@ L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto sont r
 	paramètre d'ordre	& 	$r$	&	$m$	\\ \hline
 	écart au point critique	& 	$k$	&	$t$	\\ \hline
 	exposant critique $\beta$	&  0.5 	&  0.5 	\\ \hline
-	temps  &  	divergence	& 	ralentissement	\\ 
-	caractéristique&&	\\ \hline
+	temps  caractéristique &  	divergence	& 	ralentissement	\\ \hline
 	\end{tabular}
 	\caption{\label{analogies} Analogies et différences entre le modèle de Kuramoto et le modèle d'Ising}
 \end{table}
