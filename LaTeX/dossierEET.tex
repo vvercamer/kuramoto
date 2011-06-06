@@ -551,11 +551,34 @@ Nous verrons dans la partie \ref{influenceN} qu'une augmentation du nombre d'osc
 
 \chapter{Influence de la distribution initiale des pulsations} \label{influencedistribution}
 
+Dans cette partie, nous avons cherché à connaître l'influence de la distribution initiale des oscillateurs sur leur comportement. Ainsi, nous avons testé 3 types de distributions : la distribution gaussienne, la distribution de Cauchy décalée et une distribution "chapeau".
+
 \section{Distribution gaussienne}
 
 \section{Distribution de Cauchy décalée}
 
+La distribution de Cauchy décalée a été réalisée en ajoutant une constante valant $0.2$ à toutes les pulsations initiales. Voici la distribution obtenue :
+
+\begin{figure}[!ht]
+	\centering
+%	\includegraphics[width=12cm]{images/histo-pulsation-décalé.pdf}
+	\caption{Histogramme des pulsations $\omega_{i}$ pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.2$}
+	\label{histoDecal}
+\end{figure}
+
+
+
 \section{Distribution "chapeau"}
+
+La distribution "chapeau" a été réalisée en sommant deux distribution de Cauchy décalée de $0.2$ de part et d'autre de $0$. Cela a été plus précisément effectué en ajoutant une constante valant $0.2$ à la moitié des pulsations initiales et en retranchant $0.2$ à l'autre moitié. Voici la distribution obtenue :
+
+\begin{figure}[!ht]
+	\centering
+%	\includegraphics[width=12cm]{images/histo-pulsation-chapeau.pdf}
+	\caption{Histogramme des pulsations $\omega_{i}$ pour $300$ oscillateurs, pour une distribution chapeau}
+	\label{histoChapeau}
+\end{figure}
+
 
 
 \chapter{Influence du nombre d'oscillateurs} \label{influenceN}
