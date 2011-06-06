@@ -556,7 +556,8 @@ Dans cette partie, nous avons cherché à connaître l'influence de la distribution
 
 \section{Distribution de Cauchy décalée}
 
-La distribution de Cauchy décalée a été réalisée en ajoutant une constante valant $0.2$ à toutes les pulsations initiales. Voici la distribution obtenue :
+
+La distribution de Cauchy décalée a d'abord été réalisée en ajoutant une constante valant $0.2$ à toutes les pulsations initiales. Voici la distribution obtenue :
 
 \begin{figure}[!ht]
 	\centering
@@ -565,6 +566,48 @@ La distribution de Cauchy décalée a été réalisée en ajoutant une constante valan
 	\label{histoDecal}
 \end{figure}
 
+Voici l'évolution de la cohérence que l'on obtient en fonction du c\oe fficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
+
+\begin{figure}[!ht]
+	\centering
+%	\includegraphics[width=12cm]{images/rayon_sub+02_K101.pdf}
+	\caption{Evolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.2$}
+	\label{histoDecal}
+\end{figure}
+
+On est ici dans le cas où $g"(0)$ est positif. On a en théorie $K_c = 1.0$, or on voit sur la courbe un décollement de la cohérence dès $K = 0.2$. On voit donc bien que le modèle de Kuramoto ne s'applique plus du tout ici.
+
+
+La distribution de Cauchy décalée a ensuite été réalisée en ajoutant une constante valant $0.05$ à toutes les pulsations initiales, afin d'avoir une dérivée seconde négative de la distribution des pulsations en $0$.
+Voici l'évolution de la cohérence que l'on obtient en fonction du c\oe fficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
+
+\begin{figure}[!ht]
+	\centering
+%	\includegraphics[width=12cm]{images/rayon-sub+005-K101.pdf}
+	\caption{Evolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.05$}
+	\label{histoDecal}
+\end{figure}
+
+On s'est donc mis ici dans le cas où $g"(0)$ est négatif. On a théoriquement $K_c = 0.25$, et cette fois-ci, on voit sur la courbe un décollement de la cohérence vers $K = 0.2$. Le modèle de Kuramoto semble s'appliquer pas trop mal dans le cas où la distribution n'est pas centrée sur $0$. On a vu que le $K_c$ simulé était proche du $K_c$ théorique, mais ce n'est pas le cas du $\beta$. En effet, la régression linéaire de la courbe logarithmique $r_\infty = f(K)$ (cf. figure \ref{loglogDecal}) nous donne : 
+
+\begin{equation}
+\beta = 0.342277
+\end{equation}
+
+avec un coefficient de corrélation de $ 0.994476$, et
+
+\begin{equation}
+\alpha = 1.099408
+\end{equation}
+
+alors que $\alpha_{théorique}$ vaut ??? (à calculer).
+
+\begin{figure}[!ht]
+	\centering
+%	\includegraphics[width=12cm]{images/loglog-sub+005-K101.pdf}
+	\caption{Evolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.05$}
+	\label{loglogDecal}
+\end{figure}
 
 
 \section{Distribution "chapeau"}
