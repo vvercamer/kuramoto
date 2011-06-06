@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 	double Kmax = 1;
 	double OMEGA = 0;
 	double sigma = 0.1;
-	double subcrit = 0.05;
+	double subcrit = 0;
 	double *rayon = (double *) malloc (nbsamples*sizeof(double));
 	double *psi = (double *) malloc (nbsamples*sizeof(double));
 
@@ -132,13 +132,13 @@ int main(int argc, char *argv[])
 //		printf ("seed = %lu\n", gsl_rng_default_seed);
 
 	for (idxOsc = 0 ; idxOsc < (nbosc / 2) ; idxOsc++) {
-//			omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) + subcrit;
-		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) + subcrit;
+			omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) + subcrit;
+//		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) + subcrit;
 	}
 
 	for (idxOsc = (nbosc / 2) ; idxOsc < nbosc ; idxOsc++) {
-//			omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) - subcrit;
-		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) + subcrit;
+			omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) - subcrit;
+//		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) - subcrit;
 	}
 
 
