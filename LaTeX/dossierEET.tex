@@ -407,18 +407,6 @@ Une fois que cela est fait, il suffit alors de déterminer pour chaque valeur de 
 
 Différents histogrammes ont été tracés : le premier représente la distribution initiale des $\theta_i$ et le deuxième représente la distribution finale des $\theta_i$. Dans le cas où l'on s'intéresse à plusieurs valeurs de $K$ et à un moyennage sur plusieurs réalisations, seuls les histogrammes correspondant à la dernière valeur de $K$ et à la première réalisation ont été affichés. Ces histogrammes nous permettent de voir de façon ostensible la synchronisation des oscillateurs.
 
-\begin{figure}[!ht]
-\begin{multicols}{2}
-\includegraphics[width=8.5cm]{images/histo-theta-deb.pdf}
-\caption{histogramme des valeurs initiales des theta}
-\label{histo-theta-deb}
-
-\includegraphics[width=8.5cm]{images/histo-theta-fin.pdf}
-\caption{histogramme des valeurs finales des theta}
-\label{histo-theta-fin}
-\end{multicols}
-\end{figure}
-
 Enfin, nous avons calculé le logarithme de $r_\infty$ et de $\frac{K-K_c}{K}$. Le tracé de $log(r_\infty)$ en fonction de $log(\frac{K-K_c}{K})$ pour $K \geqslant K_c$ nous permet de vérifier l'approximation champ moyen et d'en déduire par régression linéaire la valeur de l'exposant $\beta$.
 
 Dans la suite, les différentes simulations ont été réalisées avec $300$ oscillateurs, en prenant pour les courbes temporelles $10000$ points avec un espacement temporel $deltaT = 0.1$. La distribution des $\omega_i$ a été choisie de Cauchy, centrée sur $0$ ($\Omega = 0$) et d'écart-type $\sigma = 0.1$.
@@ -443,18 +431,15 @@ La simulation permet de visualiser l'évolution temporelle de $r$ pour différente
 Des histogrammes représentant la distribution en phase des oscillateurs ont été tracés, toujours pour $K = 1$, en début et en fin de simulation. Voici ce que l'on obtient : 
 
 \begin{figure}[!ht]
-	\centering
-	\includegraphics[width=12cm]{images/histo-theta-deb.pdf}
-	\caption{Distribution initiale des phases des oscillateurs}
-	\label{histothetadeb}
-\end{figure}
+\begin{multicols}{2}
+\includegraphics[width=8.5cm]{images/histo-theta-deb.pdf}
+\caption{histogramme des valeurs initiales des theta}
+\label{histo-theta-deb}
 
-
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=12cm]{images/histo-theta-fin.pdf}
-	\caption{Distribution finale des phases des oscillateurs}
-	\label{histothetafin}
+\includegraphics[width=8.5cm]{images/histo-theta-fin.pdf}
+\caption{histogramme des valeurs finales des theta}
+\label{histo-theta-fin}
+\end{multicols}
 \end{figure}
 
 On remarque sur ces deux histogrammes que les oscillateurs ont initialement une phase distribuée de façon uniforme entre $0$ et $2\pi$, puis qu'ils se synchronisent au fur et à mesure avec la phase moyenne générée par l'ensemble des oscillateurs. Comme on le voit sur les figures \ref{histothetadeb} et \ref{histothetafin}, les oscillateurs ayant une phase éloignée de la phase moyenne vont voir leur phase se rapprocher de $\psi$ avec le temps. Ceci est bien la marque de la synchronisation des oscillateurs. Cependant, certains oscillateurs, même aux temps longs, comme sur la figure \ref{histothetafin}, ne se sont pas synchronisés. On peut donc distinguer deux classes d'oscillateurs : ceux qui se synchronisent, et ceux qui ne se synchronisent pas.
