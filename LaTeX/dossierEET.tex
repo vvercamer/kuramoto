@@ -410,16 +410,16 @@ Différents histogrammes ont été tracés : le premier représente la distribution i
 \begin{figure}[!ht]
 \begin{multicols}{2}
 \includegraphics[width=8.5cm]{images/histo-theta-deb.pdf}
-\caption{histo-theta-deb}
+\caption{histogramme des valeurs initiales des theta}
 \label{histo-theta-deb}
 
 \includegraphics[width=8.5cm]{images/histo-theta-fin.pdf}
-\caption{histo-theta-fin}
+\caption{histogramme des valeurs finales des theta}
 \label{histo-theta-fin}
 \end{multicols}
 \end{figure}
 
-Enfin, la fonction $logarithme$ nous a permis de calculer le logarithme de $r_\infty$ et de $\frac{K-K_c}{K}$. Le tracé de $log(r_\infty)$ en fonction de $log(\frac{K-K_c}{K})$ pour $K \geqslant K_c$ nous permet de vérifier l'approximation champ moyen et d'en déduire par régression linéaire la valeur de l'exposant $\beta$.
+Enfin, nous avons calculé le logarithme de $r_\infty$ et de $\frac{K-K_c}{K}$. Le tracé de $log(r_\infty)$ en fonction de $log(\frac{K-K_c}{K})$ pour $K \geqslant K_c$ nous permet de vérifier l'approximation champ moyen et d'en déduire par régression linéaire la valeur de l'exposant $\beta$.
 
 Dans la suite, les différentes simulations ont été réalisées avec $300$ oscillateurs, en prenant pour les courbes temporelles $10000$ points avec un espacement temporel $deltaT = 0.1$. La distribution des $\omega_i$ a été choisie de Cauchy, centrée sur $0$ ($\Omega = 0$) et d'écart-type $\sigma = 0.1$.
 
@@ -457,9 +457,9 @@ Des histogrammes représentant la distribution en phase des oscillateurs ont été 
 	\label{histothetafin}
 \end{figure}
 
-On remarque sur ces deux histogrammes que les oscillateurs ont initialement une phase distribuée de façon uniforme entre $0$ et $2\pi$, puis qu'ils se synchronisent au fur et à mesure avec la phase moyenne générée par lensemble des oscillateurs. Comme on le voit sur les figures \ref{histothetadeb} et \ref{histothetafin}, les oscillateurs ayant une phase éloignée de la phase moyenne vont voir leur phase se rapprocher de $\psi$ avec le temps. Ceci est bien la marque de la synchronisation des oscillateurs. Cependant, certains oscillateurs, même aux temps longs, comme sur la figure \ref{histothetafin}, ne se sont pas synchronisés. On peut donc distinguer deux classes d'oscillateurs : ceux qui se synchronisent, et ceux qui ne se synchronisent pas.
+On remarque sur ces deux histogrammes que les oscillateurs ont initialement une phase distribuée de façon uniforme entre $0$ et $2\pi$, puis qu'ils se synchronisent au fur et à mesure avec la phase moyenne générée par l'ensemble des oscillateurs. Comme on le voit sur les figures \ref{histothetadeb} et \ref{histothetafin}, les oscillateurs ayant une phase éloignée de la phase moyenne vont voir leur phase se rapprocher de $\psi$ avec le temps. Ceci est bien la marque de la synchronisation des oscillateurs. Cependant, certains oscillateurs, même aux temps longs, comme sur la figure \ref{histothetafin}, ne se sont pas synchronisés. On peut donc distinguer deux classes d'oscillateurs : ceux qui se synchronisent, et ceux qui ne se synchronisent pas.
 
-En conclusion, on retrouve bien les résultats attendus sur l'évolution temporelle de la cohérence des oscillateurs, aiisi que sur leur synchronisation.
+En conclusion, on retrouve bien les résultats attendus sur l'évolution temporelle de la cohérence des oscillateurs, ainsi que sur leur synchronisation.
 
 
 \section{Temps caractéristique de stabilisation}
@@ -484,7 +484,21 @@ On observe sur la figure \ref{Tc} une divergence du temps caractéristique de sta
 
 \subsection{Evolution de la cohérence en régime stationnaire avec le coefficient de couplage $K$} \label{rFonctionDeK}
 
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=12cm]{images/multiK.pdf}
+	\caption{}
+	\label{multiK}
+\end{figure}
+10 réalisation 300 oscillateurs
 
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=12cm]{images/rayoninf-K.pdf}
+	\caption{}
+	\label{rinf-K}
+\end{figure}
+101 valeurs de K
 
 %introduire l'écart entre le r de la simulation et celui de la théorie
 
