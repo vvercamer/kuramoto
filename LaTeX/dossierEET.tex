@@ -568,7 +568,7 @@ Dans cette partie, nous avons cherché à connaître l'influence de la distribution
 
 \section{Distribution gaussienne}
 
-La distribution gaussienne a été réalisée en utilisant la fonction $gsl_ran_gaussian$. Voici la distribution obtenue :
+La distribution gaussienne a été réalisée en utilisant la fonction $gsl\_ran\_gaussian$. Voici la distribution obtenue :
 
 \begin{figure}[!ht]
 	\centering
@@ -587,12 +587,12 @@ Voici l'évolution de la cohérence que l'on obtient en fonction du c\oe fficient 
 \end{figure}
 
 On est en théorie censé obtenir $K_c = 0.20$, et on observe sur la courbe un décollement de la cohérence un peu avant $K = 0.2$. Le modèle de Kuramoto semble assez bien marcher pour cet autre type de distribution centrée en $0$ et dont la dérivée seconde en $0$ est négative. 
-Si l'on trace maintenant $log r_\infty$ en fonction de $log k$, voici ce que l'on obtient : 
+Si l'on trace maintenant $log (r_\infty)$ en fonction de $log (k)$, voici ce que l'on obtient : 
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=12cm]{images/loglog-gauss-K101.pdf}
-	\caption{Évolution du logarithme de la cohérence stabilisée $r_\infty$ en fonction de $log k$, pour $300$ oscillateurs, pour une distribution gaussienne d'écart-type $0.1$}
+	\caption{Représentation logarithmique de l'évolution de $r_\infty$ en fonction de $k$ au-delà du seuil critique, avec sa régression linéaire, pour $300$ oscillateurs, pour une distribution gaussienne d'écart-type $0.1$}
 	\label{rayonGausslog}
 \end{figure}
 
@@ -602,7 +602,8 @@ La régression linéaire de la courbe logarithmique $r_\infty = f(log k)$ (cf. fig
 \beta = 0.108145
 \end{equation}
 
-avec un coefficient de corrélation de $0.984344$, et
+avec un coefficient de corrélation de $0.984344$, 
+et
 
 \begin{equation}
 \alpha =  0.892864
@@ -662,14 +663,14 @@ alors que $\alpha_{th\acute{e}orique}$ vaut ??? (à calculer).
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=12cm]{images/loglog-sub+005-K101.pdf}
-	\caption{Évolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.05$}
+	\caption{Représentation logarithmique de l'évolution de $r_\infty$ en fonction de $k$ au-delà du seuil critique, avec sa régression linéaire, pour une distribution de Cauchy décalée de $0.05$}
 	\label{loglogDecal}
 \end{figure}
 
 
 \section{Distribution "chapeau"}
 
-La distribution "chapeau" a été réalisée en sommant deux distribution de Cauchy décalée de $0.2$ de part et d'autre de $0$. Cela a été plus précisément effectué en ajoutant une constante valant $0.2$ à la moitié des pulsations initiales et en retranchant $0.2$ à l'autre moitié. Voici la distribution obtenue :
+La distribution "chapeau" a été réalisée en sommant deux distributions de Cauchy décalée de $0.2$ de part et d'autre de $0$. Cela a été plus précisément effectué en ajoutant une constante valant $0.2$ à la moitié des pulsations initiales et en retranchant $0.2$ à l'autre moitié. Voici la distribution obtenue :
 
 \begin{figure}[!ht]
 	\centering
