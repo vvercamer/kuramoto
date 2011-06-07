@@ -442,7 +442,7 @@ Des histogrammes représentant la distribution en phase des oscillateurs ont été 
 \end{multicols}
 \end{figure}
 
-On remarque sur ces deux histogrammes que les oscillateurs ont initialement une phase distribuée de façon uniforme entre $0$ et $2\pi$, puis qu'ils se synchronisent au fur et à mesure avec la phase moyenne générée par l'ensemble des oscillateurs. Comme on le voit sur les figures \ref{histothetadeb} et \ref{histothetafin}, les oscillateurs ayant une phase éloignée de la phase moyenne vont voir leur phase se rapprocher de $\psi$ avec le temps. Ceci est bien la marque de la synchronisation des oscillateurs. Cependant, certains oscillateurs, même aux temps longs, comme sur la figure \ref{histothetafin}, ne se sont pas synchronisés. On peut donc distinguer deux classes d'oscillateurs : ceux qui se synchronisent, et ceux qui ne se synchronisent pas.
+On remarque sur ces deux histogrammes que les oscillateurs ont initialement une phase distribuée de façon uniforme entre $0$ et $2\pi$, puis qu'ils se synchronisent au fur et à mesure avec la phase moyenne générée par l'ensemble des oscillateurs. Comme on le voit sur les figures \ref{histo-theta-deb} et \ref{histo-theta-fin}, les oscillateurs ayant une phase éloignée de la phase moyenne vont voir leur phase se rapprocher de $\psi$ avec le temps. Ceci est bien la marque de la synchronisation des oscillateurs. Cependant, certains oscillateurs, même aux temps longs, comme sur la figure \ref{histo-theta-fin}, ne se sont pas synchronisés. On peut donc distinguer deux classes d'oscillateurs : ceux qui se synchronisent, et ceux qui ne se synchronisent pas.
 
 En conclusion, on retrouve bien les résultats attendus sur l'évolution temporelle de la cohérence des oscillateurs, ainsi que sur leur synchronisation.
 
@@ -469,21 +469,23 @@ On observe sur la figure \ref{Tc} une divergence du temps caractéristique de sta
 
 \subsection{Evolution de la cohérence en régime stationnaire avec le coefficient de couplage $K$} \label{rFonctionDeK}
 
+En réalisant la simulation pour plusieurs valeurs de K, on obtient les courbes de la figure~\ref{multiK}. Pour $K> K_{c}$, une fois le régime transitoire terminé, la valeur du rayon se stabilise autour d'une valeur stable.
+
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=12cm]{images/multiK.pdf}
-	\caption{}
+	\caption{évolution temporelle du rayon (10 réalisations, 300 oscillateurs)}
 	\label{multiK}
 \end{figure}
-10 réalisation 300 oscillateurs
+
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=12cm]{images/rayoninf-K.pdf}
-	\caption{}
+	\caption{évolution du rayon infini en fonction de la constante de couplage K (10 réalisations, 300 oscillateurs, 101 valeurs de K)}
 	\label{rinf-K}
 \end{figure}
-101 valeurs de K
+
 
 %introduire l'écart entre le r de la simulation et celui de la théorie
 
