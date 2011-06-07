@@ -414,7 +414,7 @@ Dans la suite, les différentes simulations ont été réalisées avec $300$ oscillat
 %Temps de simulation ? Estimation ?
 
 
-\section{Evolution de la cohérence avec le temps}
+\section{Évolution de la cohérence avec le temps}
 
 Voici le résultat de la simulation obtenu pour 4 réalisations et pour $K = 1$ : 
 
@@ -457,7 +457,7 @@ Voici ce que l'on obtient pour un moyennage sur $4$ réalisations de $r$ et pour 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=12cm]{images/Tc.pdf}
-	\caption{Evolution du temps caractéristique de stabilisation en fonction de $K$}
+	\caption{Évolution du temps caractéristique de stabilisation en fonction de $K$}
 	\label{Tc}
 \end{figure}
 
@@ -467,29 +467,41 @@ On observe sur la figure \ref{Tc} une divergence du temps caractéristique de sta
 \section{Influence du coefficient de couplage $K$}
 
 
-\subsection{Evolution de la cohérence en régime stationnaire avec le coefficient de couplage $K$} \label{rFonctionDeK}
+\subsection{Évolution de la cohérence en régime stationnaire avec le coefficient de couplage $K$} \label{rFonctionDeK}
 
-En réalisant la simulation pour plusieurs valeurs de K, on obtient les courbes de la figure~\ref{multiK}. Pour $K> K_{c}$, une fois le régime transitoire terminé, la valeur du rayon se stabilise autour d'une valeur stable.
+En réalisant la simulation pour plusieurs valeurs de $K$, on obtient les courbes de la figure~\ref{multiK}. En tra\c cant le rayon stable $r_{\infty}$ en fonction de K, on obtient alors la figure~\ref{rinf-K}. Il est possible de remarquer trois régimes différents que nous repèrerons par rapport à $K_{c} =$ 0,2 :
+
+\bi
+\item Pour $K> K_{c}$, une fois le régime transitoire terminé, la valeur du rayon se stabilise autour d'une valeur stable.
+\item Pour $K< K_{c}$, le rayon est quasi nul, seul le bruit dû au mouvement des oscillateurs \emph{drifting} fait que ce rayon est légèrement positif.
+\item Pour $K \simeq K_{c}$, le rayon est instable, le système oscille entre l'état \emph{locked} et \emph{drifting}.
+\ei
 
 \begin{figure}[!ht]
+\begin{multicols}{2}
 	\centering
-	\includegraphics[width=12cm]{images/multiK.pdf}
+	\includegraphics[width=8.5cm]{images/multiK.pdf}
 	\caption{évolution temporelle du rayon (10 réalisations, 300 oscillateurs)}
 	\label{multiK}
-\end{figure}
 
-
-\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=12cm]{images/rayoninf-K.pdf}
-	\caption{évolution du rayon infini en fonction de la constante de couplage K (10 réalisations, 300 oscillateurs, 101 valeurs de K)}
+	\includegraphics[width=8.5cm]{images/rayoninf-K2000.pdf}
+	\caption{évolution du rayon infini en fonction de la constante de couplage $K$ (1 réalisation, 2000 oscillateurs, 101 valeurs de $K$)}
 	\label{rinf-K}
+\end{multicols}
 \end{figure}
 
 
 %introduire l'écart entre le r de la simulation et celui de la théorie
 
-\cite{PhysRevLett.74.4341}
+Comme expliqué par Crawford \cite{PhysRevLett.74.4341}, lorsque le nombre d'oscillateurs tend vers l'infini l'état intermédiaire,  $K \simeq K_{c}$, tend à disparaitre et la courbe $r_{\infty}$ en fonction de $K$ ressemblerai à celle de la figure~\ref{rinf-K-theo}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=12cm]{images/rayoninf-K-theory.pdf}
+	\caption{évolution du rayon infini en fonction de la constante de couplage $K$ (nombre infini d'oscillateurs)}
+	\label{rinf-K-theo}
+\end{figure}
 
 \subsection{Détermination de l'exposant critique $\beta$ du modèle de Kuramoto}
 
@@ -536,13 +548,13 @@ le coefficient de corrélation étant de $0.998509$.
 Or d'après ce qu'on a vu dans la partie \ref{théorie}, on a :
 
 \begin{equation}
-\alpha_{théorique} = 1
+\alpha_{th\acute{e}orique} = 1
 \end{equation}
 
 et 
 
 \begin{equation}
-\beta_{théorique} = 0.5
+\beta_{th\acute{e}orique} = 0.5
 \end{equation}
 
 Ainsi, le résultat trouvé par la simulation est assez proche de la théorie, lorsque l'on regarde le comportement de $300$ oscillateurs sur $4$ réalisations.
@@ -570,7 +582,7 @@ Voici l'évolution de la cohérence que l'on obtient en fonction du c\oe fficient 
 \begin{figure}[!ht]
 	\centering
 %	\includegraphics[width=12cm]{images/rayon-gauss-K101.pdf}
-	\caption{Evolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution gaussienne d'écart-type $0.1$}
+	\caption{Évolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution gaussienne d'écart-type $0.1$}
 	\label{rayonGauss}
 \end{figure}
 
@@ -580,8 +592,8 @@ Si l'on trace maintenant $log r_\infty$ en fonction de $log k$, voici ce que l'o
 \begin{figure}[!ht]
 	\centering
 %	\includegraphics[width=12cm]{images/loglog-gauss-K101.pdf}
-	\caption{Evolution du logarithme de la cohérence stabilisée $r_\infty$ en fonction de $log k$, pour $300$ oscillateurs, pour une distribution gaussienne d'écart-type $0.1$}
-	\label{rayonGauss}
+	\caption{Évolution du logarithme de la cohérence stabilisée $r_\infty$ en fonction de $log k$, pour $300$ oscillateurs, pour une distribution gaussienne d'écart-type $0.1$}
+	\label{rayonGausslog}
 \end{figure}
 
 La régression linéaire de la courbe logarithmique $r_\infty = f(log k)$ (cf. figure \ref{loglogDecal}) nous donne : 
@@ -616,7 +628,7 @@ Voici l'évolution de la cohérence que l'on obtient en fonction du c\oe fficient 
 \begin{figure}[!ht]
 	\centering
 %	\includegraphics[width=12cm]{images/rayon_sub+02_K101.pdf}
-	\caption{Evolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.2$}
+	\caption{Évolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.2$}
 	\label{rayonDecal}
 \end{figure}
 
@@ -629,7 +641,7 @@ Voici l'évolution de la cohérence que l'on obtient en fonction du c\oe fficient 
 \begin{figure}[!ht]
 	\centering
 %	\includegraphics[width=12cm]{images/rayon-sub+005-K101.pdf}
-	\caption{Evolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.05$}
+	\caption{Évolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.05$}
 	\label{rayonDecal05}
 \end{figure}
 
@@ -645,12 +657,12 @@ avec un coefficient de corrélation de $ 0.994476$, et
 \alpha = 1.099408
 \end{equation}
 
-alors que $\alpha_{théorique}$ vaut ??? (à calculer).
+alors que $\alpha_{th\acute{e}orique}$ vaut ??? (à calculer).
 
 \begin{figure}[!ht]
 	\centering
 %	\includegraphics[width=12cm]{images/loglog-sub+005-K101.pdf}
-	\caption{Evolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.05$}
+	\caption{Évolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.05$}
 	\label{loglogDecal}
 \end{figure}
 
@@ -672,7 +684,7 @@ Voici l'évolution de la cohérence que l'on obtient en fonction du c\oe fficient 
 \begin{figure}[!ht]
 	\centering
 %	\includegraphics[width=12cm]{images/rayon-sub02-K101.pdf}
-	\caption{Evolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution "chapeau"}
+	\caption{Évolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution "chapeau"}
 	\label{rayonChapeau}
 \end{figure}
 
