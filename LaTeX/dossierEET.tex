@@ -346,7 +346,7 @@ r = k^\beta \quad avec \quad \beta = 0.5
 Notons tout de même que l'on garde la dépendance en racine carré.
 \vspace{1em}
 
-Enfin, nous verrons dans la suite ??? que le temps caractéritique du problème diverge au voisinage du point critique, ce qui n'est pas le cas dans le modèle d'Ising. En effet, dans le modèle de Kuramoto, on a une bifurcation ; le temps caractéristique, temps au bout duquel le système se stabilise, diverge en $ K = K_c$ et décroît exponentiellement lorsque $K \geqslant K_c$ (cf figure ???). Dans le modèle d'Ising, on observe en revanche un ralentissement critique, et non une divergence.
+Enfin, nous verrons dans la partie~\ref{section Tc} que le temps caractéristique du problème diverge au voisinage du point critique, ce qui n'est pas le cas dans le modèle d'Ising. En effet, dans le modèle de Kuramoto, on a une bifurcation ; le temps caractéristique, temps au bout duquel le système se stabilise, diverge en $ K = K_c$ et décroît exponentiellement lorsque $K \geqslant K_c$ (cf figure~\ref{Tc}). Dans le modèle d'Ising, on observe en revanche un ralentissement critique, et non une divergence.
 
 Sensibilité au point de bifurcation ???
 
@@ -447,7 +447,7 @@ On remarque sur ces deux histogrammes que les oscillateurs ont initialement une 
 En conclusion, on retrouve bien les résultats attendus sur l'évolution temporelle de la cohérence des oscillateurs, ainsi que sur leur synchronisation.
 
 
-\section{Temps caractéristique de stabilisation}
+\section{Temps caractéristique de stabilisation}\label{section Tc}
 
 
 Regardons maintenant l'évolution du temps caractéristique de stabilisation $T_c$ en fonction de $K$. Ce temps caractéristique est défini ici comme le temps au bout duquel la cohérence $r$ atteint $90\%$ de sa valeur maximale. Cette définition n'a de sens que pour des coefficients de couplage supérieurs à $K_c$. Pour des coefficients de couplage proches de $K_c$, on s'attend à avoir des temps caractéristiques très importants, vu l'évolution observée sur la figure \ref{coherence}. Et pour des valeurs croissantes de $K$, on s'attend à une diminution de $T_c$.
@@ -478,16 +478,25 @@ En réalisant la simulation pour plusieurs valeurs de $K$, on obtient les courbes
 \ei
 
 \begin{figure}[!ht]
-\begin{multicols}{2}
 	\centering
-	\includegraphics[width=8.5cm]{images/multiK.pdf}
+	\includegraphics[width=12cm]{images/multiK.pdf}
 	\caption{évolution temporelle du rayon (10 réalisations, 300 oscillateurs)}
 	\label{multiK}
+\end{figure}
+
+\begin{figure}[!ht]
+\begin{multicols}{2}
 
 	\centering
 	\includegraphics[width=8.5cm]{images/rayoninf-K2000.pdf}
 	\caption{évolution du rayon infini en fonction de la constante de couplage $K$ (1 réalisation, 2000 oscillateurs, 101 valeurs de $K$)}
 	\label{rinf-K}
+	
+	\centering
+	\includegraphics[width=8.5cm]{images/rayoninf-K-theory.pdf}
+	\caption{évolution du rayon infini en fonction de la constante de couplage $K$ (nombre infini d'oscillateurs)}
+	\label{rinf-K-theo}
+
 \end{multicols}
 \end{figure}
 
@@ -496,12 +505,7 @@ En réalisant la simulation pour plusieurs valeurs de $K$, on obtient les courbes
 
 Comme expliqué par Crawford \cite{PhysRevLett.74.4341}, lorsque le nombre d'oscillateurs tend vers l'infini l'état intermédiaire,  $K \simeq K_{c}$, tend à disparaitre et la courbe $r_{\infty}$ en fonction de $K$ ressemblerai à celle de la figure~\ref{rinf-K-theo}
 
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=12cm]{images/rayoninf-K-theory.pdf}
-	\caption{évolution du rayon infini en fonction de la constante de couplage $K$ (nombre infini d'oscillateurs)}
-	\label{rinf-K-theo}
-\end{figure}
+
 
 \subsection{Détermination de l'exposant critique $\beta$ du modèle de Kuramoto}
 
