@@ -132,13 +132,13 @@ int main(int argc, char *argv[])
 //		printf ("seed = %lu\n", gsl_rng_default_seed);
 
 	for (idxOsc = 0 ; idxOsc < (nbosc / 2) ; idxOsc++) {
-			omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) + subcrit;
-//		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) + subcrit;
+//			omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) + subcrit;
+		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) + subcrit;
 	}
 
 	for (idxOsc = (nbosc / 2) ; idxOsc < nbosc ; idxOsc++) {
-			omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) - subcrit;
-//		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) - subcrit;
+//			omega[idxOsc] = OMEGA + gsl_ran_gaussian(r,sigma) - subcrit;
+		omega[idxOsc] = OMEGA + gsl_ran_cauchy(r,sigma) - subcrit;
 	}
 
 
@@ -619,7 +619,7 @@ int logarithme(double Kc, double *Tc, double nbK, double Kmax, double *Kvect, do
 		logk[idxprim] = log(1 - Kc / Kvect[idxK]);
 		logr[idxprim] = log(rayonstable[idxK]);
 		deltarstable[idxprim] = (sqrt(1 - Kc / Kvect[idxK]) - rayonstable[idxK]) / sqrt(1 - Kc / Kvect[idxK]);
-		if (deltarstable[idxprim] > ecartMax)
+		if (deltarstable[idxprim] > ecartMax && idxK > idxKc + 5)
 			ecartMax = deltarstable[idxprim];
 		KvectCut[idxprim] = Kvect[idxK];
 		TcCut[idxprim] = log(Tc[idxK]);
