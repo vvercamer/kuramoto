@@ -125,7 +125,7 @@ juin 2011\\
 Lorsque l'on observe des populations d'oscillateurs non linéaires couplés entre eux et ayant chacune leur propre fréquence, il arrive que celles-ci se synchronisent spontanément à une fréquence commune. C'est ce que l'on appelle la synchronisation collective d'oscillateurs. La synchronisation d'oscillateurs est un phénomène que l'on retrouve fréquemment dans la vie courante. Par exemple en biologie, on retrouve ce phénomène chez les cellules cardiaques  : celles-ci synchronisent leurs battements pour faire fonctionner le c\oe ur ; dans les réseaux de neurones, permettant ainsi la transmission des messages nerveux ; ou bien encore chez les grillons et les lucioles chez qui on observe une synchronisation collective des crissements et respectivement des émissions lumineuses. En physique, on peut citer les réseaux de jonctions Josephson  \cite{PhysRevLett.76.404}. Enfin, citons quelques exemples de la vie courante, comme la marche au pas, la synchronisation des applaudissements d'une foule ou encore la synchronisation de métronomes.
 
 
-Le phénomène de synchronisation collective est étudiée depuis les années 1960. Le pionnier dans le domaine est A.T. Winfree. Celui-ci qui fit une étude mathématique des populations d'oscillateurs et montra qu'il existait une analogie avec  les modèles de transition de phase thermodynamique. Y. Kuramoto \cite{PhysicaD.143.1} développa par la suite un modèle basé sur la théorie du champ moyen et trouva une solution exacte du problème des oscillateurs couplés. Enfin, Crawford s'intéressa plus particulièrement aux instabilités dans le comportement de populations d'oscillateurs couplés \cite{PhysRevLett.74.4341}???.
+Le phénomène de synchronisation collective est étudiée depuis les années 1960. Le pionnier dans le domaine est A.T. Winfree. Celui-ci qui fit une étude mathématique des populations d'oscillateurs et montra qu'il existait une analogie avec  les modèles de transition de phase thermodynamique. Y. Kuramoto \cite{PhysicaD.143.1} développa par la suite un modèle basé sur la théorie du champ moyen et trouva une solution exacte du problème des oscillateurs couplés. Enfin, Crawford s'intéressa plus particulièrement aux instabilités dans le comportement de populations d'oscillateurs couplés \cite{PhysRevLett.74.4341}.
 
 
 Nous avons ici souhaité reprendre la théorie de Kuramoto afin de comprendre les analogies existantes avec le modèle d'Ising. Nous avons ainsi cherché à faire des simulations afin de retrouver les résultats de Kuramoto.
@@ -596,10 +596,11 @@ Si l'on trace maintenant $log (r_\infty)$ en fonction de $log (k)$, voici ce que
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=12cm]{images/loglog-gauss-K101.pdf}
-	\caption{Représentation logarithmique de l'évolution de $r_\infty$ en fonction de $k$ au-delà du seuil critique, avec sa régression linéaire, pour $300$ oscillateurs, pour une distribution gaussienne d'écart-type $0.1$}
+	\caption{Représentation logarithmique de l'évolution de $r_\infty$ en fonction de $k$ au-delà du seuil critique, avec régression linéaire, pour $300$ oscillateurs, pour une distribution gaussienne d'écart-type $0.1$}
 	\label{rayonGausslog}
 \end{figure}
 
+\raggedright\parbox[t]{\linewidth}{
 La régression linéaire de la courbe logarithmique $r_\infty = f(log k)$ (cf. figure \ref{loglogDecal}) nous donne : 
 
 \begin{equation}
@@ -614,7 +615,7 @@ et
 \end{equation}
 
 Ainsi, il suffit de changer de distribution pour que l'on ne retrouve plus l'exposant critique prédit par la théorie.
-
+}
 
 \section{Distribution de Cauchy décalée}
 
