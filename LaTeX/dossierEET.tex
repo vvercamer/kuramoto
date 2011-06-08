@@ -697,11 +697,10 @@ On s'est donc mis ici dans le cas où $g"(0)$ est positif, avec une fonction $g$ 
 
 \chapter{Influence du nombre d'oscillateurs} \label{influenceN}
 
-En modifiant le nombre d'oscillateurs dans montre programme, nous sommes capables de voir l'influence du nombre d'oscillateurs sur les résultats de la simulation. Nous avons cherché dans cette partie à voir l'influence du nombre d'oscillateurs $N$ sur l'écart $\Delta r$ entre la simulation et la théorie, défini dans la partie \ref{rFonctionDeK} et sur la valeur simulée de $\beta$.
 
 \section{Influence sur l'écart entre simulation et théorie} \label{ecart}
 
-On s'attend à ce que $\Delta r$ diminue lorsque l'on augmente le nombre d'oscillateurs.
+On s'attend à ce que $\Delta r$ diminue lorsque l'on augmente le nombre d'oscillateurs. Or c'est bien ce que l'on trouve avec notre simulation (cf. figure\ref{ecartN}). pour des valeurs de $N$ allant de $50$ à $2000$ et un moyennage des résultats sur $10$ réalisations.
 
 \begin{figure}[!ht]
 	\centering
@@ -710,12 +709,13 @@ On s'attend à ce que $\Delta r$ diminue lorsque l'on augmente le nombre d'oscill
 	\label{ecartN}
 \end{figure}
 
+En effet, on constate une diminution presque exponentielle de $\Delta r$ en fonction de $N$. On remarque de plus que pour un nombre d'oscillateurs supérieur à $500$, on n'observe plus de différence significative de l'écart relatif.
+
 
 \section{Influence sur la valeur simulée de $\beta$}
 
-Comme l'approche théorique repose sur un raisonnement avec un grand nombre d'oscillateurs, on s'attend à ce que la simulation se rapproche de la théorie, et donc que la valeur simulée de $\beta$ se rapproche de $0.5$. Pour le vérifier, nous avons fait des simulations pour différents nombres d'oscillateurs.
+Comme l'approche théorique repose sur un raisonnement avec un grand nombre d'oscillateurs, on s'attend à ce que la simulation se rapproche de la théorie, et donc que la valeur simulée de $\beta$ se rapproche de $0.5$. Pour le vérifier, nous avons fait des simulations pour différents nombres d'oscillateurs (cf. figure \ref{betaN}).
 
-Voici la courbe que l'on obtient : 
 
 \begin{figure}[!ht]
 	\centering
@@ -725,15 +725,12 @@ Voici la courbe que l'on obtient :
 \end{figure}
 
 
-On observe, comme attendu, une diminution de l'écart entre le $\beta$ simulé et le $\beta$ théorique.
+Sur la simulation, on observe, comme attendu, une diminution de l'écart entre le $\beta$ simulé et le $\beta$ théorique. Plus $N$ est important, plus on se rapproche en effet de la théorie, faite pour un nombre infini d'oscillateurs.
 
-Pour conclure cette partie, on remarque que la simulation approche suffisamment les résultats théoriques attendus dès que le nombre d'oscillateurs passe au-delà de $???$.
-
-
-%Parler de l'influence de N sur le calcul de beta simulé.
-%A partir de quel nombre d'oscillateurs obtient-on des graphes potables ?
+Pour conclure sur cette partie, on remarque que la simulation approche suffisamment les résultats théoriques attendus dès que l'on passe au-delà de quelques centaines d'oscillateurs.
 
 
+\section*{Conclusion}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%   Fin du rapport   %%%%%%%%%%%%%%%
