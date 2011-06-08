@@ -589,11 +589,11 @@ Nous verrons dans la partie \ref{influenceN} qu'une augmentation du nombre d'osc
 
 \chapter{Influence de la distribution initiale des pulsations} \label{influencedistribution}
 
-Dans cette partie, nous avons cherché à connaître l'influence de la distribution initiale des oscillateurs sur leur comportement. Ainsi, nous avons testé 3 types de distributions : la distribution gaussienne, la distribution de Cauchy décalée et une distribution "chapeau".
+Dans cette partie, nous avons cherché à connaître l'influence de la distribution initiale des oscillateurs sur leur comportement. Ainsi, nous avons testé 3 types de distributions : la distribution gaussienne, la distribution de Cauchy décalée et une distribution \emph{chapeau}.
 
 \section{Distribution gaussienne}
 
-La distribution gaussienne a été réalisée en utilisant la fonction $gsl\_ran\_gaussian$. Voici la distribution obtenue :
+La distribution gaussienne a été réalisée en utilisant la fonction $gsl\_ran\_gaussian$ de la librairie GSL. La distribution obtenue est présentée figure \ref{histoGauss}.
 
 \begin{figure}[!ht]
 	\centering
@@ -602,7 +602,7 @@ La distribution gaussienne a été réalisée en utilisant la fonction $gsl\_ran\_ga
 	\label{histoGauss}
 \end{figure}
 
-Voici l'évolution de la cohérence que l'on obtient en fonction du coefficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
+L'évolution de la cohérence que l'on obtient en fonction du coefficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations est présentée figure \ref{rayonGauss}. 
 
 \begin{figure}[!ht]
 	\centering
@@ -611,18 +611,18 @@ Voici l'évolution de la cohérence que l'on obtient en fonction du coefficient de
 	\label{rayonGauss}
 \end{figure}
 
-On est en théorie censé obtenir $K_c = 0.20$, et on observe sur la courbe un décollement de la cohérence un peu avant $K = 0.2$. Le modèle de Kuramoto semble assez bien marcher pour cet autre type de distribution centrée en $0$ et dont la dérivée seconde en $0$ est négative. 
-Si l'on trace maintenant $log (r_\infty)$ en fonction de $log (k)$, voici ce que l'on obtient : 
+On est en théorie censé obtenir $K_c = 0.2$. On observe sur la courbe un décollement de la cohérence un peu avant $K = 0.2$. Le modèle de Kuramoto semble assez bien marcher pour cet autre type de distribution centré en $0$ et dont la dérivée seconde en $0$ est négative. 
+Si l'on trace maintenant $log (r_\infty)$ en fonction de $log (k)$, on obtient la figure \ref{rayonGausslog}. 
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=12cm]{images/loglog-gauss-K101.pdf}
 	\caption{Représentation logarithmique de l'évolution de $r_\infty$ en fonction de $k$ au-delà du seuil critique, avec régression linéaire, pour $300$ oscillateurs, pour une distribution gaussienne d'écart-type $0.1$}
-	\label{rayonGausslog}
+	\label{rayonGaussK101}
 \end{figure}
 
-\raggedright\parbox[t]{\linewidth}{
-La régression linéaire de la courbe logarithmique $r_\infty = f(log k)$ (cf. figure \ref{loglogDecal}) nous donne : 
+
+La régression linéaire de la courbe logarithmique $r_\infty = f(log k)$ (cf. figure \ref{loglogDecal}) est présentée figure \ref{rayonGaussK101}. 
 
 \begin{equation}
 \beta = 0.108145
@@ -636,12 +636,13 @@ et
 \end{equation}
 
 Ainsi, il suffit de changer de distribution pour que l'on ne retrouve plus l'exposant critique prédit par la théorie.
-}
+
 
 \section{Distribution de Cauchy décalée}
 
+Décaler la fonction de distribution revient à modifier $\Omega$. Ainsi, on ne s'attend à aucun changement de comportement, du moment qu'on repasse bien dans le bon référentiel. Regardons si l'on peut vérifier cela.
 
-La distribution de Cauchy décalée a d'abord été réalisée en ajoutant une constante valant $0.2$ à toutes les pulsations initiales. Voici la distribution obtenue :
+La distribution de Cauchy décalée a été réalisée en ajoutant une constante valant $0.2$ à toutes les pulsations initiales. Voici la distribution obtenue :
 
 \begin{figure}[!ht]
 	\centering
@@ -659,32 +660,8 @@ Voici l'évolution de la cohérence que l'on obtient en fonction du coefficient de
 	\label{rayonDecal}
 \end{figure}
 
-On est ici dans le cas où $g"(0)$ est positif. On a en théorie $K_c = 1.0$, or on voit sur la courbe un décollement de la cohérence dès $K = 0.2$. On voit donc bien que le modèle de Kuramoto ne s'applique plus du tout ici.
+On est ici dans le cas où $g"(0)$ est négitif. On a en théorie $K_c = 0.2$ si on se met dans le référentiel où la distribution est centrée en $0$, or on voit sur la courbe un décollement de la cohérence dès $K = 0.2$. On retrouve donc bien les résultats obtenus sans translation de la distribution des pulsations propres.
 
-
-La distribution de Cauchy décalée a ensuite été réalisée en ajoutant une constante valant $0.05$ à toutes les pulsations initiales, afin d'avoir une dérivée seconde négative de la distribution des pulsations en $0$.
-Voici l'évolution de la cohérence que l'on obtient en fonction du coefficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
-
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=12cm]{images/rayon-sub+005-K101.pdf}
-	\caption{Évolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution de Cauchy décalée de $0.05$}
-	\label{rayonDecal05}
-\end{figure}
-
-On s'est donc mis ici dans le cas où $g"(0)$ est négatif. On a théoriquement $K_c = 0.25$, et cette fois-ci, on voit sur la courbe un décollement de la cohérence vers $K = 0.2$. Le modèle de Kuramoto semble s'appliquer pas trop mal dans le cas où la distribution n'est pas centrée sur $0$. On a vu que le $K_c$ simulé était proche du $K_c$ théorique, mais ce n'est pas le cas du $\beta$. En effet, la régression linéaire de la courbe logarithmique $r_\infty = f(K)$ (cf. figure \ref{loglogDecal}) nous donne : 
-
-\begin{equation}
-\beta = 0.342277
-\end{equation}
-
-avec un coefficient de corrélation de $ 0.994476$, et
-
-\begin{equation}
-\alpha = 1.099408
-\end{equation}
-
-alors que $\alpha_{th\acute{e}orique}$ vaut ??? (à calculer).
 
 \begin{figure}[!ht]
 	\centering
@@ -694,9 +671,9 @@ alors que $\alpha_{th\acute{e}orique}$ vaut ??? (à calculer).
 \end{figure}
 
 
-\section{Distribution "chapeau"}
+\section{Distribution \emph{chapeau}}
 
-La distribution "chapeau" a été réalisée en sommant deux distributions de Cauchy décalée de $0.2$ de part et d'autre de $0$. Cela a été plus précisément effectué en ajoutant une constante valant $0.2$ à la moitié des pulsations initiales et en retranchant $0.2$ à l'autre moitié. Voici la distribution obtenue :
+La distribution \emph{chapeau} a été réalisée en sommant deux distributions de Cauchy décalée de $0.2$ de part et d'autre de $0$. Cela a été plus précisément effectué en ajoutant une constante valant $0.2$ à la moitié des pulsations initiales et en retranchant $0.2$ à l'autre moitié. La distribution obtenue est présentée figure \ref{histoChapeau}.
 
 \begin{figure}[!ht]
 	\centering
@@ -706,12 +683,12 @@ La distribution "chapeau" a été réalisée en sommant deux distributions de Cauchy
 \end{figure}
 
 
-Voici l'évolution de la cohérence que l'on obtient en fonction du coefficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
+L'évolution de la cohérence que l'on obtient en fonction du coefficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations est présentée figure \ref{rayonChapeau}.
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=12cm]{images/rayon-sub02-K101.pdf}
-	\caption{Évolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution "chapeau"}
+	\caption{Évolution de la cohérence stabilisée $r_\infty$ en fonction de $K$, pour $300$ oscillateurs, pour une distribution \emph{chapeau}}
 	\label{rayonChapeau}
 \end{figure}
 
