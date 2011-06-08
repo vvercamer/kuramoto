@@ -287,7 +287,7 @@ Par continuité des solutions, on doit retrouver l'égalité de ces deux solutions 
 \label{K_c}
 \end{equation}
 
-En résolvant l'équation \ref{solution2}, Kuramoto en déduit que juste au dessus du point critique, on a une amplitude de bifurcation suivant une loi en racine carré : 
+En résolvant l'équation \ref{solution2}, Kuramoto en déduit que juste au-dessus du point critique, on a une amplitude de bifurcation suivant une loi en racine carrée : 
 
 \begin{equation}
 r_\infty = \sqrt{\dfrac{k}{\alpha}}
@@ -342,14 +342,14 @@ pour pouvoir retomber sur :
 r = k^\beta \quad avec \quad \beta = 0.5
 \end{equation}
 
-Notons tout de même que l'on garde la dépendance en racine carré.
+Notons tout de même que l'on garde la dépendance en racine carrée.
 \vspace{1em}
 
 Enfin, nous verrons dans la partie~\ref{section Tc} que le temps caractéristique du problème diverge au voisinage du point critique, ce qui n'est pas le cas dans le modèle d'Ising. En effet, dans le modèle de Kuramoto, on a une bifurcation ; le temps caractéristique, temps au bout duquel le système se stabilise, diverge en $ K = K_c$ et décroît exponentiellement lorsque $K \geqslant K_c$ (cf figure~\ref{Tc}). Dans le modèle d'Ising, on observe en revanche un ralentissement critique, et non une divergence.
 
 
 
-L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto ont été répertoriés dans le tableau \ref{analogies}.
+L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto ont été répertoriées dans le tableau \ref{analogies}.
 
 \begin{table}[!ht]
 	\centering
@@ -377,7 +377,7 @@ L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto ont ét
 \section{Simulation}
 
 
-Nous avons effectué une simulation du modèle de Kuramoto en langage C. L'avantage du C par rapport à Matlab est la puissance de calcul disponible et les temps de calculs réduit, qui permettent de réaliser de lourdes simulations beaucoup plus rapidement. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été assimilée à une fonction de Cauchy (lorentzienne, cf. figure \ref{lorentzienne}). Nous verrons dans le chapitre~\ref{influencedistribution} l'influence de la distribution $g$ sur les résultats.
+Nous avons effectué une simulation du modèle de Kuramoto en langage C. L'avantage du C par rapport à Matlab est la puissance de calcul disponible et les temps de calcul réduits, qui permettent de réaliser de lourdes simulations beaucoup plus rapidement. La \emph{GSL (GNU Scientific Library)} est une bibliothèque libres contenant plus de 1000 fonctions mathématiques, nous l'avons utilisé car les fonctions sont fiables et déjà optimisées. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été assimilée à une fonction de Cauchy (lorentzienne, cf. figure \ref{lorentzienne}). Nous verrons dans le chapitre~\ref{influencedistribution} l'influence de la distribution $g$ sur les résultats.
 
 \begin{figure}[!ht]
 	\centering
@@ -705,7 +705,7 @@ On s'attend à ce que $\Delta r$ diminue lorsque l'on augmente le nombre d'oscill
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=12cm]{images/ecartN.pdf}
-	\caption{Evolution de l'écart maximal entre simulation et théorie en fonction du nombre d'oscillateurs}
+	\caption{Évolution de l'écart maximal entre simulation et théorie en fonction du nombre d'oscillateurs}
 	\label{ecartN}
 \end{figure}
 
@@ -735,7 +735,7 @@ Pour conclure sur cette partie, on remarque que la simulation approche suffisamm
 
 Après avoir étudié la théorie de Kuramoto, fait des simulations avec l'approche champ moyen qui permet de réduire considérablement le nombre de calculs, et fait varier les différents paramètres de la simulation afin de regarder par exemple l'influence du nombre d'oscillateurs sur la synchronisation ; nous pouvons remarquer que les simulations permettent de reproduire les comportements observés dans la nature comme par exemple le clignotement synchrone des lucioles.
 
-Pour aller plus loin dans la simulation, il serait possible de suivre l'évolution des oscillateurs en fonction de leur fréquence et regarder le temps passé dans l'état \emph{locked} ou \emph{drifting} en fonction de l'écart à la pulsation moyenne. Il serait aussi possible de réaliser une animation, pour illustrer le phénomène, en représentant les oscillateurs par les pixels d'une matrice carré oscillants entre 0 (noir)   et 1 (blanc) et se synchronisant pour qu'au final toute la matrice oscille en phase entre le blanc et le noir.
+Pour aller plus loin dans la simulation, il serait possible de suivre l'évolution des oscillateurs en fonction de leur fréquence et regarder le temps passé dans l'état \emph{locked} ou \emph{drifting} en fonction de l'écart à la pulsation moyenne. Il serait aussi possible de réaliser une animation, pour illustrer le phénomène, en représentant les oscillateurs par les pixels d'une matrice carrée oscillants entre 0 (noir)   et 1 (blanc) et se synchronisant pour qu'au final toute la matrice oscille en phase entre le blanc et le noir.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%   Fin du rapport   %%%%%%%%%%%%%%%
