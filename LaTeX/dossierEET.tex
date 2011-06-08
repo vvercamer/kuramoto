@@ -347,7 +347,7 @@ Notons tout de même que l'on garde la dépendance en racine carré.
 
 Enfin, nous verrons dans la partie~\ref{section Tc} que le temps caractéristique du problème diverge au voisinage du point critique, ce qui n'est pas le cas dans le modèle d'Ising. En effet, dans le modèle de Kuramoto, on a une bifurcation ; le temps caractéristique, temps au bout duquel le système se stabilise, diverge en $ K = K_c$ et décroît exponentiellement lorsque $K \geqslant K_c$ (cf figure~\ref{Tc}). Dans le modèle d'Ising, on observe en revanche un ralentissement critique, et non une divergence.
 
-%Sensibilité au point de bifurcation ???
+
 
 L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto ont été répertoriés dans le tableau \ref{analogies}.
 
@@ -377,7 +377,7 @@ L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto ont ét
 \section{Simulation}
 
 
-Nous avons effectué une simulation du modèle de Kuramoto en langage C. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été assimilée à une fonction de Cauchy (lorentzienne, cf. figure \ref{lorentzienne}). Nous verrons dans le chapitre~\ref{influencedistribution} l'influence de la distribution $g$ sur les résultats.
+Nous avons effectué une simulation du modèle de Kuramoto en langage C. L'avantage du C par rapport à Matlab est la puissance de calcul disponible et les temps de calculs réduit, qui permettent de réaliser de lourdes simulations beaucoup plus rapidement. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été assimilée à une fonction de Cauchy (lorentzienne, cf. figure \ref{lorentzienne}). Nous verrons dans le chapitre~\ref{influencedistribution} l'influence de la distribution $g$ sur les résultats.
 
 \begin{figure}[!ht]
 	\centering
@@ -700,7 +700,7 @@ On s'est donc mis ici dans le cas où $g"(0)$ est positif, avec une fonction $g$ 
 
 \section{Influence sur l'écart entre simulation et théorie} \label{ecart}
 
-On s'attend à ce que $\Delta r$ diminue lorsque l'on augmente le nombre d'oscillateurs. Or c'est bien ce que l'on trouve avec notre simulation (cf. figure\ref{ecartN}). pour des valeurs de $N$ allant de $50$ à $2000$ et un moyennage des résultats sur $10$ réalisations.
+On s'attend à ce que $\Delta r$ diminue lorsque l'on augmente le nombre d'oscillateurs. Or c'est bien ce que l'on trouve avec notre simulation (cf. figure~\ref{ecartN}) pour des valeurs de $N$ allant de 50 à $2000$ et un moyennage des résultats sur $10$ réalisations.
 
 \begin{figure}[!ht]
 	\centering
@@ -729,8 +729,13 @@ Sur la simulation, on observe, comme attendu, une diminution de l'écart entre le
 
 Pour conclure sur cette partie, on remarque que la simulation approche suffisamment les résultats théoriques attendus dès que l'on passe au-delà de quelques centaines d'oscillateurs.
 
+\vspace{1cm}
+\Huge{\textbf{Conclusion}}\normalsize
+\vspace{2em}
 
-\section*{Conclusion}
+Après avoir étudié la théorie de Kuramoto, fait des simulations avec l'approche champ moyen qui permet de réduire considérablement le nombre de calculs, et fait varier les différents paramètres de la simulation afin de regarder par exemple l'influence du nombre d'oscillateurs sur la synchronisation ; nous pouvons remarquer que les simulations permettent de reproduire les comportements observés dans la nature comme par exemple le clignotement synchrone des lucioles.
+
+Pour aller plus loin dans la simulation, il serait possible de suivre l'évolution des oscillateurs en fonction de leur fréquence et regarder le temps passé dans l'état \emph{locked} ou \emph{drifting} en fonction de l'écart à la pulsation moyenne. Il serait aussi possible de réaliser une animation, pour illustrer le phénomène, en représentant les oscillateurs par les pixels d'une matrice carré oscillants entre 0 (noir)   et 1 (blanc) et se synchronisant pour qu'au final toute la matrice oscille en phase entre le blanc et le noir.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%   Fin du rapport   %%%%%%%%%%%%%%%
@@ -743,7 +748,7 @@ Pour conclure sur cette partie, on remarque que la simulation approche suffisamm
 \bibliographystyle{ieeetr-fr}
 \bibliography{bibEET}
 \phantomsection %car hyperref sinon \cleardoublepage 
-\addcontentsline{toc}{section}{Bibliographie}
+\addcontentsline{toc}{chapter}{Bibliographie}
 
 \newpage
 
