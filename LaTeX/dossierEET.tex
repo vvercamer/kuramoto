@@ -377,7 +377,7 @@ L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto ont ét
 \section{Simulation}
 
 
-Nous avons effectué une simulation du modèle de Kuramoto en langage C. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été assimilée à une fonction de Cauchy (lorentzienne, cf. figure \ref{lorentzienne}). Nous avons ensuite étudié l'influence d'un changement de distribution. Nous verrons dans le chapitre~\ref{influencedistribution} l'influence de la distribution $g$ sur les résultats.
+Nous avons effectué une simulation du modèle de Kuramoto en langage C. Dans cette simulation, l'approximation champ moyen a été utilisée. Ainsi, la distribution des pulsations propres des oscillateurs a été générée aléatoirement. Dans un premier temps, la fonction de distribution $g$ a été assimilée à une fonction de Cauchy (lorentzienne, cf. figure \ref{lorentzienne}). Nous verrons dans le chapitre~\ref{influencedistribution} l'influence de la distribution $g$ sur les résultats.
 
 \begin{figure}[!ht]
 	\centering
@@ -387,7 +387,7 @@ Nous avons effectué une simulation du modèle de Kuramoto en langage C. Dans cett
 \end{figure} 
 
 Le programme que nous avons fait fonctionne de la façon suivante : 
-On commence par définir les pulsations propres $\omega_i$ des oscillateurs. Pour cela, on les choisit aléatoirement suivant la fonction de distribution $g$ de Cauchy.
+on commence par définir les pulsations propres $\omega_i$ des oscillateurs. Pour cela, on les choisit aléatoirement suivant la fonction de distribution $g$.
 
 \begin{figure}[!ht]
 	\centering
@@ -398,36 +398,47 @@ On commence par définir les pulsations propres $\omega_i$ des oscillateurs. Pour
 
 Ensuite, pour différentes valeurs du coefficient de couplage $K$, nous avons cherché à simuler l'évolution temporelle des paramètres $r$ et $\psi$ de l'approximation champ moyen. Pour s'affranchir de l'influence des valeurs initiales des phases des oscillateurs sur $r$ et $\psi$, un moyennage sur plusieurs réalisations a été fait. Ainsi, pour chaque valeur de $K$, la phase initiale $\theta_i$ des oscillateurs a été redéterminée aléatoirement, entre 0 et $2\pi$. 
 
-Nous remarquerons ici que simuler sur plusieurs réalisations ne revient pas à rajouter des oscillateurs, car le champ moyen généré n'est alors pas le même. Augmenter le nombre de réalisations nous permettra donc seulement de moyenner nos résultats, et non de regarder le comportement à grand nombre d'oscillateurs.
+Nous remarquerons ici que faire une simulation sur plusieurs réalisations ne revient pas à augmenter le nombre d'oscillateurs, car le champ moyen généré n'est pas le même suivant le nombre d'oscillateurs. Augmenter le nombre de réalisations nous permettra donc seulement de moyenner nos résultats, et non de regarder le comportement à grand nombre d'oscillateurs.
 
-$r$ et $\psi$ ont ensuite été calculés à partir des phases des oscillateurs par la relation~\ref{parametre d'ordre} en utilisant l'approximation de champ moyen, puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. En réitérant ce processus, les évolutions temporelles des $\theta_i$, de $r$ et de $\psi$ ont été déterminées.
+\vspace{1em}
 
-Une fois que cela est fait, il suffit alors de déterminer pour chaque valeur de $K$ la valeur asymptotique de $r$. Pour cela, nous avons effectué, pour chaque réalisation, la moyenne des valeurs de $r$ sur toute la période temporelle de la simulation dans le cas où $K \leqslant K_c$, et une moyenne des valeurs de $r$ pour tous les $r$ supérieurs à 90\% de $r_{max}$, dans le cas où $K \geqslant K_c$. Nous avons ensuite calculé la moyenne des valeurs ainsi obtenues, et notées $r_\infty$, sur les réalisations.
+$r$ et $\psi$ ont ensuite été calculés à partir des phases des oscillateurs par la relation~\ref{parametre d'ordre} en utilisant l'approximation de champ moyen ; puis la valeur des phases des oscillateurs au pas de temps suivant a été déterminé par la méthode Runge-Kutta d'ordre 4. En réitérant ce processus, les évolutions temporelles des $\theta_i$, de $r$ et de $\psi$ ont été déterminées.
 
-Différents histogrammes ont été tracés : le premier représente la distribution initiale des $\theta_i$ et le deuxième représente la distribution finale des $\theta_i$. Dans le cas où l'on s'intéresse à plusieurs valeurs de $K$ et à un moyennage sur plusieurs réalisations, seuls les histogrammes correspondant à la dernière valeur de $K$ et à la première réalisation ont été affichés. Ces histogrammes nous permettent de voir de façon ostensible la synchronisation des oscillateurs.
+Une fois que cela est fait, il suffit alors de déterminer pour chaque valeur de $K$ la valeur asymptotique de $r$. Pour cela, nous avons calculé pour chaque réalisation la moyenne des valeurs de $r$ sur toute la période temporelle de la simulation, dans le cas où $K \leqslant K_c$, et nous avons calculé la moyenne des valeurs de $r$ sur tous les $r$ supérieurs à 90\% de $r_{max}$, dans le cas où $K \geqslant K_c$. Nous avons ensuite déterminé la moyenne des valeurs ainsi obtenues avec les différentes réalisations ; nous avons noté cette moyenne $r_\infty$.
 
-Enfin, nous avons calculé le logarithme de $r_\infty$ et de $\frac{K-K_c}{K}$. Le tracé de $log(r_\infty)$ en fonction de $log(\frac{K-K_c}{K})$ pour $K \geqslant K_c$ nous permet de vérifier l'approximation champ moyen et d'en déduire par régression linéaire la valeur de l'exposant $\beta$.
+Pour chaque simulation, deux histogrammes ont été tracés : le premier correspond à la distribution initiale des $\theta_i$ et le deuxième à la distribution finale des $\theta_i$. Dans le cas où l'on s'intéresse à plusieurs valeurs de $K$ et à un moyennage sur plusieurs réalisations, seuls les histogrammes correspondant à la dernière valeur de $K$ et à la première réalisation ont été affichés. Ces histogrammes nous permettent de voir de façon ostensible la synchronisation des oscillateurs.
 
-Dans la suite, les différentes simulations ont été réalisées avec $300$ oscillateurs, en prenant pour les courbes temporelles $10000$ points avec un espacement temporel $deltaT = 0.1$. La distribution des $\omega_i$ a été choisie de Cauchy, centrée sur $0$ ($\Omega = 0$) et d'écart-type $\sigma = 0.1$.
+Enfin, nous avons calculé le logarithme de $r_\infty$ et de $k = \frac{K-K_c}{K}$. Le tracé de $log(r_\infty)$ en fonction de $log(\frac{K-K_c}{K})$ pour $K \geqslant K_c$ nous permet de vérifier l'approximation champ moyen et d'en déduire par régression linéaire la valeur de l'exposant $\beta$.
+
+Dans la suite, les différentes simulations dont les résultats sont présentés ont été réalisées avec $300$ oscillateurs, en prenant pour les courbes temporelles $10000$ points avec un espacement temporel de $\Delta T = 0.1$. La distribution des $\omega_i$ a été choisie de Cauchy, centrée sur $0$ ($\Omega = 0$) et d'écart-type $\sigma = 0.1$.
 
 %Temps de simulation ? Estimation ?
 
 
 \section{Évolution de la cohérence avec le temps}
 
-Voici le résultat de la simulation obtenu pour 4 réalisations et pour $K = 1$ : 
+La simulation permet de visualiser l'évolution temporelle de $r$ pour différentes valeurs de $K$. Le résultat de la simulation obtenu pour $10$ réalisations et pour $300$ oscillateurs est présenté figure \ref{coherence}. 
+
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=12cm]{images/rayon-K1-sigma01-lorentz.pdf}
+%à changer pour une image représentant l'évolution pour différentes valeurs de K						
+%	\caption{Évolution temporelle de la cohérence}
+%	\label{coherence}
+%\end{figure} 
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=12cm]{images/rayon-K1-sigma01-lorentz.pdf}
-%à changer pour une image représentant l'évolution pour différentes valeurs de K						
-	\caption{Évolution temporelle de la cohérence}
+	\includegraphics[width=12cm]{images/multiK.pdf}
+	\caption{évolution temporelle de la cohérence pour 300 oscillateurs avec un moyennage sur 10 réalisations}
 	\label{coherence}
-\end{figure} 
+\end{figure}
 
-La simulation permet de visualiser l'évolution temporelle de $r$ pour différentes valeurs de $K$. On observe sur la figure \ref{coherence} l'existence d'une valeur seuil pour $K$. En effet, pour des $K$ inférieurs à $K_c$, le couplage est trop faible et les oscillateurs se comportent comme s'ils n'étaient pas couplés. Les phases sont distribuées de façon uniforme sur le cercle trigonométrique, et ce, quelle que soit la condition initiale. On obtient alors une cohérence de phase faible, mais présentant des variations assez importantes. En revanche, pour des $K$ supérieurs à $K_c$, l'état incohérent devient instable et on observe une augmentation brutale de $r$ jusqu'à atteindre une valeur de saturation $r_\infty$, inférieure à 1. Cela montre bien qu'une partie du groupe d'oscillateurs s'est synchronisée tandis que le reste du groupe est resté incohérent. La population d'oscillateurs s'est scindée en deux groupes : d'un côté, les oscillateurs ayant une pulsation proche de la pulsation moyenne vont voir leur pulsation se bloquer à $\Omega$, et vont tourner avec une même phase $\psi$ ; de l'autre côté, les oscillateurs dont la pulsation se retrouve dans la queue de la distribution vont garder une pulsation proche de leur pulsation propre. Lorsque ces deux groupes sont identifiables, on se situe dans un état partiellement synchronisé.
+On observe sur la figure \ref{coherence} l'existence d'une valeur seuil pour $K = 0.2$. En effet, pour des $K$ inférieurs à cette valeur critique $K_c$, le couplage est trop faible et les oscillateurs se comportent comme s'ils n'étaient pas couplés. Les phases sont distribuées de façon uniforme sur le cercle trigonométrique, et ce, quelle que soit la condition initiale. On obtient alors une cohérence de phase faible, mais présentant des variations assez importantes. En revanche, pour des $K$ supérieurs à $K_c$, l'état incohérent devient instable et on observe une augmentation brutale de $r$ jusqu'à atteindre une valeur de saturation $r_\infty$, inférieure à 1. Cela montre bien qu'une partie du groupe d'oscillateurs s'est synchronisée tandis que le reste du groupe est resté incohérent. La population d'oscillateurs s'est scindée en deux groupes : d'un côté, les oscillateurs ayant une pulsation proche de la pulsation moyenne vont voir leur pulsation se bloquer à $\Omega$, et vont tourner avec une même phase $\psi$ ; de l'autre côté, les oscillateurs dont la pulsation se retrouve dans la queue de la distribution vont garder une pulsation proche de leur pulsation propre. Lorsque ces deux groupes sont identifiables, on se situe dans un état partiellement synchronisé.
 
-Des histogrammes représentant la distribution en phase des oscillateurs ont été tracés, toujours pour $K = 1$, en début et en fin de simulation. Voici ce que l'on obtient : 
+\vspace{1em}
+
+Des histogrammes représentant la distribution en phase des oscillateurs ont également été tracés, pour $K = 1$, en début et en fin de simulation (cf figures \ref{histo-theta-deb} et \ref{histo-theta-fin}).
 
 \begin{figure}[!ht]
 \begin{multicols}{2}
@@ -441,9 +452,9 @@ Des histogrammes représentant la distribution en phase des oscillateurs ont été 
 \end{multicols}
 \end{figure}
 
-On remarque sur ces deux histogrammes que les oscillateurs ont initialement une phase distribuée de façon uniforme entre $0$ et $2\pi$, puis qu'ils se synchronisent au fur et à mesure avec la phase moyenne générée par l'ensemble des oscillateurs. Comme on le voit sur les figures \ref{histo-theta-deb} et \ref{histo-theta-fin}, les oscillateurs ayant une phase éloignée de la phase moyenne vont voir leur phase se rapprocher de $\psi$ avec le temps. Ceci est bien la marque de la synchronisation des oscillateurs. Cependant, certains oscillateurs, même aux temps longs, comme sur la figure \ref{histo-theta-fin}, ne se sont pas synchronisés. On peut donc distinguer deux classes d'oscillateurs : ceux qui se synchronisent, et ceux qui ne se synchronisent pas.
+On remarque sur ces deux histogrammes que les oscillateurs ont initialement une phase distribuée de façon uniforme entre $0$ et $2\pi$, puis qu'ils se synchronisent au fur et à mesure avec la phase moyenne générée par l'ensemble des oscillateurs. Comme on le voit sur ces deux histogrammes, les oscillateurs ayant une phase éloignée de la phase moyenne vont voir leur phase se rapprocher de $\psi$ avec le temps. Ceci est bien la marque d'une synchronisation des oscillateurs. Cependant, certains oscillateurs, même aux temps longs, comme sur la figure \ref{histo-theta-fin}, ne se sont pas synchronisés. On peut donc distinguer deux classes d'oscillateurs : ceux qui se synchronisent (oscillateurs bloqués), et ceux qui ne se synchronisent pas (oscillateurs à la dérive).
 
-En conclusion, on retrouve bien les résultats attendus sur l'évolution temporelle de la cohérence des oscillateurs, ainsi que sur leur synchronisation. Il est possible d'approfondir cette étude en regardant la facilité d'un oscillateur à se synchroniser en fonction de la valeur de sa pulsation propre par rapport à la pulsation moyenne des oscillateurs.
+En conclusion, on retrouve bien les résultats attendus sur l'évolution temporelle de la cohérence des oscillateurs, ainsi que sur leur synchronisation. Il serait possible d'approfondir cette étude en regardant la facilité d'un oscillateur à se synchroniser en fonction de l'écart de sa pulsation propre à la pulsation moyenne des oscillateurs.
 
 
 \section{Temps caractéristique de stabilisation}\label{section Tc}
@@ -451,7 +462,7 @@ En conclusion, on retrouve bien les résultats attendus sur l'évolution temporell
 
 Regardons maintenant l'évolution du temps caractéristique de stabilisation $T_c$ en fonction de $K$. Ce temps caractéristique est défini ici comme le temps au bout duquel la cohérence $r$ atteint $90\%$ de sa valeur maximale. Cette définition n'a de sens que pour des coefficients de couplage supérieurs à $K_c$. Pour des coefficients de couplage proches de $K_c$, on s'attend à avoir des temps caractéristiques très importants, vu l'évolution observée sur la figure \ref{coherence}. Et pour des valeurs croissantes de $K$, on s'attend à une diminution de $T_c$.
 
-Voici ce que l'on obtient pour un moyennage sur $4$ réalisations de $r$ et pour des valeurs de $K$ comprises entre $0$ et $2$ : 
+Le résultat obtenu pour un moyennage sur $4$ réalisations de $r$ et pour des valeurs de $K$ comprises entre $0$ et $2$ est présenté figure \ref{Tc}. 
 
 \begin{figure}[!ht]
 	\centering
@@ -460,7 +471,7 @@ Voici ce que l'on obtient pour un moyennage sur $4$ réalisations de $r$ et pour 
 	\label{Tc}
 \end{figure}
 
-On observe sur la figure \ref{Tc} une divergence du temps caractéristique de stabilisation au voisinage du point critique. Au-delà du point critique $K_c$, le temps caractéristique $T_c$ semble décroître exponentiellement avec $K$.
+On observe sur cette figure une divergence du temps caractéristique de stabilisation au voisinage du point critique. Au-delà du point critique $K_c$, le temps caractéristique $T_c$ semble décroître exponentiellement avec $K$. Ainsi, pour des valeurs de $K$ proches de $K_c$, on veillera à prendre des temps de simulation suffisamment longs pour laisser le temps au système de se bloquer partiellement.
 
 
 \section{Influence du coefficient de couplage $K$}
@@ -468,20 +479,21 @@ On observe sur la figure \ref{Tc} une divergence du temps caractéristique de sta
 
 \subsection{Évolution de la cohérence en régime stationnaire avec le coefficient de couplage $K$} \label{rFonctionDeK}
 
-En réalisant la simulation pour plusieurs valeurs de $K$, on obtient les courbes de la figure~\ref{multiK}. En tra\c cant le rayon stable $r_{\infty}$ en fonction de K, on obtient alors la figure~\ref{rinf-K}. Il est possible de remarquer trois régimes différents que nous repèrerons par rapport à $K_{c} =$ 0,2 :
+%En réalisant la simulation pour plusieurs valeurs de $K$, on obtient les courbes de la figure~\ref{multiK}. 
+En tra\c cant la cohérence stabilisée $r_{\infty}$ en fonction de $K$, on obtient alors la figure~\ref{rinf-K}. On peut distinguer trois régimes différents que nous repèrerons par rapport à $K_{c} = 0.2$ :
 
 \bi
-\item Pour $K> K_{c}$, une fois le régime transitoire terminé, la valeur du rayon se stabilise autour d'une valeur stable.
-\item Pour $K< K_{c}$, le rayon est quasi nul, seul le bruit dû au mouvement des oscillateurs \emph{drifting} fait que ce rayon est légèrement positif.
-\item Pour $K \simeq K_{c}$, le rayon est instable, le système passe de l'état \emph{drifting} à l'état \emph{locked} et réciproquement de fa\c con aléatoire.
+\item Pour $K > K_{c}$, une fois le régime transitoire terminé, la cohérence se stabilise autour d'une valeur stable.
+\item Pour $K < K_{c}$, la cohérence est quasi nulle, seul le bruit dû au mouvement des oscillateurs \emph{drifting} fait que cette cohérence est légèrement positive.
+\item Pour $K \simeq K_{c}$, la cohérence est instable, le système passe de l'état \emph{drifting} à l'état \emph{locked} et réciproquement de fa\c con aléatoire.
 \ei
 
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=12cm]{images/multiK.pdf}
-	\caption{évolution temporelle du rayon (10 réalisations, 300 oscillateurs)}
-	\label{multiK}
-\end{figure}
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=12cm]{images/multiK.pdf}
+%	\caption{évolution temporelle du rayon (10 réalisations, 300 oscillateurs)}
+%	\label{multiK}
+%\end{figure}
 
 \begin{figure}[!ht]
 \begin{multicols}{2}
@@ -499,16 +511,26 @@ En réalisant la simulation pour plusieurs valeurs de $K$, on obtient les courbes
 \end{multicols}
 \end{figure}
 
+Comme expliqué par Crawford \cite{PhysRevLett.74.4341}, lorsque le nombre d'oscillateurs tend vers l'infini, l'état intermédiaire,  $K \simeq K_{c}$, tend à disparaitre et la courbe $r_{\infty}$ en fonction de $K$ ressemble à celle de la figure~\ref{rinf-K-theo}.
 
 %introduire l'écart entre le r de la simulation et celui de la théorie
+Dans la suite, nous noterons $\Delta r$ l'écart relatif de cohérence entre la simulation et la théorie. On a : 
 
-Comme expliqué par Crawford \cite{PhysRevLett.74.4341}, lorsque le nombre d'oscillateurs tend vers l'infini l'état intermédiaire,  $K \simeq K_{c}$, tend à disparaitre et la courbe $r_{\infty}$ en fonction de $K$ ressemblerai à celle de la figure~\ref{rinf-K-theo}
+\begin{equation}
+\Delta r = \frac{r_{th} - r_\infty}{r_{th}}
+\end{equation}
 
+où
 
+\begin{equation}
+r_{th} = \sqrt{k}
+\end{equation}
+
+Nous verrons dans la partie \ref{ecart} l'influence du nombre d'oscillateurs $N$ sur l'écart relatif $\Delta r$.
 
 \subsection{Détermination de l'exposant critique $\beta$ du modèle de Kuramoto}
 
-Afin de déterminer la valeur de l'exposant critique $\beta$, nous avons tracé $log(r_\infty)$ en fonction de $log(k)$, avec $k = \frac{K - K_c}{K}$. Nous avons vu précédemment que le temps caractériqtique de stabilisation augmentait exponentiellement lorsque l'on s'approchait du point critique. C'est pourquoi nous avons augmenté le temps de simulation en effectuant la simulation sur $50000$ points de mesures. Pour un moyennage sur $4$ réalisations et pour $101$ valeurs de $K$ comprises entre $0$ et $1$, la simulation nous donne : 
+Afin de déterminer la valeur de l'exposant critique $\beta$, nous avons tracé $log(r_\infty)$ en fonction de $log(k)$, avec $k = \frac{K - K_c}{K}$. Nous avons vu précédemment que le temps caractériqtique de stabilisation augmentait exponentiellement lorsque l'on s'approchait du point critique. C'est pourquoi nous avons augmenté le temps de simulation en effectuant la simulation sur $50000$ points de mesures. Le résultat de la simulation pour $300$ oscillateurs, avec un moyennage sur $4$ réalisations et pour $1001$ valeurs de $K$ comprises entre $0$ et $1$ est présenté figure \ref{loglog} 
 
 \begin{figure}[!ht]
 	\centering
@@ -517,7 +539,7 @@ Afin de déterminer la valeur de l'exposant critique $\beta$, nous avons tracé $l
 	\label{loglog}
 \end{figure}
 
-Une régression linéaire a été ajoutée grâce à la fonction \textsl{gsl\_fit\_linear} de la librairie GSL. Celle-ci est représentée sur la figure \ref{loglog}. Cette régression linéaire a pour équation : 
+Une régression linéaire a été ajoutée grâce à la fonction \textsl{gsl\_fit\_linear} de la librairie GSL. Celle-ci est également représentée sur la figure \ref{loglog}. Cette régression linéaire a pour équation : 
 
 \begin{equation}
 y = a k + b
@@ -533,7 +555,7 @@ a = \beta
 b = - \frac{1}{2}log\alpha
 \end{equation}
 
-Ceci nous donne donc que :
+Ainsi, nous pouvons déduire de la simulation :
 
 \begin{equation}
 \alpha = 1.080261
@@ -580,7 +602,7 @@ La distribution gaussienne a été réalisée en utilisant la fonction $gsl\_ran\_ga
 	\label{histoGauss}
 \end{figure}
 
-Voici l'évolution de la cohérence que l'on obtient en fonction du c\oe fficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
+Voici l'évolution de la cohérence que l'on obtient en fonction du coefficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
 
 \begin{figure}[!ht]
 	\centering
@@ -628,7 +650,7 @@ La distribution de Cauchy décalée a d'abord été réalisée en ajoutant une constan
 	\label{histoDecal}
 \end{figure}
 
-Voici l'évolution de la cohérence que l'on obtient en fonction du c\oe fficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
+Voici l'évolution de la cohérence que l'on obtient en fonction du coefficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
 
 \begin{figure}[!ht]
 	\centering
@@ -641,7 +663,7 @@ On est ici dans le cas où $g"(0)$ est positif. On a en théorie $K_c = 1.0$, or o
 
 
 La distribution de Cauchy décalée a ensuite été réalisée en ajoutant une constante valant $0.05$ à toutes les pulsations initiales, afin d'avoir une dérivée seconde négative de la distribution des pulsations en $0$.
-Voici l'évolution de la cohérence que l'on obtient en fonction du c\oe fficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
+Voici l'évolution de la cohérence que l'on obtient en fonction du coefficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
 
 \begin{figure}[!ht]
 	\centering
@@ -684,7 +706,7 @@ La distribution "chapeau" a été réalisée en sommant deux distributions de Cauchy
 \end{figure}
 
 
-Voici l'évolution de la cohérence que l'on obtient en fonction du c\oe fficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
+Voici l'évolution de la cohérence que l'on obtient en fonction du coefficient de couplage $K$ pour $300$ oscillateurs avec un moyennage sur $4$ réalisations : 
 
 \begin{figure}[!ht]
 	\centering
@@ -700,7 +722,7 @@ On s'est donc mis ici dans le cas où $g"(0)$ est positif, avec une fonction $g$ 
 
 En modifiant le nombre d'oscillateurs dans montre programme, nous sommes capables de voir l'influence du nombre d'oscillateurs sur les résultats de la simulation. Nous avons cherché dans cette partie à voir l'influence du nombre d'oscillateurs $N$ sur l'écart $\Delta r$ entre la simulation et la théorie, défini dans la partie \ref{rFonctionDeK} et sur la valeur simulée de $\beta$.
 
-\section{Influence sur l'écart entre simulation et théorie}
+\section{Influence sur l'écart entre simulation et théorie} \label{ecart}
 
 On s'attend à ce que $\Delta r$ diminue lorsque l'on augmente le nombre d'oscillateurs.
 
