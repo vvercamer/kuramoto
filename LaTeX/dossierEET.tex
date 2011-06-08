@@ -133,14 +133,16 @@ Nous avons ici souhaité reprendre la théorie de Kuramoto afin de comprendre les 
 
 \chapter{Le modèle de Kuramoto}
 
+\emph{Dans cette partie, nous allons utiliser l'approximation champ moyen. Ceci nous permettra de résoudre plus simplement le problème}
+
 \section{Approche théorique} \label{théorie}
 \subsection{Modèle de Kuramoto}
-\emph{Dans cette partie, nous allons utiliser l'approximation champ moyen afin de résoudre plus simplement le problème}
 
-Considérons une importante population de $N$ oscillateurs semblables (d'amplitude égale à 1 mais dont la phase~$\theta$ et la pulsation propre $\omega$ diffèrent), couplés entre eux, et mettons-nous dans le cas où le couplage $\Gamma_{ij}(\theta)$, entre deux oscillateurs $i$ et $j$, est faible et ne dépend que de la phase. La phase de l'oscillateur $i$, notée $\theta_i$, suit alors l'expression :
+
+Considérons une importante population de $N$ oscillateurs semblables (d'amplitude égale à 1 mais dont les phases~$\theta_i$ et les pulsations propres $\omega_i$ diffèrent), couplés entre eux, et mettons-nous dans le cas où le couplage $\Gamma_{ij}(\theta)$, entre deux oscillateurs $i$ et $j$, est faible et ne dépend que de la phase. La phase de l'oscillateur $i$, notée $\theta_i$, suit alors l'expression :
 \begin{equation}
 \dot{\theta}_i = \omega_i + \sum_{j = 1}^N
-\Gamma_{ij}(\theta_j - \theta_i)    %(cf l'equation 1 p.3)
+\Gamma_{ij}(\theta)    %(cf l'equation 1 p.3)
 \end{equation}
  
 
@@ -169,7 +171,7 @@ Nous allons à présent utiliser une représentation géométrique pour visualiser l'
 \end{figure}
 
 
-On peut alors définir le paramètre d'ordre complexe de module $r$ et de  phase $\psi$ tel que :
+On peut alors définir le paramètre d'ordre complexe de module $r$ et de  phase $\psi$ de la façon suivante :
 
 \begin{equation}
 r e^{i\psi} = \frac{1}{N} \sum_{j = 1}^N e^{i\theta_j}
@@ -198,7 +200,7 @@ En réinjectant ce résultat dans l'équation \ref{totoro}, on obtient alors :
 \end{equation}
 
 
-On fait apparaître ici l'approximation champ moyen. En effet, la phase $\theta_i$ de l'oscillateur i ne dépend plus de la phase des autres oscillateurs $\theta_j$, mais de la cohérence de phase $r$ et de la phase moyenne $\psi$. Ainsi, un oscillateur ne ressent pas les autres oscillateurs indépendamment les uns des autres, mais ressentira le champ moyen créé par tous les oscillateurs du groupe.
+On fait apparaître ici l'approximation champ moyen. En effet, la phase $\theta_i$ de l'oscillateur i ne dépend plus de la phase des autres oscillateurs $\theta_j$, mais de la cohérence de phase $r$ et de la phase moyenne $\psi$. Ainsi, un oscillateur ne ressentira pas les autres oscillateurs indépendamment les uns des autres, mais ressentira le champ moyen créé par tous les oscillateurs du groupe.
 
 Nous détaillerons dans la partie \ref{sectionAnalogies} les analogies existant entre le modèle de Kuramoto et le modèle d'Ising.
 
@@ -206,7 +208,7 @@ Nous détaillerons dans la partie \ref{sectionAnalogies} les analogies existant e
 
 \subsection{Mise en évidence de deux types de comportement}
 
-Dans cette partie, nous allons chercher les solutions stationnaires du problème, où $r(t)$ est constant et $\psi(t)$ tourne avec une pulsation $\Omega$. En se mettant dans le référentiel tournant à la pulsation $\Omega$, on peut alors se ramener au cas où $\psi = 0$, et l'équation \ref{thetapoint} devient alors : 
+Dans cette partie, nous allons chercher les solutions stationnaires du problème. On va donc prendre $r(t)$ constant et $\psi(t)$ tournant à une pulsation $\Omega$. En se mettant dans le référentiel tournant à la pulsation $\Omega$, on peut alors se ramener au cas où $\psi = 0$, et l'équation \ref{thetapoint} devient alors : 
 
 \begin{equation}
 \dot{\theta}_i=\omega_i - K r \sin(\theta_i)
@@ -227,14 +229,14 @@ En revanche, si la pulsation de l'oscillateur $i$ ne vérifie pas cette relation,
 \subsection{Détermination théorique des paramètres critiques du modèle}
 
 
-Pour déterminer les paramètres critiques du modèle, nous allons introduire $\rho(\theta, \omega)$, la densité de probabilité qu'un oscillateur de pulsation $\omega$ ait une phase comprise entre $\theta$ et $\theta + d\theta$.
-L'équation de conservation du nombre d'oscillateurs ??? s'écrit alors : 
+Pour déterminer les paramètres critiques du modèle, nous allons introduire $\rho(\theta, \omega)$, la densité de probabilité donnant la fraction d'oscillateurs dont la pulsation est $\omega$ et dont la phase est comprise entre $\theta$ et $\theta + d\theta$.
+L'équation de conservation du nombre d'oscillateurs s'écrit alors : 
 
 \begin{equation}
 \frac{\partial \rho}{\partial t} + \frac{\partial \rho v}{\partial \theta} = 0
 \end{equation}
 
-Comme on est dans l'hypothèse régime stationnaire, $\frac{\partial \rho}{\partial t} = 0$, ce qui entraîne que $\rho$ est proportionnel à l'inverse de la vitesse $|\dot{\theta}|$. 
+Comme on est dans l'hypothèse du régime stationnaire, on a $\frac{\partial \rho}{\partial t} = 0$, ce qui entraîne que $\rho$ est proportionnel à l'inverse de la vitesse $|\dot{\theta}|$. 
 
 Comme de plus, on sait que $\displaystyle\int_{-\pi}^\pi \rho(\theta, \omega) \mathrm{d}\theta = 1$, on en déduit que : 
 
@@ -242,13 +244,11 @@ Comme de plus, on sait que $\displaystyle\int_{-\pi}^\pi \rho(\theta, \omega) \m
 \rho(\theta, \omega) = \frac{1}{2\pi} \frac{\sqrt{\omega^2 - (K r_\infty)^2}}{|\omega - K r_\infty \sin(\theta)|}
 \end{equation}
 
-Décomposons maintenant les signaux des oscillateurs en fonction de leur type :
+Décomposons maintenant les signaux des oscillateurs en fonction de leur type. En prenant $\psi = 0$, on obtient :
 
 \begin{equation}
 \langle e^{i\theta}\rangle  = r_\infty = \langle e^{i\theta}\rangle _{lock} + \langle e^{i\theta}\rangle _{drift}
 \end{equation}
-
-car on a pris $\psi = 0$.
 
 
 Considérons tout d'abord la contribution des oscillateurs bloqués. Ceux-ci vont atteindre en régime stationnaire une phase vérifiant $\sin(\theta) = \frac{\omega}{K r_\infty}$. Comme la distribution $g$ des pulsations propres des oscillateurs est symétriques, en considérant qu'on a un grand nombre d'oscillateurs, on a donc $\langle \sin(\theta)\rangle _{lock} = 0$.
@@ -347,9 +347,9 @@ Notons tout de même que l'on garde la dépendance en racine carré.
 
 Enfin, nous verrons dans la partie~\ref{section Tc} que le temps caractéristique du problème diverge au voisinage du point critique, ce qui n'est pas le cas dans le modèle d'Ising. En effet, dans le modèle de Kuramoto, on a une bifurcation ; le temps caractéristique, temps au bout duquel le système se stabilise, diverge en $ K = K_c$ et décroît exponentiellement lorsque $K \geqslant K_c$ (cf figure~\ref{Tc}). Dans le modèle d'Ising, on observe en revanche un ralentissement critique, et non une divergence.
 
-Sensibilité au point de bifurcation ???
+%Sensibilité au point de bifurcation ???
 
-L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto sont répertoriés dans le tableau \ref{analogies}.
+L'ensemble des analogies entre le modèle d'Ising et le modèle de Kuramoto ont été répertoriés dans le tableau \ref{analogies}.
 
 \begin{table}[!ht]
 	\centering
