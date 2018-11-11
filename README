@@ -1,9 +1,16 @@
-Pour utiliser le programme :
+Programme de simulation de la synchronisation des oscillateurs 
+
+# Introduction (le rapport final se trouve dans le dossier LaTeX du projet)
+Lorsque l’on observe des populations d’oscillateurs non linéaires couplés entre eux, chaque population ayant sa propre fréquence, il arrive que celles-ci se synchronisent spontanément à une fréquence commune. C’est ce que l’on appelle la synchronisation collective d’oscillateurs. La synchronisation d’oscillateurs est un phénomène que l’on retrouve fréquemment en science. Par exemple en biologie, on retrouve ce phénomène dans le comportement des cellules cardiaques : celles-ci synchronisent leurs battements pour faire fonctionner le cœur; dans les réseaux de neurones, permettant ainsi la transmission des messages nerveux ; ou bien encore chez les grillons et les lucioles chez qui on observe une synchronisation collective des crissements et respectivement des émissions lumineuses. En physique, des phénomènes de synchronisation ont été mis en évidence dans les réseaux de jonctions Josephson [1]. Enfin, citons quelques exemples de la vie courante, comme la marche au pas, la synchronisation des applaudissements d’une foule ou encore la synchronisation de métronomes.
+Le phénomène de synchronisation collective a commencé à être étudié dès les années 1960. A.T. Winfree fut pionnier dans ce domaine. Celui-ci fit une étude mathématique des populations d’oscillateurs et montra qu’il existait une analogie avec les modèles de transition de phase thermodynamique. Y. Kuramoto [2] développa par la suite un modèle basé sur la théorie du champ moyen et trouva une solution exacte au problème des oscillateurs couplés. Enfin, Crawford reprit les travaux de Y. Kuramoto, et chercha à résoudre plusieurs problèmes, notamment celui concernant la stabilité des solutions du modèle [2][3].
+Nous avons ici souhaité reprendre la théorie de Kuramoto afin de comprendre les analogies existantes avec le modèle d’Ising. Cela nous a amené à faire des simulations qui nous ont permis de comprendre comment se synchronisaient les oscillateurs.
+
+# Pour utiliser le programme :
 ./toto deltaT nbsamples nbosc nbrand nbK
 
 Par exemple :
 ./toto 0.1 10000 100 5 10
 
-ou 
+ou simplement
 
 ./toto
